@@ -1,10 +1,12 @@
 rm(list = ls())
+options(scipen = 999)
 
 # bibliotecas utilizadas --------------------------------------------------
 
 ## tratamento
 require(dplyr)
 require(tidyr)
+require(purrr)
 
 ## ajustes
 require(logbin)
@@ -19,6 +21,8 @@ require(bayesplot)
 ## modelo poisson
 
 require(sandwich)
+
+require(lmtest)
 
 ## tabelas
 require(knitr)

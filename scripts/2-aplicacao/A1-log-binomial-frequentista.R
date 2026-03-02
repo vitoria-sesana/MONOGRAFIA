@@ -4,15 +4,15 @@
 source("scripts/0-rotina.R", encoding = "UTF-8")
 
 # ajuste logbin -----------------------------------------------------------
-logbin4 <- 
+modelo_logbin_frequentista <- 
   logbin::logbin(
     outcome ~ center  + treat + baseline, 
     data=respiratory4
   ) 
 
-summary(logbin4)
+summary(modelo_logbin_frequentista)
 respiratory4 %>% lapply(class)
-model.matrix(logbin4) 
+model.matrix(modelo_logbin_frequentista) 
 
 # Referências do modelo:
 # center(1 OU 2): 2 é referência, 2 = 0
@@ -23,5 +23,7 @@ model.matrix(logbin4)
 # Então o modelo está estimando o RISCO (probabilidade) de um desfecho BOM.
 
 # saídas ------------------------------------------------------------------
-
+rm(respiratory4)
+resultados_logbin_frequentista <- as.list(environment()) 
+saveRDS(resultados_logbin_frequentista, "saidas/1-saida-ajustes/ajuste_logbin_frequentista.rds")
 

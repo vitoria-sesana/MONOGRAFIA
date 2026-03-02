@@ -1,0 +1,1 @@
+# gerar dados simulados e ajustar 1000 logbin com matriz variância e covariância

@@ -27,4 +27,7 @@ modelo_sandwich
 vcov(modelo_poisson)
 matriz_covariancia_variancia_sandwich
 
-# exportação --------------------------------------------------------------
+# saídas -------------------------------------------------------------------
+rm(respiratory4)
+resultados_poisson_robusto <- as.list(environment()) 
+saveRDS(resultados_poisson_robusto, "saidas/1-saida-ajustes/ajuste_poisson_robusto.rds")

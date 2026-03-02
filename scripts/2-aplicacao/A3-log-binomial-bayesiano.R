@@ -5,7 +5,6 @@ source("scripts/0-rotina.R", encoding = "UTF-8")
 
 # ajuste log-binomial bayesiano -------------------------------------------
 attach(respiratory4)
-colnames(respiratory4)
 
 ## dados -----------
 dataList <- 
@@ -55,14 +54,15 @@ model{
 "
 
 ## inits -----------
-inits_list <- 
+chutes_iniciais <- 
   list(
     b0 = -1,
     b1 = -0.5,
     b2 = -0.5,
     b3 = -0.5,
-    .RNG.name = "base::Mersenne-Twister",
-    .RNG.seed = 34)
+    .RNG.name = "base::Mersenne-Twister", # gerador de semente
+    .RNG.seed = 34 # semente pra manter os mesmos resultados
+    )
 # list(b0 = 0, b1 = 0, b2 = 0, b3 = 0, .RNG.name = "base::Mersenne-Twister", .RNG.seed = 34)
 
 
@@ -73,7 +73,7 @@ model <-
   rjags::jags.model(
     file = textConnection(model_string),
     data = dataList,
-    inits = inits_list,
+    inits = chutes_iniciais,
     n.chains = 1, # quantas cadeias
     n.adapt = 0 # sem adaptação
     
@@ -94,15 +94,12 @@ posterior <-
 
 # resultados --------------------------------------------------------------
 posterior
+resultado_bayesiano <- summary(posterior)
 
-resumo <- summary(posterior)
-resumo 
-resumo$statistics 
-resumo$quantiles
-
-
-# saída -------------------------------------------------------------------
-# saveRDS(resumo, "E-NOVA-SIMULACAO/0-tabelas/ajuste_respiratory_jags.rds")
+# saídas -------------------------------------------------------------------
+rm(respiratory4)
+resultados_logbin_bayesiano <- as.list(environment()) 
+saveRDS(resultados_logbin_bayesiano, "saidas/1-saida-ajustes/ajuste_logbin_bayesiano.rds")
 
 
 # # coda: analises de diagnostico -------------------------------------------
@@ -121,3 +118,7 @@ resumo$quantiles
 # posterior
 # mcmc_posterior <- as.mcmc(posterior)
 # codamenu()
+
+resultado_bayesiano 
+resultado_bayesiano$statistics 
+resultado_bayesiano$quantiles

@@ -56,15 +56,22 @@ model{
 ## inits -----------
 chutes_iniciais <- 
   list(
-    b0 = -1,
-    b1 = -0.5,
-    b2 = -0.5,
-    b3 = -0.5,
-    .RNG.name = "base::Mersenne-Twister", # gerador de semente
-    .RNG.seed = 34 # semente pra manter os mesmos resultados
-    )
-# list(b0 = 0, b1 = 0, b2 = 0, b3 = 0, .RNG.name = "base::Mersenne-Twister", .RNG.seed = 34)
-
+    list(b0=-1, b1=-0.5, b2=-0.5, b3=-0.5, 
+         .RNG.name = "base::Mersenne-Twister", # gerador de semente
+         .RNG.seed = 34),
+    list(b0=-0.8, b1=-0.3, b2=-0.4, b3=-0.2,
+         .RNG.name = "base::Mersenne-Twister", # gerador de semente
+         .RNG.seed = 34
+         ),
+    list(b0=-1.2, b1=-0.6, b2=-0.3, b3=-0.7,
+         .RNG.name = "base::Mersenne-Twister", # gerador de semente
+         .RNG.seed = 34
+         ),
+    list(b0=-0.1, b1=-0.1, b2=-0.1, b3=-0.1,
+         .RNG.name = "base::Mersenne-Twister", # gerador de semente
+         .RNG.seed = 34
+         )
+  )
 
 # ajuste ------------------------------------------------------------------
 
@@ -74,7 +81,7 @@ model <-
     file = textConnection(model_string),
     data = dataList,
     inits = chutes_iniciais,
-    n.chains = 1, # quantas cadeias
+    n.chains = 5, # quantas cadeias
     n.adapt = 0 # sem adaptação
     
   )
@@ -88,37 +95,60 @@ posterior <-
     model,
     variable.names = c("b0", "b1", "b2", "b3"),
     n.iter = 10000,
-    thin = 40
+    thin = 50
   )
 
 
 # resultados --------------------------------------------------------------
 posterior
+nchain(posterior)
+length(posterior)
 resultado_bayesiano <- summary(posterior)
 
-# saídas -------------------------------------------------------------------
-rm(respiratory4)
-resultados_logbin_bayesiano <- as.list(environment()) 
-saveRDS(resultados_logbin_bayesiano, "saidas/1-saida-ajustes/ajuste_logbin_bayesiano.rds")
+gelman.plot(posterior)
+gelman.diag(posterior)
+
+HPDinterval(posterior)
+
+# média ergótica ----------------------------------------------------------
+
+# média ergótica para uma cadeia
+
+samples_b0 <- as.numeric(posterior[[1]][,"b0"])
+
+ergodic_mean <- cumsum(samples_b0) / seq_along(samples_b0)
+
+plot(ergodic_mean, type="l",
+     xlab="Iteração",
+     ylab="Média ergódica",
+     main="Média ergódica de b0")
+abline(h = mean(samples_b0), col="red")
+
+# para qualquer parâmetro
+ergodic_plot <- function(samples, param){
+  
+  x <- as.numeric(samples[[1]][,param])
+  
+  erg_mean <- cumsum(x) / seq_along(x)
+  
+  plot(erg_mean, type="l",
+       xlab="Iteração",
+       ylab="Média ergódica",
+       main=paste("Média ergódica:", param))
+  
+  abline(h=mean(x), col="red")
+}
+
+ergodic_plot(posterior, "b0")
+ergodic_plot(posterior, "b1")
+ergodic_plot(posterior, "b2")
+ergodic_plot(posterior, "b3")
 
 
-# # coda: analises de diagnostico -------------------------------------------
-# require(coda)
-# coda::as.mcmc(posterior) |> nrow()
-# coda::as.mcmc(posterior) |> ncol()
-# coda::as.mcmc(posterior) |> head()
-# 	
-# # diagnosticos visuais ----------------------------------------------------
-# par(mar = rep(1, 4))
-# plot(posterior)
-# coda::autocorr.plot(as.mcmc(posterior))
-# 
-# 
-# # menu coda ---------------------------------------------------------------
-# posterior
-# mcmc_posterior <- as.mcmc(posterior)
-# codamenu()
+## Para todas as cadeias juntas
 
-resultado_bayesiano 
-resultado_bayesiano$statistics 
-resultado_bayesiano$quantiles
+x <- as.numeric(as.matrix(posterior)[,"b1"])
+
+erg_mean <- cumsum(x) / seq_along(x)
+
+plot(erg_mean, type="l")

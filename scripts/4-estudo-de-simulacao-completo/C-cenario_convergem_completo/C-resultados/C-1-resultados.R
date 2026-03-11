@@ -23,35 +23,22 @@ valores_reais <-
   select(parametro, valor) %>% 
   as_tibble()
 
-# leitura e tratamento ----------------------------------------------------
+# modelos ajustados -------------------------------------------------------
 
-## modelos ajustados --------------------
-mod_logbin_freq_all <-  readRDS("saidas/2-saida-simulacao/M1-logbin-frequentista/ajustes_logbin_frequentista.rds")
-mod_pois_sandwich_all <- readRDS("saidas/2-saida-simulacao/M2-poisson-robusto/ajustes_poisson_robusto.rds")
-mod_logbin_bayes_all <- readRDS("saidas/2-saida-simulacao/M3-logbin-bayesiano/ajustes_logbin_bayesiano.rds")
+mod_logbin_freq <- 
+  readRDS(
+    "saidas/3-saida-simulacao-completo/C-saidas/C-M1-logbin-frequentista/C-ajustes_logbin_frequentista.rds"
+    )
 
-## listas das bases convergidas --------------------
-lista_bases_convergidas <- 
-  read.csv("saidas/2-saida-simulacao/bases_convergidas.csv")
+mod_pois_sandwich <- 
+  readRDS(
+    "saidas/3-saida-simulacao-completo/C-saidas/C-M2-poisson-robusto/C-ajustes_poisson_robusto.rds"
+    )
 
-nao_convergiram <- 
-  lista_bases_convergidas %>% 
-  filter(convergencia == "Não Convergiu") %>% 
-  select(modelo) %>% 
-  as.vector() %>% 
-  unlist()
-
-convergiram <- 
-  lista_bases_convergidas %>% 
-  filter(convergencia == "Convergiu") %>% 
-  select(modelo) %>% 
-  as.vector() %>% 
-  unlist()
-
-## modelos ajustados das bases que não convergiram --------------------
-mod_logbin_freq <- mod_logbin_freq_all[convergiram]
-mod_pois_sandwich <- mod_pois_sandwich_all[convergiram]
-mod_logbin_bayes <- mod_logbin_bayes_all[convergiram]
+mod_logbin_bayes <- 
+  readRDS(
+    "saidas/3-saida-simulacao-completo/C-saidas/C-M3-logbin-bayesiano/C-ajustes_logbin_bayesiano.rds"
+    )
 
 
 # 1) LOGBIN FREQUENTISTA -----------------------------------------------------
@@ -805,14 +792,8 @@ cob_amp <-
   ) %>% 
   arrange(amostra_categoria, parametro)
 
+# 7) saida ----------------------------------------------------------------
 
-
-# 6) saida ----------------------------------------------------------------
-coefs
-vies
-cob_amp
-
-write.csv(coefs, "saidas/2-saida-simulacao/R3-convergidas/conv_media_sd.csv")
-write.csv(vies, "saidas/2-saida-simulacao/R3-convergidas/conv_vies_reqm.csv")
-write.csv(cob_amp, "saidas/2-saida-simulacao/R3-convergidas/conv_pc_am.csv")
-
+write.csv(coefs, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-media_sd.csv")
+write.csv(vies, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-vies_reqm.csv")
+write.csv(cob_amp, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-pc_am.csv")

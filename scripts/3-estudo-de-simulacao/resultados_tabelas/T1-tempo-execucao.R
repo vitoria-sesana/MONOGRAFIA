@@ -17,12 +17,7 @@ resultado_tempo <-
     c = round(c,4)
   )
 
-# latex -------------------------------------------------------------------
+# saída latex -------------------------------------------------------------
 kbl(resultado_tempo, format = "latex", booktabs = TRUE, align = "crr",
     caption = "Tabela tempo de execução dos ajustes de cada modelo.") %>%
-  # add_header_above(c(" " = 1, 
-  #                    "Convergiu" = 1, 
-  #                    "Não convergiu" = 1)) %>%
-  # add_header_above(c(" " = 1, 
-  #                    " " = 1, " " = 1)) %>%
   kable_styling(latex_options = c("hold_position", "striped"))

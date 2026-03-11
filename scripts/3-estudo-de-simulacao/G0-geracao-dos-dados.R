@@ -40,7 +40,7 @@ gerando_dados_respiratory <- function(replicas, amostras, n_clusters = NULL) {
         p = p_vetor
       )
       
-      # Define id
+      # Define id para ajustar modelos Poisson 
       if (!is.null(n_clusters)) {
         if (n_obs %% n_clusters != 0) {
           stop("n_obs deve ser divisível por n_clusters")
@@ -72,7 +72,7 @@ dados_gerados_respiratory <-
   )
 
 # saida ----------------------------------------------------------------
-saveRDS(
-  dados_gerados_respiratory,
-  "saidas/2-saida-simulacao/dados_gerados.rds"
-)
+# saveRDS(
+#   dados_gerados_respiratory,
+#   "saidas/2-saida-simulacao/dados_gerados.rds"
+# )

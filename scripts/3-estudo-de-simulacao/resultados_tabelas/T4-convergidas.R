@@ -1,19 +1,26 @@
 rm(list = ls())
 
-# source("E-NOVA-SIMULACAO/f1-analises.R")
+# leitura dos resultados --------------------------------------------------
 
-coefs <- read.csv("E-NOVA-SIMULACAO/0-tabelas/geral_coeficientes.csv") %>% select(-X)
-vies <- read.csv("E-NOVA-SIMULACAO/0-tabelas/geral_vies.csv") %>% select(-X)
-cob_amp <- read.csv("E-NOVA-SIMULACAO/0-tabelas/geral_cob_amp.csv") %>% select(-X)
+media_sd <- 
+  read.csv("saidas/2-saida-simulacao/R3-convergidas/conv_media_sd.csv") %>% 
+  select(-X)
 
+vies_reqm <- 
+  read.csv("saidas/2-saida-simulacao/R3-convergidas/conv_vies_reqm.csv") %>% 
+  select(-X)
+
+pc_am <- 
+  read.csv("saidas/2-saida-simulacao/R3-convergidas/conv_pc_am.csv") %>% 
+  select(-X)
 
 # latex -------------------------------------------------------------------
 library(knitr)
 library(kableExtra)
 
-# coefs -----
-kbl(coefs, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
-    caption = "geral: media e desvio-padrão") %>%
+## coefs -----
+kbl(media_sd, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
+    caption = "convergiram: media e desvio-padrão") %>%
   add_header_above(c(" " = 1, " " = 1, 
                      "Freq" = 2, 
                      "Pois" = 2, 
@@ -27,9 +34,9 @@ kbl(coefs, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
                      " " = 1, " " = 1)) %>%
   kable_styling(latex_options = c("hold_position", "striped"))
 
-# vies -----
-kbl(vies, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
-    caption = "geral: vies") %>%
+## vies -----
+kbl(vies_reqm, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
+    caption = "convergiram: vies") %>%
   add_header_above(c(" " = 1, " " = 1, 
                      "Freq" = 2, 
                      "Pois" = 2, 
@@ -43,9 +50,9 @@ kbl(vies, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
                      " " = 1, " " = 1)) %>%
   kable_styling(latex_options = c("hold_position", "striped"))
 
-# cob_amp -----
-kbl(cob_amp, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
-    caption = "geral: prob e amplitude") %>%
+## cob_amp -----
+kbl(pc_am, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
+    caption = "convergiram: prob e amplitude") %>%
   add_header_above(c(" " = 1, " " = 1, 
                      "Freq" = 2, 
                      "Pois" = 2, 
@@ -56,3 +63,4 @@ kbl(cob_amp, format = "latex", booktabs = TRUE, align = "lcrrrrrrrr",
                      " " = 1, " " = 1,
                      " " = 1, " " = 1)) %>%
   kable_styling(latex_options = c("hold_position", "striped"))
+

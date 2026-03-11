@@ -7,7 +7,7 @@ library(kableExtra)
 
 # leitura -----------------------------------------------------------------
 base_conv <- 
-  read.csv( "saidas/2-saida-simulacao/bases-convergidas.csv") 
+  read.csv( "saidas/2-saida-simulacao/bases_convergidas.csv") 
 
 # tratamento --------------------------------------------------------------
 bd_conv <- 
@@ -40,13 +40,8 @@ resultado_conv <-
   ) 
 
 
-# latex -------------------------------------------------------------------
+# saída latex ------------------------------------------------------------
 kbl(resultado_conv, format = "latex", booktabs = TRUE, align = "crr",
     caption = "Tabela status de convergência por tamanho amostral.") %>%
-  # add_header_above(c(" " = 1, 
-  #                    "Convergiu" = 1, 
-  #                    "Não convergiu" = 1)) %>%
-  # add_header_above(c(" " = 1, 
-  #                    " " = 1, " " = 1)) %>%
   kable_styling(latex_options = c("hold_position", "striped"))
 

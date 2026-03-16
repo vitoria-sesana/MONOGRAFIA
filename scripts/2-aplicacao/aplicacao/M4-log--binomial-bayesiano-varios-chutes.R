@@ -81,40 +81,53 @@ model <-
     file = textConnection(model_string),
     data = dataList,
     inits = chutes_iniciais,
-    n.chains = 5, # quantas cadeias
+    n.chains = 4, # quantas cadeias
     n.adapt = 0 # sem adaptação
     
   )
 
 ## atualizando/update -----------
-update(model, n.iter = 1000)
+update(model, n.iter = 4000)
 
 ## amostras posteriores -----------
-posterior <- 
-  rjags::coda.samples(
-    model,
-    variable.names = c("b0", "b1", "b2", "b3"),
-    n.iter = 10000,
-    thin = 50
-  )
 
+posterior <- coda.samples(
+  model,
+  variable.names = c("b0", "b1", "b2", "b3"), # nomes dos parâmetros
+  n.iter = 5000,
+  thin = 50
+)
 
 # resultados --------------------------------------------------------------
-posterior
-nchain(posterior)
-length(posterior)
-resultado_bayesiano <- summary(posterior)
+amostras
+nchain(amostras)
+length(amostras)
+resultado_bayesiano <- summary(amostras)
 
-gelman.plot(posterior)
-gelman.diag(posterior)
+gelman.plot(amostras)
+gelman.diag(amostras)
 
-HPDinterval(posterior)
+x <- summary(amostras)
+x$quantiles
+HPDinterval(amostras)
+
+summary(amostras[1])$quantiles
+HPDinterval(amostras)[1]
+
+summary(amostras[2])$quantiles
+HPDinterval(amostras)[2]
+
+summary(amostras[3])$quantiles
+HPDinterval(amostras)[3]
+
+summary(amostras[4])$quantiles
+HPDinterval(amostras)[4]
 
 # média ergótica ----------------------------------------------------------
 
 # média ergótica para uma cadeia
 
-samples_b0 <- as.numeric(posterior[[1]][,"b0"])
+samples_b0 <- as.numeric(amostras[[1]][,"b0"])
 
 ergodic_mean <- cumsum(samples_b0) / seq_along(samples_b0)
 
@@ -139,16 +152,24 @@ ergodic_plot <- function(samples, param){
   abline(h=mean(x), col="red")
 }
 
-ergodic_plot(posterior, "b0")
-ergodic_plot(posterior, "b1")
-ergodic_plot(posterior, "b2")
-ergodic_plot(posterior, "b3")
+ergodic_plot(amostras, "b0")
+ergodic_plot(amostras, "b1")
+ergodic_plot(amostras, "b2")
+ergodic_plot(amostras, "b3")
 
 
 ## Para todas as cadeias juntas
 
-x <- as.numeric(as.matrix(posterior)[,"b1"])
+x <- as.numeric(as.matrix(amostras)[,"b1"])
 
 erg_mean <- cumsum(x) / seq_along(x)
 
 plot(erg_mean, type="l")
+
+
+# critério de geweke -------------------------------------------------------
+
+geweke <- coda::geweke.diag(amostras)
+print(geweke)
+
+geweke.plot(amostras)

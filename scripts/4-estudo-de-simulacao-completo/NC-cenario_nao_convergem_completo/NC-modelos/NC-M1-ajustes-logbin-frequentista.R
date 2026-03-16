@@ -25,12 +25,12 @@ lapply(modelos_logbin, coefficients)
 lapply(modelos_logbin, vcov)
 
 # saida -------------------------------------------------------------------
-saveRDS(
-  modelos_logbin,
-  file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-ajustes_logbin_frequentista.rds"
-  )
-
-saveRDS(
-  tempo_execucao,
-  file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-tempo_execucao_logbin_frequentista.rds"
-)
+# saveRDS(
+#   modelos_logbin,
+#   file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-ajustes_logbin_frequentista.rds"
+#   )
+# 
+# saveRDS(
+#   tempo_execucao,
+#   file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-tempo_execucao_logbin_frequentista.rds"
+# )

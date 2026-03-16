@@ -2,14 +2,13 @@ rm(list = ls())
 
 # Leitura -----------------------------------------------------------------
 
-resultados_aplicacao_bayesiana <- readRDS("saidas/1-saida-ajustes/ajuste_logbin_bayesiano.rds")
+resultados_aplicacao_bayesiana <- readRDS("saidas/1-saida-aplicacao/ajuste_logbin_bayesiano.rds")
 
 posterior <- resultados_aplicacao_bayesiana$posterior
 library(ggplot2)
 
 # Transformar posterior em data frame (caso ainda não seja)
 posterior_df <- as.data.frame(as.matrix(posterior))
-
 
 
 # Densidade ---------------------------------------------------------------
@@ -80,7 +79,7 @@ p_b3
 # Trace Plot --------------------------------------------------------------
 
 # Transformar posterior em data frame (caso ainda não seja)
-posterior_df <- as.data.frame(posterior)
+# posterior_df <- posterior
 
 # Criar um índice de iteração
 posterior_df$iter <- 1:nrow(posterior_df)
@@ -224,25 +223,26 @@ a_b3
 
 # --- Densidades ---
 ggsave(
-  filename = "plots/2-diagnostico/dens_b0.pdf",
+  filename = "plots/2-plots-aplicacao/dens_b0.pdf",
   plot = p_b0,
   device = cairo_pdf,
   width = 14,
   height = 12,
   units = "cm"
   )
-ggsave("plots/2-diagnostico/dens_b1.pdf", plot = p_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/dens_b2.pdf", plot = p_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/dens_b3.pdf", plot = p_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/dens_b1.pdf", plot = p_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/dens_b2.pdf", plot = p_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/dens_b3.pdf", plot = p_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
 
 # --- Traceplots ---
-ggsave("plots/2-diagnostico/trace_b0.pdf", plot = t_b0, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/trace_b1.pdf", plot = t_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/trace_b2.pdf", plot = t_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/trace_b3.pdf", plot = t_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/trace_b0.pdf", plot = t_b0, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/trace_b1.pdf", plot = t_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/trace_b2.pdf", plot = t_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/trace_b3.pdf", plot = t_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
 
 # --- Autocorrelações ---
-ggsave("plots/2-diagnostico/acorr_b0.pdf", plot = a_b0, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/acorr_b1.pdf", plot = a_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/acorr_b2.pdf", plot = a_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-diagnostico/acorr_b3.pdf", plot = a_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/acorr_b0.pdf", plot = a_b0, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/acorr_b1.pdf", plot = a_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/acorr_b2.pdf", plot = a_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
+ggsave("plots/2-plots-aplicacao/acorr_b3.pdf", plot = a_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
+

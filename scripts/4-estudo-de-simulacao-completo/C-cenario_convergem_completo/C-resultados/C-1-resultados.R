@@ -188,23 +188,6 @@ cobertura_logbin_freq_df <-
     amostra_categoria = as.numeric(amostra_categoria),
     amplitude = `97.5 %` - `2.5 %`
   ) %>% 
-  left_join(valores_reais, by = "parametro") %>% 
-  mutate(ind_n_na = ifelse(is.na(`97.5 %`), 0, 1)) %>% 
-  mutate(ind_cobertura = ifelse(valor >= `2.5 %` & valor <= `97.5 %`, 1, 0)) %>% 
-  mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1))  
-
-
-cobertura_logbin_freq <- 
-  cobertura_logbin_freq_df %>% 
-  # filter(!is.na(ind_cobertura)) %>%
-  mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1)) %>% 
-  group_by(amostra_categoria, parametro) %>% 
-  summarise(
-    total_convergiram = n(),
-    total_coberto_ic = sum(ind_cobertura == 1),
-    probabilidade_cobertura = total_coberto_ic / total_convergiram,
-    probabilidade_cobertura_1000 = total_coberto_ic / total_convergiram
-  ) %>% 
   mutate(
     parametro =  case_when(
       parametro == "(Intercept)" ~ "b0",
@@ -213,6 +196,23 @@ cobertura_logbin_freq <-
       parametro == "baseline" ~ "b3",
       .default = "NA"
     )
+  ) %>% 
+  left_join(valores_reais, by = "parametro") %>% 
+  mutate(ind_n_na = ifelse(is.na(`97.5 %`), 0, 1)) %>% 
+  mutate(ind_cobertura = ifelse(valor >= `2.5 %` & valor <= `97.5 %`, 1, 0)) %>% 
+  mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1))  
+
+
+cobertura_logbin_freq <-
+  cobertura_logbin_freq_df %>%
+  # filter(!is.na(ind_cobertura)) %>%
+  mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1)) %>% 
+  group_by(amostra_categoria, parametro) %>% 
+  summarise(
+    total_convergiram = n(),
+    total_coberto_ic = sum(ind_cobertura == 1),
+    probabilidade_cobertura = total_coberto_ic / total_convergiram,
+    probabilidade_cobertura_1000 = total_coberto_ic / 1000
   ) 
 
 

@@ -87,7 +87,7 @@ posterior <-
     model,
     variable.names = c("b0", "b1", "b2", "b3"),
     n.iter = 10000,
-    thin = 40
+    thin = 75
   )
 
 
@@ -99,7 +99,7 @@ HPDinterval(posterior) %>% as.data.frame()
 # saídas -------------------------------------------------------------------
 rm(respiratory4)
 resultados_logbin_bayesiano <- as.list(environment()) 
-saveRDS(resultados_logbin_bayesiano, "saidas/1-saida-ajustes/ajuste_logbin_bayesiano.rds")
+saveRDS(resultados_logbin_bayesiano, "saidas/1-saida-aplicacao/ajuste_logbin_bayesiano.rds")
 
 
 # # coda: analises de diagnostico -------------------------------------------

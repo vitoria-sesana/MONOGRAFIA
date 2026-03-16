@@ -94,13 +94,17 @@ func_gerar_mil_bases_nao_conv <- function(replicas, amostras, n_clusters = NULL)
 
 
 # geranndo base de dados simulada------------------------------------------
+tempo_inicial_nc <- Sys.time()
 set.seed(34)
 dados_e_modelos_gerados_nao_conv <- 
   func_gerar_mil_bases_nao_conv(
-    replicas = 3, 
-    amostras = c(50, 100), 
+    replicas = 1000, 
+    amostras = c(50, 100, 200), 
     n_clusters = NULL
   )
+tempo_final_nc <- Sys.time()
+tempo_execucao_nc <- tempo_final_nc - tempo_inicial_nc 
+tempo_execucao_nc
 
 dados_gerados_nao_convergidos <- dados_e_modelos_gerados_nao_conv$bases_nao_conv
 modelos_logbin_freq_nao_convergidos <- dados_e_modelos_gerados_nao_conv$modelo_lgbin_nao_conv
@@ -118,4 +122,9 @@ lapply(modelos_logbin_freq_nao_convergidos, vcov)
 saveRDS(
   dados_gerados_nao_convergidos,
   file = "saidas/3-saida-simulacao-completo/NC-dados_nao_convergidos_gerados.rds"
+)
+
+saveRDS(
+  tempo_execucao_nc,
+  file = "saidas/3-saida-simulacao-completo/NC-tempo_execucao.rds"
 )

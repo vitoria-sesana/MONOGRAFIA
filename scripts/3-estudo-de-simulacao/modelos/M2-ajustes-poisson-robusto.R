@@ -28,17 +28,17 @@ tempo_execucao_poisson
 
 
 # saida -------------------------------------------------------------------
-saveRDS(
-  modelos_poisson_classico, # modelo Poisson clássico
-  file = "saidas/2-saida-simulacao/M2-poisson-robusto/ajustes_poisson_classico.rds"
-)
-
-saveRDS(
-  modelos_poisson_robusto, # modelo Poisson robusto
-  file = "saidas/2-saida-simulacao/M2-poisson-robusto/ajustes_poisson_robusto.rds"
-)
-
-saveRDS(
-  tempo_execucao_poisson, # tempode de execução modelo Poisson robusto
-  file = "saidas/2-saida-simulacao/M2-poisson-robusto/tempo_execucao_ajustes_poisson_robusto.rds"
-)
+# saveRDS(
+#   modelos_poisson_classico, # modelo Poisson clássico
+#   file = "saidas/2-saida-simulacao/M2-poisson-robusto/ajustes_poisson_classico.rds"
+# )
+# 
+# saveRDS(
+#   modelos_poisson_robusto, # modelo Poisson robusto
+#   file = "saidas/2-saida-simulacao/M2-poisson-robusto/ajustes_poisson_robusto.rds"
+# )
+# 
+# saveRDS(
+#   tempo_execucao_poisson, # tempode de execução modelo Poisson robusto
+#   file = "saidas/2-saida-simulacao/M2-poisson-robusto/tempo_execucao_ajustes_poisson_robusto.rds"
+# )

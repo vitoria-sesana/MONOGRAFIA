@@ -22,14 +22,15 @@ tempo_execucao <- tempo_final - tempo_inicial
 tempo_execucao
 
 lapply(modelos_logbin, coefficients)
+lapply(modelos_logbin, vcov)
 
 # saida -------------------------------------------------------------------
-saveRDS(
-  modelos_logbin,
-  file = "saidas/2-saida-simulacao/M1-logbin-frequentista/ajustes_logbin_frequentista.rds"
-  )
-
-saveRDS(
-  tempo_execucao,
-  file = "saidas/2-saida-simulacao/M1-logbin-frequentista/tempo_execucao_logbin_frequentista.rds"
-)
+# saveRDS(
+#   modelos_logbin,
+#   file = "saidas/2-saida-simulacao/M1-logbin-frequentista/ajustes_logbin_frequentista.rds"
+#   )
+# 
+# saveRDS(
+#   tempo_execucao,
+#   file = "saidas/2-saida-simulacao/M1-logbin-frequentista/tempo_execucao_logbin_frequentista.rds"
+# )

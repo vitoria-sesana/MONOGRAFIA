@@ -10,15 +10,15 @@ require(ggtext)
 # leitura dos resultados --------------------------------------------------
 
 media_sd <- 
-  read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-media_sd.csv") %>% 
+  read.csv("saidas/2-saida-simulacao/R3-convergidas/conv_media_sd.csv") %>% 
   select(-X)
 
 vies_reqm <- 
-  read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-vies_reqm.csv") %>% 
+  read.csv("saidas/2-saida-simulacao/R3-convergidas/conv_vies_reqm.csv") %>% 
   select(-X)
 
 pc_am <- 
-  read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-pc_am.csv") %>% 
+  read.csv("saidas/2-saida-simulacao/R3-convergidas/conv_pc_am.csv") %>% 
   select(-X)
 
 # valores reais dos parâmetros --------------------------------------------
@@ -51,7 +51,7 @@ valores_reais <-
 b0_media <-  
   media_sd %>% 
   filter(parametro == "b0") %>% 
-  select(amostra_categoria, parametro, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
+  select(amostra_categoria, parametro, media_lgb, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
   pivot_longer(
     cols = -c(amostra_categoria, parametro),
     names_to = "variavel",
@@ -62,6 +62,7 @@ b0_media <-
     variavel = factor(
       variavel,
       levels = c(
+        "lgb",
         "pois",
         "lgb_bayes_media",
         "lgb_bayes_mediana"
@@ -94,11 +95,13 @@ gg_b0_media <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -113,6 +116,7 @@ b0_vies <-
   select(
     amostra_categoria, 
     parametro,
+    vies_lgb,
     vies_pois,
     vies_bayes_media,
     vies_bayes_mediana
@@ -129,6 +133,7 @@ b0_vies <-
     variavel = factor(
       variavel,
       levels = c(
+        "lgb",
         "pois",
         "lgb_bayes_media",
         "lgb_bayes_mediana"
@@ -161,11 +166,13 @@ gg_b0_vies <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -181,6 +188,7 @@ b0_reqm <-
   select(
     amostra_categoria, 
     parametro,
+    RMSE_lgb,
     RMSE_pois,
     RMSE_bayes_media,
     RMSE_bayes_mediana
@@ -197,6 +205,7 @@ b0_reqm <-
     variavel = factor(
       variavel,
       levels = c(
+        "lgb",
         "pois",
         "lgb_bayes_media",
         "lgb_bayes_mediana"
@@ -229,11 +238,13 @@ gg_b0_reqm <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -252,6 +263,7 @@ b0_pc <-
   select(
     amostra_categoria, 
     parametro,
+    prob_c_freq,
     prob_c_poiss,
     prob_c_quantilica,
     prob_c_HPD
@@ -264,9 +276,11 @@ b0_pc <-
   mutate(
     variavel = stringr::str_replace_all(variavel, "prob_c_", ""),
     variavel = ifelse(variavel == "poiss", "pois", variavel),
+    variavel = ifelse(variavel == "freq", "lgb", variavel),
     variavel = factor(
       variavel,
       levels = c(
+        "lgb",
         "pois",
         "quantilica",
         "HPD"
@@ -304,13 +318,13 @@ gg_b0_pc <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -331,6 +345,7 @@ b0_am <-
   select(
     amostra_categoria, 
     parametro,
+    amplitude_lgb_freq,
     amplitude_pois,
     amplitude_quantilica,
     amplitude_HPD
@@ -379,13 +394,13 @@ gg_b0_am <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -394,7 +409,6 @@ gg_b0_am <-
 
 ## saídas b0 --------------------
 
-library(patchwork)
 linha1_b0 <- (gg_b0_media + gg_b0_vies + gg_b0_reqm) +
   plot_layout(guides = "collect", widths = rep(1, 3))
 
@@ -407,7 +421,7 @@ painel_final_b0 <- linha1_b0 /
   plot_layout(heights = c(1, 0.2, 1))
 
 ggsave(
-  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-grafico_simulacao_b0.pdf",
+  "saidas/2-saida-simulacao/R3-convergidas/Conv-grafico_simulacao_b0.pdf",
   painel_final_b0,
   width = 12, 
   height = 8) 
@@ -420,7 +434,7 @@ ggsave(
 b1_media <-  
   media_sd %>% 
   filter(parametro == "b1") %>% 
-  select(amostra_categoria, parametro, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
+  select(amostra_categoria, parametro, media_lgb, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
   pivot_longer(
     cols = -c(amostra_categoria, parametro),
     names_to = "variavel",
@@ -464,13 +478,13 @@ gg_b1_media <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -485,7 +499,7 @@ b1_vies <-
   select(
     amostra_categoria, 
     parametro,
-
+    vies_lgb,
     vies_pois,
     vies_bayes_media,
     vies_bayes_mediana
@@ -535,13 +549,13 @@ gg_b1_vies <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -557,7 +571,7 @@ b1_reqm <-
   select(
     amostra_categoria, 
     parametro,
-
+    RMSE_lgb,
     RMSE_pois,
     RMSE_bayes_media,
     RMSE_bayes_mediana
@@ -607,13 +621,13 @@ gg_b1_reqm <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -632,7 +646,7 @@ b1_pc <-
   select(
     amostra_categoria, 
     parametro,
-
+    prob_c_freq,
     prob_c_poiss,
     prob_c_quantilica,
     prob_c_HPD
@@ -687,13 +701,13 @@ gg_b1_pc <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -714,7 +728,7 @@ b1_am <-
   select(
     amostra_categoria, 
     parametro,
-
+    amplitude_lgb_freq,
     amplitude_pois,
     amplitude_quantilica,
     amplitude_HPD
@@ -763,13 +777,13 @@ gg_b1_am <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -790,7 +804,7 @@ painel_final_b1 <- linha1_b1 /
   plot_layout(heights = c(1, 0.2, 1))
 
 ggsave(
-  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-grafico_simulacao_b1.pdf",
+  "saidas/2-saida-simulacao/R3-convergidas/Conv-grafico_simulacao_b1.pdf",
   painel_final_b1,
   width = 12, 
   height = 8) 
@@ -803,7 +817,7 @@ ggsave(
 b2_media <-  
   media_sd %>% 
   filter(parametro == "b2") %>% 
-  select(amostra_categoria, parametro, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
+  select(amostra_categoria, parametro, media_lgb, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
   pivot_longer(
     cols = -c(amostra_categoria, parametro),
     names_to = "variavel",
@@ -847,13 +861,13 @@ gg_b2_media <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -868,7 +882,7 @@ b2_vies <-
   select(
     amostra_categoria, 
     parametro,
-
+    vies_lgb,
     vies_pois,
     vies_bayes_media,
     vies_bayes_mediana
@@ -918,13 +932,13 @@ gg_b2_vies <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -940,7 +954,7 @@ b2_reqm <-
   select(
     amostra_categoria, 
     parametro,
-
+    RMSE_lgb,
     RMSE_pois,
     RMSE_bayes_media,
     RMSE_bayes_mediana
@@ -990,13 +1004,13 @@ gg_b2_reqm <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -1015,6 +1029,7 @@ b2_pc <-
   select(
     amostra_categoria, 
     parametro,
+    prob_c_freq,
     prob_c_poiss,
     prob_c_quantilica,
     prob_c_HPD
@@ -1069,13 +1084,13 @@ gg_b2_pc <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -1096,7 +1111,7 @@ b2_am <-
   select(
     amostra_categoria, 
     parametro,
-
+    amplitude_lgb_freq,
     amplitude_pois,
     amplitude_quantilica,
     amplitude_HPD
@@ -1145,13 +1160,13 @@ gg_b2_am <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -1172,7 +1187,7 @@ painel_final_b2 <- linha1_b2 /
   plot_layout(heights = c(1, 0.2, 1))
 
 ggsave(
-  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-grafico_simulacao_b2.pdf",
+  "saidas/2-saida-simulacao/R3-convergidas/Conv-grafico_simulacao_b2.pdf",
   painel_final_b2,
   width = 12, 
   height = 8) 
@@ -1186,7 +1201,7 @@ ggsave(
 b3_media <-  
   media_sd %>% 
   filter(parametro == "b3") %>% 
-  select(amostra_categoria, parametro, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
+  select(amostra_categoria, parametro, media_lgb, media_pois, media_lgb_bayes_media, media_lgb_bayes_mediana) %>% 
   pivot_longer(
     cols = -c(amostra_categoria, parametro),
     names_to = "variavel",
@@ -1230,13 +1245,13 @@ gg_b3_media <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -1251,7 +1266,7 @@ b3_vies <-
   select(
     amostra_categoria, 
     parametro,
-
+    vies_lgb,
     vies_pois,
     vies_bayes_media,
     vies_bayes_mediana
@@ -1301,13 +1316,13 @@ gg_b3_vies <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -1323,7 +1338,7 @@ b3_reqm <-
   select(
     amostra_categoria, 
     parametro,
-
+    RMSE_lgb,
     RMSE_pois,
     RMSE_bayes_media,
     RMSE_bayes_mediana
@@ -1373,13 +1388,13 @@ gg_b3_reqm <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     lgb_bayes_media = "#7570b3",
     lgb_bayes_mediana = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     lgb_bayes_media = "Log-bin Bayesiano (Média)",
     lgb_bayes_mediana = "Log-bin Bayesiano (Mediana)"
@@ -1398,7 +1413,7 @@ b3_pc <-
   select(
     amostra_categoria, 
     parametro,
-
+    prob_c_freq,
     prob_c_poiss,
     prob_c_quantilica,
     prob_c_HPD
@@ -1453,13 +1468,13 @@ gg_b3_pc <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -1480,7 +1495,7 @@ b3_am <-
   select(
     amostra_categoria, 
     parametro,
-
+    amplitude_lgb_freq,
     amplitude_pois,
     amplitude_quantilica,
     amplitude_HPD
@@ -1529,13 +1544,13 @@ gg_b3_am <-
   ) +
   scale_x_continuous(breaks = c(50, 100, 200, 500)) +
   scale_color_manual(values = c(
-
+    lgb = "#1b9e77",
     pois = "#d95f02",
     quantilica = "#7570b3",
     HPD = "#e7298a"
   ),
   labels = c(
-
+    lgb = "Log-bin",
     pois = "Pois-robusto",
     quantilica = "Log-bin Bayesiano (quantílico)",
     HPD = "Log-bin Bayesiano (HPD)"
@@ -1556,9 +1571,26 @@ painel_final_b3 <- linha1_b3 /
   plot_layout(heights = c(1, 0.2, 1))
 
 ggsave(
-  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-grafico_simulacao_b3.pdf",
+  "saidas/2-saida-simulacao/R3-convergidas/Conv-grafico_simulacao_b3.pdf",
   painel_final_b3,
   width = 12, 
   height = 8) 
 
 
+
+
+# rascunho: graficos de mesmo tamanho -----------------------------------------------------------
+# 
+# painel_final <- (gg_b2_media + gg_b2_vies + gg_b2_reqm + gg_b2_pc + gg_b2_am) +
+#   plot_layout(
+#     design = "
+#     AAA
+#     BBB
+#     "
+#   )
+# 
+# todos_graficos <- list(gg_b2_media, gg_b2_vies, gg_b2_reqm, gg_b2_pc, gg_b2_am)
+# 
+# painel_final <- patchwork::wrap_plots(todos_graficos, ncol = 3, nrow = 2) +
+#   plot_layout(guides = "collect")
+# painel_final

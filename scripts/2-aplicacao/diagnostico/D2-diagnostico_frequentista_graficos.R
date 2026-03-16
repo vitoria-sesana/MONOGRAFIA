@@ -12,21 +12,18 @@ mod_lb <-
 
 sum_logbin <- summary(mod_lb)
 
+
 # ajuste poisson ------------------------------------
-modelo_poisson <- 
-  glm(
-    outcome ~ center  + treat + baseline,
-    family = poisson(link=log), 
-    data = respiratory4
-  )
+resultado_poisson <- readRDS("saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")
+
+modelo_poisson <- resultado_poisson$modelo_poisson
 
 # ajuste poisson sandwich ------------------------------------
 
-modelo_sandwich <- 
-  lmtest::coeftest(modelo_poisson, vcov = sandwich::sandwich)
+modelo_sandwich <- resultado_poisson$modelo_sandwich
 
-matriz_covariancia_variancia_sandwich <- 
-  sandwich::sandwich(modelo_poisson)
+matriz_covariancia_variancia_sandwich <- resultado_poisson$matriz_covariancia_variancia_sandwich
+
 
 
 # diagnósticos ------------------------------------------------------------
@@ -61,7 +58,7 @@ criar_graficos <- function(diag_data, nome_modelo) {
   # 1. Alavancagem vs observações
   g1 <- ggplot(diag_data, aes(x = obs, y = leverage)) +
     geom_point(color = "purple") +
-    geom_hline(yintercept = 2*p/n, linetype="dashed", color="red") +
+    # geom_hline(yintercept = 2*p/n, linetype="dashed", color="red") +
     labs(x = "Observação", y = "Alavanca") +
     theme_minimal() +
     theme(
@@ -79,7 +76,7 @@ criar_graficos <- function(diag_data, nome_modelo) {
   # 2. Distância de Cook vs observações
   g2 <- ggplot(diag_data, aes(x = obs, y = cookd)) +
     geom_point(color="darkgreen") +
-    geom_hline(yintercept = 4/n, linetype="dashed", color="red") +
+    # geom_hline(yintercept = 4/n, linetype="dashed", color="red") +
     geom_text(   aes(label = ifelse(cookd > 4/nrow(respiratory4), obs, "")),   vjust = -0.5,   size = 2 ) +
     labs(x = "Observação", y = "Distrância de Cook") +
     theme_minimal() +
@@ -211,7 +208,7 @@ p3 <- ggplot(df_plot, aes(x=fitted, y=pearson_sandwich)) +
 # Distância de Cook vs Observação (com sandwich)
 p5 <- ggplot(df_plot, aes(x=obs, y=cook_sandwich)) +
   geom_point(color="darkgreen") +
-  geom_hline(yintercept = 4/n, linetype="dashed", color="red") +
+  # geom_hline(yintercept = 4/n, linetype="dashed", color="red") +
   labs(x = "Observação", y = "Distrância de Cook") +
   geom_text(   aes(label = ifelse(cook_sandwich > 4/nrow(respiratory4), obs, "")),   vjust = -0.5,   size = 2 )  +
   theme_minimal() +

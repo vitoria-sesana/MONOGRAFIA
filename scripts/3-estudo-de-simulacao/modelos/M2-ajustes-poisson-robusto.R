@@ -27,7 +27,7 @@ tempo_execucao_poisson <- tempo_final_poisson  - tempo_inicial_poisson
 tempo_execucao_poisson 
 
 
-# saida -------------------------------------------------------------------
+## saida -------------------------------------------------------------------
 # saveRDS(
 #   modelos_poisson_classico, # modelo Poisson clássico
 #   file = "saidas/2-saida-simulacao/M2-poisson-robusto/ajustes_poisson_classico.rds"

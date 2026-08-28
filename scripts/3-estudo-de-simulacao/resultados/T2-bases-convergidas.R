@@ -42,6 +42,5 @@ resultado_conv <-
 
 # saída latex ------------------------------------------------------------
 kbl(resultado_conv, format = "latex", booktabs = TRUE, align = "crr",
-    caption = "Tabela status de convergência por tamanho amostral.") %>%
-  kable_styling(latex_options = c("hold_position", "striped"))
+    caption = "Tabela status de convergência por tamanho amostral.") 
 

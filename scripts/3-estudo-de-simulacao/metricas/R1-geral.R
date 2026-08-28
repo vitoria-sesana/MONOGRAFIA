@@ -26,19 +26,13 @@ valores_reais <-
 # modelos ajustados -------------------------------------------------------
 
 mod_logbin_freq <- 
-  readRDS(
-    "saidas/3-saida-simulacao-completo/C-saidas/C-M1-logbin-frequentista/C-ajustes_logbin_frequentista.rds"
-    )
+  readRDS("saidas/2-saida-simulacao/M1-logbin-frequentista/ajustes_logbin_frequentista.rds")
 
 mod_pois_sandwich <- 
-  readRDS(
-    "saidas/3-saida-simulacao-completo/C-saidas/C-M2-poisson-robusto/C-ajustes_poisson_robusto.rds"
-    )
+  readRDS("saidas/2-saida-simulacao/M2-poisson-robusto/ajustes_poisson_robusto.rds")
 
 mod_logbin_bayes <- 
-  readRDS(
-    "saidas/3-saida-simulacao-completo/C-saidas/C-M3-logbin-bayesiano/C-ajustes_logbin_bayesiano.rds"
-    )
+  readRDS("saidas/2-saida-simulacao/M3-logbin-bayesiano/ajustes_logbin_bayesiano.rds")
 
 
 # 1) LOGBIN FREQUENTISTA -----------------------------------------------------
@@ -792,8 +786,13 @@ cob_amp <-
   ) %>% 
   arrange(amostra_categoria, parametro)
 
-# 7) saida ----------------------------------------------------------------
+##
+coefs
+vies
+cob_amp
 
-write.csv(coefs, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-media_sd.csv")
-write.csv(vies, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-vies_reqm.csv")
-write.csv(cob_amp, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-pc_am.csv")
+# 6) saida ----------------------------------------------------------------
+
+write.csv(coefs, "saidas/2-saida-simulacao/R2-geral/geral_media_sd.csv")
+write.csv(vies, "saidas/2-saida-simulacao/R2-geral/geral_vies_reqm.csv")
+write.csv(cob_amp, "saidas/2-saida-simulacao/R2-geral/geral_pc_am.csv")

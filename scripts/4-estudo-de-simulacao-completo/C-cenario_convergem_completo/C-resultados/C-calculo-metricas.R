@@ -25,195 +25,196 @@ valores_reais <-
 
 # modelos ajustados -------------------------------------------------------
 
-# mod_logbin_freq <- 
-#   readRDS(
-#     "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-ajustes_logbin_frequentista.rds"
-#   )
+mod_logbin_freq <- 
+  readRDS(
+    "saidas/3-saida-simulacao-completo/C-saidas/C-M1-logbin-frequentista/C-ajustes_logbin_frequentista.rds"
+    )
 
 mod_pois_sandwich <- 
   readRDS(
-    "saidas/3-saida-simulacao-completo/NC-saidas/NC-M2-poisson-robusto/NC-ajustes_poisson_robusto.rds"
-  )
+    "saidas/3-saida-simulacao-completo/C-saidas/C-M2-poisson-robusto/C-ajustes_poisson_robusto.rds"
+    )
 
 mod_logbin_bayes <- 
   readRDS(
-    "saidas/3-saida-simulacao-completo/NC-saidas/NC-M3-logbin-bayesiano/NC-ajustes_logbin_bayesiano.rds"
+    "saidas/3-saida-simulacao-completo/C-saidas/C-M3-logbin-bayesiano/C-ajustes_logbin_bayesiano.rds"
+    )
+
+
+# 1) LOGBIN FREQUENTISTA -----------------------------------------------------
+
+## Média e Desvio-Padrão -----------------------------------------------------
+coef_logbin_freq_list <- 
+  lapply(mod_logbin_freq, coef)
+
+coef_logbin_freq <- bind_rows(
+  lapply(names(coef_logbin_freq_list), function(nome) {
+    data.frame(
+      amostra = nome,
+      parametro = names(coef_logbin_freq_list[[nome]]),
+      valor = unname(coef_logbin_freq_list[[nome]])
+    )
+  })
+) %>% 
+  mutate(
+    amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
+    amostra_categoria = stringr::str_sub(amostra_categoria, 9),
+    amostra_categoria = as.numeric(amostra_categoria)
+  ) %>% 
+  group_by(amostra_categoria, parametro) %>%
+  summarise(
+    media_lgb = mean(valor),
+    sd_lgb = sd(valor)
+  ) %>% 
+  arrange(amostra_categoria) %>% 
+  mutate(
+    parametro =  case_when(
+      parametro == "(Intercept)" ~ "b0",
+      parametro == "center" ~ "b1",
+      parametro == "treat" ~ "b2",
+      parametro == "baseline" ~ "b3",
+      .default = "NA"
+    )
   )
 
 
-# # 1) LOGBIN FREQUENTISTA -----------------------------------------------------
-# 
-# ## Média e Desvio-Padrão -----------------------------------------------------
-# coef_logbin_freq_list <- 
-#   lapply(mod_logbin_freq, coef)
-# 
-# coef_logbin_freq <- bind_rows(
-#   lapply(names(coef_logbin_freq_list), function(nome) {
-#     data.frame(
-#       amostra = nome,
-#       parametro = names(coef_logbin_freq_list[[nome]]),
-#       valor = unname(coef_logbin_freq_list[[nome]])
-#     )
-#   })
-# ) %>% 
-#   mutate(
-#     amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
-#     amostra_categoria = stringr::str_sub(amostra_categoria, 9),
-#     amostra_categoria = as.numeric(amostra_categoria)
-#   ) %>% 
-#   group_by(amostra_categoria, parametro) %>%
-#   summarise(
-#     media_lgb = mean(valor),
-#     sd_lgb = sd(valor)
-#   ) %>% 
-#   arrange(amostra_categoria) %>% 
-#   mutate(
-#     parametro =  case_when(
-#       parametro == "(Intercept)" ~ "b0",
-#       parametro == "center" ~ "b1",
-#       parametro == "treat" ~ "b2",
-#       parametro == "baseline" ~ "b3",
-#       .default = "NA"
-#     )
-#   )
-# 
-# 
-# ## Vieses e REQM --------------------------------------------------------------------
-# 
-# vies_logbin_freq <- 
-#   bind_rows(
-#     lapply(names(coef_logbin_freq_list), function(nome) {
-#       data.frame(
-#         amostra = nome,
-#         parametro = names(coef_logbin_freq_list[[nome]]),
-#         valor = unname(coef_logbin_freq_list[[nome]])
-#       )
-#     })
-#   ) %>% 
-#   mutate(
-#     amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
-#     amostra_categoria = stringr::str_sub(amostra_categoria, 9),
-#     amostra_categoria = as.numeric(amostra_categoria)
-#   ) %>% 
-#   mutate(
-#     parametro =  case_when(
-#       parametro == "(Intercept)" ~ "b0",
-#       parametro == "center" ~ "b1",
-#       parametro == "treat" ~ "b2",
-#       parametro == "baseline" ~ "b3",
-#       .default = "NA"
-#     )
-#   ) %>% 
-#   left_join(valores_reais, by = "parametro") %>% 
-#   mutate(
-#     vies = valor.x - valor.y,
-#     vies_abs = abs(vies),
-#     erro2 = (valor.x - valor.y)^2
-#   ) %>%  
-#   group_by(amostra_categoria, parametro) %>%
-#   summarise(
-#     vies = mean(vies),
-#     vies_abs = mean(vies_abs),
-#     RMSE = sqrt(mean(erro2)),
-#     .groups = "drop"
-#   ) %>% 
-#   mutate(modelo = "Log-binomial freq.") %>% 
-#   mutate(
-#     vies_lgb  = round(vies, 4),
-#     vies_abs_lgb  = round(vies_abs,4),
-#     RMSE_lgb  = round(RMSE, 4)
-#   ) %>% 
-#   select(modelo, amostra_categoria, parametro, vies_lgb, RMSE_lgb) 
-# 
-# ## Amplitude Média ---------------------------------------------------------
-# 
-# ic_logbin_freq_lista <- 
-#   lapply(
-#     mod_logbin_freq,
-#     function(modelo) confint(modelo))
-# 
-# 
-# ic_logbin_freq <- map_df(
-#   names(ic_logbin_freq_lista),
-#   ~ ic_logbin_freq_lista[[.x]] %>%
-#     as.data.frame() %>%
-#     mutate(parametro = rownames(.),
-#            amostra = .x) %>%
-#     relocate(amostra, parametro)
-# ) 
-# 
-# amplitude_logbin_freq <- 
-#   ic_logbin_freq %>% 
-#   mutate(
-#     amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
-#     amostra_categoria = stringr::str_sub(amostra_categoria, 9),
-#     amostra_categoria = as.numeric(amostra_categoria),
-#     lim_inf = `2.5 %`, 
-#     lim_sup = `97.5 %`
-#   ) %>%
-#   select(amostra_categoria, parametro,lim_inf, lim_sup) %>% 
-#   na.omit() %>% 
-#   group_by(amostra_categoria, parametro) %>%
-#   summarise(
-#     media_lim_inf_lgb = mean(lim_inf),
-#     media_lim_sup_lgb = mean(lim_sup),
-#     sd_lim_inf_lgb = sd(lim_inf),
-#     sd_lim_sup_lgb = sd(lim_sup),
-#   ) %>% 
-#   mutate(
-#     amplitude_lgb_freq = media_lim_sup_lgb - media_lim_inf_lgb 
-#   ) %>% 
-#   select(amostra_categoria, parametro, amplitude_lgb_freq) %>% 
-#   mutate(
-#     parametro =  case_when(
-#       parametro == "(Intercept)" ~ "b0",
-#       parametro == "center" ~ "b1",
-#       parametro == "treat" ~ "b2",
-#       parametro == "baseline" ~ "b3",
-#       .default = "NA"
-#     )
-#   ) 
-# 
-# ## Probabilidade de Cobertura ----------------------------------------------
-# 
-# cobertura_logbin_freq_df <- 
-#   ic_logbin_freq_lista %>% 
-#   map_dfr(
-#     ~as.data.frame(.x) %>% 
-#       tibble::rownames_to_column("parametro"),
-#     .id = "amostra") %>% 
-#   mutate(
-#     amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
-#     amostra_categoria = stringr::str_sub(amostra_categoria, 9),
-#     amostra_categoria = as.numeric(amostra_categoria),
-#     amplitude = `97.5 %` - `2.5 %`
-#   ) %>% 
-#   mutate(
-#     parametro =  case_when(
-#       parametro == "(Intercept)" ~ "b0",
-#       parametro == "center" ~ "b1",
-#       parametro == "treat" ~ "b2",
-#       parametro == "baseline" ~ "b3",
-#       .default = "NA"
-#     )
-#   ) %>% 
-#   left_join(valores_reais, by = "parametro") %>% 
-#   mutate(ind_n_na = ifelse(is.na(`97.5 %`), 0, 1)) %>% 
-#   mutate(ind_cobertura = ifelse(valor >= `2.5 %` & valor <= `97.5 %`, 1, 0)) %>% 
-#   mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1))  
-# 
-# 
-# cobertura_logbin_freq <-
-#   cobertura_logbin_freq_df %>%
-#   # filter(!is.na(ind_cobertura)) %>%
-#   mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1)) %>% 
-#   group_by(amostra_categoria, parametro) %>% 
-#   summarise(
-#     total_convergiram = n(),
-#     total_coberto_ic = sum(ind_cobertura == 1),
-#     probabilidade_cobertura = total_coberto_ic / total_convergiram,
-#     probabilidade_cobertura_1000 = total_coberto_ic / 1000
-#   ) 
+## Vieses e REQM --------------------------------------------------------------------
+
+vies_logbin_freq <- 
+  bind_rows(
+    lapply(names(coef_logbin_freq_list), function(nome) {
+      data.frame(
+        amostra = nome,
+        parametro = names(coef_logbin_freq_list[[nome]]),
+        valor = unname(coef_logbin_freq_list[[nome]])
+      )
+    })
+  ) %>% 
+  mutate(
+    amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
+    amostra_categoria = stringr::str_sub(amostra_categoria, 9),
+    amostra_categoria = as.numeric(amostra_categoria)
+  ) %>% 
+  mutate(
+    parametro =  case_when(
+      parametro == "(Intercept)" ~ "b0",
+      parametro == "center" ~ "b1",
+      parametro == "treat" ~ "b2",
+      parametro == "baseline" ~ "b3",
+      .default = "NA"
+    )
+  ) %>% 
+  left_join(valores_reais, by = "parametro") %>% 
+  mutate(
+    vies = valor.x - valor.y,
+    vies_abs = abs(vies),
+    erro2 = (valor.x - valor.y)^2
+  ) %>%  
+  group_by(amostra_categoria, parametro) %>%
+  summarise(
+    vies = mean(vies),
+    vies_abs = mean(vies_abs),
+    RMSE = sqrt(mean(erro2)),
+    .groups = "drop"
+  ) %>% 
+  mutate(modelo = "Log-binomial freq.") %>% 
+  mutate(
+    vies_lgb  = round(vies, 4),
+    vies_abs_lgb  = round(vies_abs,4),
+    RMSE_lgb  = round(RMSE, 4)
+  ) %>% 
+  select(modelo, amostra_categoria, parametro, vies_lgb, RMSE_lgb) 
+
+## Amplitude Média ---------------------------------------------------------
+
+ic_logbin_freq_lista <- 
+  lapply(
+    mod_logbin_freq,
+    function(modelo) confint(modelo))
+
+
+ic_logbin_freq <- map_df(
+  names(ic_logbin_freq_lista),
+  ~ ic_logbin_freq_lista[[.x]] %>%
+    as.data.frame() %>%
+    mutate(parametro = rownames(.),
+           amostra = .x) %>%
+    relocate(amostra, parametro)
+) 
+
+amplitude_logbin_freq <- 
+  ic_logbin_freq %>% 
+  mutate(
+    amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
+    amostra_categoria = stringr::str_sub(amostra_categoria, 9),
+    amostra_categoria = as.numeric(amostra_categoria),
+    lim_inf = `2.5 %`, 
+    lim_sup = `97.5 %`
+  ) %>%
+  select(amostra_categoria, parametro,lim_inf, lim_sup) %>% 
+  na.omit() %>% 
+  group_by(amostra_categoria, parametro) %>%
+  summarise(
+    media_lim_inf_lgb = mean(lim_inf),
+    media_lim_sup_lgb = mean(lim_sup),
+    sd_lim_inf_lgb = sd(lim_inf),
+    sd_lim_sup_lgb = sd(lim_sup),
+  ) %>% 
+  mutate(
+    amplitude_lgb_freq = media_lim_sup_lgb - media_lim_inf_lgb 
+  ) %>% 
+  select(amostra_categoria, parametro, amplitude_lgb_freq) %>% 
+  mutate(
+    parametro =  case_when(
+      parametro == "(Intercept)" ~ "b0",
+      parametro == "center" ~ "b1",
+      parametro == "treat" ~ "b2",
+      parametro == "baseline" ~ "b3",
+      .default = "NA"
+    )
+  ) 
+
+## Probabilidade de Cobertura ----------------------------------------------
+
+cobertura_logbin_freq_df <- 
+  ic_logbin_freq_lista %>% 
+  map_dfr(
+    ~as.data.frame(.x) %>% 
+      tibble::rownames_to_column("parametro"),
+    .id = "amostra") %>% 
+  mutate(
+    amostra_categoria = sub("_replica_[0-9]+$", "", amostra),
+    amostra_categoria = stringr::str_sub(amostra_categoria, 9),
+    amostra_categoria = as.numeric(amostra_categoria),
+    amplitude = `97.5 %` - `2.5 %`
+  ) %>% 
+  mutate(
+    parametro =  case_when(
+      parametro == "(Intercept)" ~ "b0",
+      parametro == "center" ~ "b1",
+      parametro == "treat" ~ "b2",
+      parametro == "baseline" ~ "b3",
+      .default = "NA"
+    )
+  ) %>% 
+  left_join(valores_reais, by = "parametro") %>% 
+  mutate(ind_n_na = ifelse(is.na(`97.5 %`), 0, 1)) %>% 
+  mutate(ind_cobertura = ifelse(valor >= `2.5 %` & valor <= `97.5 %`, 1, 0)) %>% 
+  mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1))  
+
+
+cobertura_logbin_freq <-
+  cobertura_logbin_freq_df %>%
+  # filter(!is.na(ind_cobertura)) %>%
+  mutate(ind_cobertura = ifelse(is.na(ind_cobertura) | ind_cobertura == 0, 0, 1)) %>% 
+  group_by(amostra_categoria, parametro) %>% 
+  summarise(
+    total_convergiram = n(),
+    total_coberto_ic = sum(ind_cobertura == 1),
+    probabilidade_cobertura = total_coberto_ic / total_convergiram,
+    probabilidade_cobertura_1000 = total_coberto_ic / 1000
+  ) 
+
 
 # 2) POISSON SANDWICH --------------------------------------------------------
 
@@ -608,25 +609,25 @@ cobertura_bayes_HPD <-
 # 4) analise visual -----------------------------------------------------
 
 ## coeficientes ------------------------------------------------------------
-# coef_logbin_freq
+coef_logbin_freq
 coef_pois_sandwich
 bayes_media
 bayes_mediana
 
 ## vies --------------------------------------------------------------------
-# vies_logbin_freq
+vies_logbin_freq
 vies_coef_pois_sandwich
 vies_bayes_media
 vies_bayes_mediana
 
 ## amplitude ---------------------------------------------------------------
-# amplitude_logbin_freq 
+amplitude_logbin_freq 
 amplitude_pois_sandwich
 amplitude_bayes_quantilica
 amplitude_bayes_HPD
 
 ## probabilidade cobertura -------------------------------------------------
-# cobertura_logbin_freq
+cobertura_logbin_freq
 cobertura_pois_sandwich
 cobertura_bayes_quantilica
 cobertura_bayes_HPD
@@ -634,14 +635,12 @@ cobertura_bayes_HPD
 # 5) tratamento final  -----------------------------------------------------
 
 ## coeficientes ------------------------------------------------------------
-# coef1 <- coef_logbin_freq
+coef1 <- coef_logbin_freq
 coef2 <- coef_pois_sandwich
 coef3 <- bayes_media
 coef4 <- bayes_mediana
 
-coef_lista <- list(
-  # coef1, 
-  coef2, coef3, coef4)
+coef_lista <- list(coef1, coef2, coef3, coef4)
 
 coefs <- reduce(
   coef_lista,
@@ -649,8 +648,8 @@ coefs <- reduce(
   by = c("amostra_categoria", "parametro")
 ) %>% 
   mutate(
-    # media_lgb = round(media_lgb, 4),
-    # sd_lgb = round(sd_lgb, 4),
+    media_lgb = round(media_lgb, 4),
+    sd_lgb = round(sd_lgb, 4),
     media_pois = round(media_pois, 4),
     sd_pois = round(sd_pois, 4),
     media_lgb_bayes_media = round(media_lgb_bayes_media, 4),
@@ -660,9 +659,9 @@ coefs <- reduce(
   )
 
 ## vies --------------------------------------------------------------------
-# v1 <- 
-#   vies_logbin_freq %>% 
-#   select(-modelo)
+v1 <- 
+  vies_logbin_freq %>% 
+  select(-modelo)
 
 v2 <-
   vies_coef_pois_sandwich %>% 
@@ -676,9 +675,7 @@ v4 <-
   vies_bayes_mediana %>% 
   select(-modelo)
 
-v_lista <- list(
-  # v1, 
-  v2, v3, v4)
+v_lista <- list(v1, v2, v3, v4)
 
 vies <- reduce(
   v_lista,
@@ -687,8 +684,8 @@ vies <- reduce(
 ) 
 
 ## amplitude ---------------------------------------------------------------
-# amp1 <- 
-#   amplitude_logbin_freq
+amp1 <- 
+  amplitude_logbin_freq
 amp2 <- 
   amplitude_pois_sandwich 
 amp3 <- 
@@ -696,9 +693,7 @@ amp3 <-
 amp4 <- 
   amplitude_bayes_HPD
 
-amp_lista <- list(
-  # amp1, 
-  amp2, amp3, amp4)
+amp_lista <- list(amp1, amp2, amp3, amp4)
 
 amp <- reduce(
   amp_lista,
@@ -706,17 +701,17 @@ amp <- reduce(
   by = c("amostra_categoria", "parametro")
 ) %>% 
   mutate(
-    # amplitude_lgb_freq = round(amplitude_lgb_freq, 4),
+    amplitude_lgb_freq = round(amplitude_lgb_freq, 4),
     amplitude_pois = round(amplitude_pois, 4),
     amplitude_bayes_quantilica = round(amplitude_bayes_quantilica, 4),
     amplitude_bayes_HPD = round(amplitude_bayes_HPD, 4)
   )
 
 ## probabilidade cobertura -------------------------------------------------
-# cob1 <- cobertura_logbin_freq %>% 
-#   select(amostra_categoria, parametro, probabilidade_cobertura) %>% 
-#   mutate(probabilidade_cobertura = round(probabilidade_cobertura, 3)) %>% 
-#   rename(prob_c_freq = probabilidade_cobertura)
+cob1 <- cobertura_logbin_freq %>% 
+  select(amostra_categoria, parametro, probabilidade_cobertura) %>% 
+  mutate(probabilidade_cobertura = round(probabilidade_cobertura, 3)) %>% 
+  rename(prob_c_freq = probabilidade_cobertura)
 
 
 cob2 <- cobertura_pois_sandwich %>% 
@@ -733,9 +728,7 @@ cob4 <- cobertura_bayes_HPD %>%
   select(amostra_categoria, parametro, probabilidade_cobertura_HPD) %>% 
   mutate(probabilidade_cobertura_HPD = round(probabilidade_cobertura_HPD, 4))
 
-cob_lista <- list(
-  # cob1, 
-  cob2, cob3, cob4)
+cob_lista <- list(cob1, cob2, cob3, cob4)
 
 cob <- reduce(
   cob_lista,
@@ -752,7 +745,7 @@ cob_amp <- reduce(
   by = c("amostra_categoria", "parametro")
 ) %>% 
   select(amostra_categoria, parametro, 
-         # prob_c_freq, amplitude_lgb_freq,
+         prob_c_freq, amplitude_lgb_freq,
          prob_c_poiss, amplitude_pois,
          probabilidade_cobertura_quantilica, amplitude_bayes_quantilica,
          probabilidade_cobertura_HPD, amplitude_bayes_HPD
@@ -799,8 +792,13 @@ cob_amp <-
   ) %>% 
   arrange(amostra_categoria, parametro)
 
+## 
+coefs
+vies
+cob_amp
+
 # 7) saida ----------------------------------------------------------------
 
-write.csv(coefs, "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-media_sd.csv")
-write.csv(vies, "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-vies_reqm.csv")
-write.csv(cob_amp, "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-pc_am.csv")
+write.csv(coefs, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-media_sd.csv")
+write.csv(vies, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-vies_reqm.csv")
+write.csv(cob_amp, "saidas/3-saida-simulacao-completo/C-saidas/C-resultados/C-pc_am.csv")

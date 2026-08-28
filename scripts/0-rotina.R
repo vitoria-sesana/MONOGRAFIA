@@ -30,6 +30,10 @@ require(kableExtra)
 
 ## graficos
 require(ggplot2)
+require(latex2exp)
+require(ggtext)
+require(patchwork)
+
 
 # leitura dados -----------------------------------------------------------
 data(respiratory, package="geepack")

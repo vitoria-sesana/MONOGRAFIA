@@ -108,13 +108,13 @@ tempo_final_jags  <- Sys.time()
 tempo_execucao_jags <- tempo_final_jags  - tempo_inicial_jags 
 tempo_execucao_jags 
 
-# saida -------------------------------------------------------------------
-saveRDS(
-  modelos_logbin_jags,
-  file = "saidas/2-saida-simulacao/M3-logbin-bayesiano/ajustes_logbin_bayesiano.rds"
-)
-
-saveRDS(
-  tempo_execucao_jags,
-  file = "saidas/2-saida-simulacao/M3-logbin-bayesiano/tempo_execucao_ajustes_logbin_bayesiano.rds"
-)
+## saida -------------------------------------------------------------------
+# saveRDS(
+#   modelos_logbin_jags,
+#   file = "saidas/2-saida-simulacao/M3-logbin-bayesiano/ajustes_logbin_bayesiano.rds"
+# )
+# 
+# saveRDS(
+#   tempo_execucao_jags,
+#   file = "saidas/2-saida-simulacao/M3-logbin-bayesiano/tempo_execucao_ajustes_logbin_bayesiano.rds"
+# )

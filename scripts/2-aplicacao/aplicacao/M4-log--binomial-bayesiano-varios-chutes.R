@@ -36,7 +36,7 @@ model{
   # --- Constraints for each observation ------------------------------
   for (i in 1:N) {
     ones[i] ~ dbern(C1[i])     # use ones[i] supplied from R
-    C1[i] <- step(1 - pp[i])   # ensures pp[i] ≤ 1
+    C1[i] <- step(1 - pp[i])   # ensures pp[i] ≤ 1 # curvas alisadas 
   }
   
   # --- Constraints for the 8 possible combinations of (X1,X2,X3) -----
@@ -87,15 +87,15 @@ model <-
   )
 
 ## atualizando/update -----------
-update(model, n.iter = 4000)
+update(model, n.iter = 10000)
 
 ## amostras posteriores -----------
 
-posterior <- coda.samples(
+amostras <- coda.samples(
   model,
   variable.names = c("b0", "b1", "b2", "b3"), # nomes dos parâmetros
   n.iter = 5000,
-  thin = 50
+  thin = 75
 )
 
 # resultados --------------------------------------------------------------
@@ -107,21 +107,28 @@ resultado_bayesiano <- summary(amostras)
 gelman.plot(amostras)
 gelman.diag(amostras)
 
+# fazer gráfico de ic
 x <- summary(amostras)
 x$quantiles
 HPDinterval(amostras)
 
 summary(amostras[1])$quantiles
 HPDinterval(amostras)[1]
+# summary(modelo_logbin_frequentista1)$coefficients
 
 summary(amostras[2])$quantiles
 HPDinterval(amostras)[2]
+# summary(modelo_logbin_frequentista2)$coefficients
 
 summary(amostras[3])$quantiles
 HPDinterval(amostras)[3]
+# summary(modelo_logbin_frequentista3)$coefficients
+
 
 summary(amostras[4])$quantiles
 HPDinterval(amostras)[4]
+# summary(modelo_logbin_frequentista4)$coefficients
+
 
 # média ergótica ----------------------------------------------------------
 

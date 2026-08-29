@@ -1,7 +1,7 @@
 rm(list = ls())
 
 # modelo logbin -----------------------------------------------------------
-modelos_logbin <- 
+modelos_logbin <-
   readRDS("saidas/2-saida-simulacao/M1-logbin-frequentista/ajustes_logbin_frequentista.rds")
 
 # obtendo a matriz de variancia e covariancia ----------------------------

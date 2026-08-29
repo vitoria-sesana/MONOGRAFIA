@@ -63,6 +63,7 @@ gerando_dados_respiratory <- function(replicas, amostras, n_clusters = NULL) {
 }
 
 # geranndo base de dados simulada------------------------------------------
+tempo_inicial_geral <- Sys.time()
 set.seed(34)
 dados_gerados_respiratory <- 
   gerando_dados_respiratory(
@@ -70,9 +71,19 @@ dados_gerados_respiratory <-
     amostras = c(50, 100, 200, 500), 
     n_clusters = NULL
   )
+tempo_final_geral <- Sys.time()
+tempo_execucao_geral <- tempo_final_geral - tempo_inicial_geral
+tempo_execucao_geral
+
 
 # saida ----------------------------------------------------------------
 # saveRDS(
 #   dados_gerados_respiratory,
 #   "saidas/2-saida-simulacao/dados_gerados.rds"
 # )
+# 
+# saveRDS(
+#   tempo_execucao_geral,
+#   file = "saidas/2-saida-simulacao/tempo_execucao.rds"
+# )
+

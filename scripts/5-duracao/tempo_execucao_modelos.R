@@ -181,7 +181,7 @@ tabela_execucao <- tabela_execucao %>%
   mutate(
     cenario = factor(
       cenario,
-      levels = c("Geral", "Convergidos", "Não Convergido")
+      levels = c("Geral", "Convergido", "Não Convergido")
     ),
     modelo = factor(
       modelo,
@@ -193,8 +193,12 @@ tabela_execucao <- tabela_execucao %>%
     )
   )
 
-grafico_tempo_execucao <-
-ggplot(tabela_execucao, aes(x = cenario, y = valor_S , fill = modelo)) +
+# 3 cenários
+
+grafico_tempo_execucao_3 <-
+  tabela_execucao %>% 
+  # filter(cenario != "Geral") %>%
+  ggplot(aes(x = cenario, y = valor_S , fill = modelo)) +
   geom_col(position = position_dodge(width = 0.8), width = 0.7) +
   geom_text(
     aes(label = paste0(valor_HMS, "\n ", "(", valor_S,"s)")),
@@ -210,16 +214,26 @@ ggplot(tabela_execucao, aes(x = cenario, y = valor_S , fill = modelo)) +
     fill = "Modelo"
   ) +
   theme_minimal() +
-  theme( 
-    panel.grid.major.x = element_blank(),
-    axis.line.x = element_line(color = "black", linewidth = 0.6),
-    axis.line.y = element_line(color = "black", linewidth = 0.6)
-  ) + 
+  theme(
+    panel.background =  element_rect(color = "grey70"),
+    panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
+    axis.text.x   = element_text(color = "grey20",size = 7),
+    axis.text.y   = element_text(color = "grey20",size = 7),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    # title =  element_text(color = "grey10",face = "bold", size = 14),
+    legend.title = element_text(size = 8),
+    legend.text = element_text(color = "grey20", size = 7),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.x = element_blank()
+  ) +
   scale_y_continuous(
-    breaks = scales::pretty_breaks(n = 5),
-    expand = expansion(mult = c(0, 0.10)),
+    breaks = scales::pretty_breaks(n = 16),
+    expand = expansion(mult = c(0, 0.1)),
     limits = c(0,26000)
+    # limits = c(0,12000)
   ) + 
+  
   scale_fill_manual(
     values = c(
       "Log-binomial frequentista" = "#8B2E2E",  # azul escuro                   # vermelho escuro
@@ -228,16 +242,75 @@ ggplot(tabela_execucao, aes(x = cenario, y = valor_S , fill = modelo)) +
     )
   )
 
-grafico_tempo_execucao
+grafico_tempo_execucao_3
+
+# 2 cenários 
+grafico_tempo_execucao_2 <-
+  tabela_execucao %>% 
+  filter(cenario != "Geral") %>%
+  ggplot(aes(x = cenario, y = valor_S , fill = modelo)) +
+    geom_col(position = position_dodge(width = 0.8), width = 0.7) +
+    geom_text(
+      aes(label = paste0(valor_HMS, "\n ", "(", valor_S,"s)")),
+      position = position_dodge(width = 0.8),
+      vjust = -0.5,
+      size = 3.5
+    ) +
+    scale_y_continuous(expand = expansion(mult = c(0, 0.15))) + # Espaço extra no topo para o texto
+    labs(
+      # title = "Comparação de Tempo de Execução",
+      x = "\n Cenário",
+      y = "Tempo (segundos)",
+      fill = "Modelo"
+    ) +
+    theme_minimal() +
+    theme(
+      panel.background =  element_rect(color = "grey70"),
+      panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
+      axis.text.x   = element_text(color = "grey20",size = 7),
+      axis.text.y   = element_text(color = "grey20",size = 7),
+      axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
+      axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+      # title =  element_text(color = "grey10",face = "bold", size = 14),
+      legend.title = element_text(size = 8),
+      legend.text = element_text(color = "grey20", size = 7),
+      panel.grid.minor.x = element_blank(),
+      panel.grid.major.x = element_blank()
+    ) +
+    scale_y_continuous(
+      breaks = scales::pretty_breaks(n = 16),
+      expand = expansion(mult = c(0, 0.1)),
+      # limits = c(0,26000)
+      limits = c(0,12000)
+    ) + 
+    
+    scale_fill_manual(
+      values = c(
+        "Log-binomial frequentista" = "#8B2E2E",  # azul escuro                   # vermelho escuro
+        "Poisson robusto"  = "#1F4E79", 
+        "Log-binomial bayesiano"= "#2E5D34"                   # verde escuro
+      )
+    )
+
+grafico_tempo_execucao_2
 
 ## exportação gráfico ------------------------
 
 ggsave(
-  filename = "plots/3-plots-simulacao/tempo_execucao.pdf",
-  plot = grafico_tempo_execucao,
+  filename = "plots/3-plots-simulacao/tempos/tempo_execucao_modelos_3_cenarios.pdf",
+  plot = grafico_tempo_execucao_3,
   device = cairo_pdf,
   width = 28,
   height = 14,
   units = "cm"
 )
 
+
+ggsave(
+  filename = "plots/3-plots-simulacao/tempos/tempo_execucao_modelos_2_cenarios.pdf",
+  plot = grafico_tempo_execucao_2,
+  device = cairo_pdf,
+  width = 28,
+  height = 14,
+  units = "cm"
+)

@@ -83,20 +83,19 @@ model <-
     inits = chutes_iniciais,
     n.chains = 4, # quantas cadeias
     n.adapt = 0 # sem adaptação
-    
   )
 
 ## atualizando/update -----------
 update(model, n.iter = 10000)
 
 ## amostras posteriores -----------
-
-amostras <- coda.samples(
-  model,
-  variable.names = c("b0", "b1", "b2", "b3"), # nomes dos parâmetros
-  n.iter = 5000,
-  thin = 75
-)
+amostras <- 
+  coda.samples(
+    model,
+    variable.names = c("b0", "b1", "b2", "b3"), # nomes dos parâmetros
+    n.iter = 5000,
+    thin = 75
+  )
 
 # resultados --------------------------------------------------------------
 amostras

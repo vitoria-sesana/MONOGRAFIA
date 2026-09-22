@@ -201,11 +201,11 @@ gg_b0_media <-
   tabela_1 %>% 
   filter(parametro == "b0") %>% 
   ggplot(aes(x = amostra_categoria, y = media, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = valor_b0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   annotate(
     "text",
@@ -213,12 +213,12 @@ gg_b0_media <-
     y = valor_b0,
     label = "Valor real",
     hjust = 0,
-    vjust = 1.5,
-    color = "darkblue",
+    vjust = -1,
+    color = "#333333",
     size = 3
   ) +
   labs(
-    title = TeX("$\\beta_{0}$"),
+    title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -237,10 +237,10 @@ gg_b0_media <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -252,11 +252,11 @@ gg_b0_vies <-
   tabela_1 %>% 
   filter(parametro == "b0") %>% 
   ggplot(aes(x = amostra_categoria, y = vies, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -265,11 +265,11 @@ gg_b0_vies <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{0}$"),
+    title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -288,10 +288,10 @@ gg_b0_vies <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -303,11 +303,11 @@ gg_b0_sd <-
   tabela_1 %>% 
   filter(parametro == "b0") %>% 
   ggplot(aes(x = amostra_categoria, y = sd, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -316,11 +316,11 @@ gg_b0_sd <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{0}$"),
+    title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -339,10 +339,10 @@ gg_b0_sd <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -355,11 +355,11 @@ gg_b0_reqm <-
   tabela_1 %>% 
   filter(parametro == "b0") %>% 
   ggplot(aes(x = amostra_categoria, y = RMSE, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -368,11 +368,11 @@ gg_b0_reqm <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{0}$"),
+    title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -391,10 +391,10 @@ gg_b0_reqm <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -407,11 +407,11 @@ gg_b0_prob <-
   tabela_2 %>% 
   filter(parametro == "b0") %>% 
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 1, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -420,11 +420,11 @@ gg_b0_prob <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title =TeX("$\\beta_{0}$"),
+    title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -443,10 +443,10 @@ gg_b0_prob <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -459,10 +459,10 @@ gg_b0_ampli <-
   tabela_2 %>% 
   filter(parametro == "b0") %>% 
   ggplot(aes(x = amostra_categoria, y = amplitude , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{0}$"),
+    title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -481,15 +481,15 @@ gg_b0_ampli <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.1, 1.25)
+  ylim(-0.1, 1.25)
 
 # gg_b0_media
 # gg_b0_sd
@@ -505,11 +505,11 @@ gg_b1_media <-
   tabela_1 %>% 
   filter(parametro == "b1") %>% 
   ggplot(aes(x = amostra_categoria, y = media, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = valor_b1, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   annotate(
     "text",
@@ -517,12 +517,12 @@ gg_b1_media <-
     y = valor_b1,
     label = "Valor real",
     hjust = 0,
-    vjust = 1.5,
-    color = "darkblue",
+    vjust = -1,
+    color = "#333333",
     size = 3
   ) +
   labs(
-    title = TeX("$\\beta_{1}$"),
+    title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -541,10 +541,10 @@ gg_b1_media <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -556,11 +556,11 @@ gg_b1_vies <-
   tabela_1 %>% 
   filter(parametro == "b1") %>% 
   ggplot(aes(x = amostra_categoria, y = vies, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -569,11 +569,11 @@ gg_b1_vies <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{1}$"),
+    title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -592,10 +592,10 @@ gg_b1_vies <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -607,11 +607,11 @@ gg_b1_sd <-
   tabela_1 %>% 
   filter(parametro == "b1") %>% 
   ggplot(aes(x = amostra_categoria, y = sd, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -620,11 +620,11 @@ gg_b1_sd <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{1}$"),
+    title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -643,10 +643,10 @@ gg_b1_sd <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -659,11 +659,11 @@ gg_b1_reqm <-
   tabela_1 %>% 
   filter(parametro == "b1") %>% 
   ggplot(aes(x = amostra_categoria, y = RMSE, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -672,11 +672,11 @@ gg_b1_reqm <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{1}$"),
+    title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -695,10 +695,10 @@ gg_b1_reqm <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -711,11 +711,11 @@ gg_b1_prob <-
   tabela_2 %>% 
   filter(parametro == "b1") %>% 
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 1, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -724,11 +724,11 @@ gg_b1_prob <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title =TeX("$\\beta_{1}$"),
+    title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -747,10 +747,10 @@ gg_b1_prob <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -763,10 +763,10 @@ gg_b1_ampli <-
   tabela_2 %>% 
   filter(parametro == "b1") %>% 
   ggplot(aes(x = amostra_categoria, y = amplitude , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{1}$"),
+    title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -785,15 +785,15 @@ gg_b1_ampli <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   )  +
-  ylim(0.1, 1.25)
+  ylim(-0.1, 1.25)
 
 
 # gg_b1_media
@@ -811,11 +811,11 @@ gg_b2_media <-
   tabela_1 %>% 
   filter(parametro == "b2") %>% 
   ggplot(aes(x = amostra_categoria, y = media, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = valor_b2, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   annotate(
     "text",
@@ -823,12 +823,12 @@ gg_b2_media <-
     y = valor_b2,
     label = "Valor real",
     hjust = 0,
-    vjust = 1.5,
-    color = "darkblue",
+    vjust = -1,
+    color = "#333333",
     size = 3
   ) +
   labs(
-    title = TeX("$\\beta_{2}$"),
+    title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -847,10 +847,10 @@ gg_b2_media <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -862,11 +862,11 @@ gg_b2_vies <-
   tabela_1 %>% 
   filter(parametro == "b2") %>% 
   ggplot(aes(x = amostra_categoria, y = vies, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -875,11 +875,11 @@ gg_b2_vies <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{2}$"),
+    title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -898,10 +898,10 @@ gg_b2_vies <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -913,11 +913,11 @@ gg_b2_sd <-
   tabela_1 %>% 
   filter(parametro == "b2") %>% 
   ggplot(aes(x = amostra_categoria, y = sd, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -926,11 +926,11 @@ gg_b2_sd <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{2}$"),
+    title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -949,10 +949,10 @@ gg_b2_sd <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -965,11 +965,11 @@ gg_b2_reqm <-
   tabela_1 %>% 
   filter(parametro == "b2") %>% 
   ggplot(aes(x = amostra_categoria, y = RMSE, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -978,11 +978,11 @@ gg_b2_reqm <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{2}$"),
+    title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1001,10 +1001,10 @@ gg_b2_reqm <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -1017,11 +1017,11 @@ gg_b2_prob <-
   tabela_2 %>% 
   filter(parametro == "b2") %>% 
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 1, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -1030,11 +1030,11 @@ gg_b2_prob <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title =TeX("$\\beta_{2}$"),
+    title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1053,10 +1053,10 @@ gg_b2_prob <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -1070,10 +1070,10 @@ gg_b2_ampli <-
   tabela_2 %>% 
   filter(parametro == "b2") %>% 
   ggplot(aes(x = amostra_categoria, y = amplitude , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{2}$"),
+    title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1092,15 +1092,15 @@ gg_b2_ampli <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   )  +
-  ylim(0.1, 1.25)
+  ylim(-0.1, 1.25)
 
 
 
@@ -1111,11 +1111,11 @@ gg_b3_media <-
   tabela_1 %>% 
   filter(parametro == "b3") %>% 
   ggplot(aes(x = amostra_categoria, y = media, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = valor_b3, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   annotate(
     "text",
@@ -1123,12 +1123,12 @@ gg_b3_media <-
     y = valor_b3,
     label = "Valor real",
     hjust = 0,
-    vjust = 1.5,
-    color = "darkblue",
+    vjust = -1,
+    color = "#333333",
     size = 3
   ) +
   labs(
-    title = TeX("$\\beta_{3}$"),
+    title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1162,11 +1162,11 @@ gg_b3_vies <-
   tabela_1 %>% 
   filter(parametro == "b3") %>% 
   ggplot(aes(x = amostra_categoria, y = vies, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -1175,11 +1175,11 @@ gg_b3_vies <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{3}$"),
+    title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1198,10 +1198,10 @@ gg_b3_vies <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -1213,11 +1213,11 @@ gg_b3_sd <-
   tabela_1 %>% 
   filter(parametro == "b3") %>% 
   ggplot(aes(x = amostra_categoria, y = sd, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -1226,11 +1226,11 @@ gg_b3_sd <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{3}$"),
+    title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1249,10 +1249,10 @@ gg_b3_sd <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -1265,11 +1265,11 @@ gg_b3_reqm <-
   tabela_1 %>% 
   filter(parametro == "b3") %>% 
   ggplot(aes(x = amostra_categoria, y = RMSE, color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 0, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -1278,11 +1278,11 @@ gg_b3_reqm <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{3}$"),
+    title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1301,10 +1301,10 @@ gg_b3_reqm <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Média)' = "#7570b3",
-    'Log-binomial Bayesiano (Mediana)' = "#e7298a"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Média)' = "#e7298a",
+    'Log-binomial Bayesiano (Mediana)' = "#009E73"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -1317,11 +1317,11 @@ gg_b3_prob <-
   tabela_2 %>% 
   filter(parametro == "b3") %>% 
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   geom_hline(yintercept = 1, 
              linetype = "longdash", 
-             color = "darkblue", 
+             color = "#333333", 
              linewidth = 0.9) +
   # annotate(
   #   "text",
@@ -1330,11 +1330,11 @@ gg_b3_prob <-
   #   # label = "Valor real",
   #   hjust = 0,
   #   vjust = 1.5,
-  #   color = "darkblue",
+  #   color = "#333333",
   #   size = 3
   # ) +
   labs(
-    title =TeX("$\\beta_{3}$"),
+    title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1353,10 +1353,10 @@ gg_b3_prob <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
@@ -1369,10 +1369,10 @@ gg_b3_ampli <-
   tabela_2 %>% 
   filter(parametro == "b3") %>% 
   ggplot(aes(x = amostra_categoria, y = amplitude , color = modelo)) +
-  geom_line(aes(group = modelo), linewidth = 1) +
+  geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{3}$"),
+    title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1391,15 +1391,15 @@ gg_b3_ampli <-
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
-    'Log-binomial frequentista' = "#1b9e77",
-    'Poisson robusto' = "#d95f02",
-    'Log-binomial Bayesiano (Quantis)' = "#950606",
-    'Log-binomial Bayesiano (HPD)' = "#ba8e23"
+    'Log-binomial frequentista' = "#D55E00",
+    'Poisson robusto' = "#0072B2",
+    'Log-binomial Bayesiano (Quantis)' = "#FF0000",
+    'Log-binomial Bayesiano (HPD)' = "#AA4499"
   )) +
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   )  +
-  ylim(0.1, 1.25)
+  ylim(-0.1, 1.25)
 
 
 # gg_b3_media
@@ -1422,7 +1422,17 @@ linha1 <-
     guides = "collect"
   )
 
-linha2 <-
+linha2 <- wrap_plots(
+  gg_b0_vies,
+  gg_b1_vies,
+  gg_b2_vies,
+  gg_b3_vies,
+  nrow = 1,
+  guides = "collect"
+)
+
+
+linha3 <-
   wrap_plots(
     gg_b0_sd,
     gg_b1_sd,
@@ -1431,17 +1441,6 @@ linha2 <-
     nrow = 1,
     guides = "collect"
   )
-
-
-
-linha3 <- wrap_plots(
-  gg_b0_vies,
-  gg_b1_vies,
-  gg_b2_vies,
-  gg_b3_vies,
-  nrow = 1,
-  guides = "collect"
-)
 
 
 linha4 <- wrap_plots(
@@ -1475,7 +1474,7 @@ placa <- function(texto) {
   ggplot() +
     annotate(
       "rect",
-      xmin = 0, xmax = 1,
+      xmin = -0.05, xmax = 1.05, # <-- Estica o retângulo para além de 0 e 1
       ymin = 0, ymax = 1,
       fill = "grey30",
       color = "grey20",
@@ -1489,14 +1488,17 @@ placa <- function(texto) {
       fontface = "bold",
       size = 6
     ) +
-    xlim(0, 1) +
-    ylim(0, 1) +
-    theme_void()
+    # coord_cartesian com clip = "off" permite que o gráfico vase os limites dos eixos
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
+    theme_void() +
+    # Adicionamos uma margem lateral (esquerda e direita) para garantir 
+    # que o retângulo expandido não seja cortado na borda do PDF
+    theme(plot.margin = margin(t = 0, r = 15, b = 0, l = 15, unit = "pt"))
 }
 
 placa1 <- placa("Média")
-placa2 <- placa("Desvio-padrão")
-placa3 <- placa("Viés")
+placa2 <- placa("Viés")
+placa3 <- placa("Desvio-padrão")
 placa4 <- placa("REQM")
 placa5 <- placa("Probabilidade de cobertura")
 placa6 <- placa("Amplitude média")
@@ -1536,7 +1538,7 @@ painel_final <-
     )
   )
 
-painel_final
+#painel_final
 
 ggsave(
   "plots/3-plots-simulacao/plot_simulacao_3/nc_plot_6.pdf",

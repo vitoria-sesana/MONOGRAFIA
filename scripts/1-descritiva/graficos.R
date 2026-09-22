@@ -3,9 +3,9 @@
 # rotina ------------------------------------------------------------------
 source("scripts/0-rotina.R", encoding = "UTF-8")
 
-# boxplot -----------------------------------------------------------------
+# Boxplot Age -------------------------------------------------------------
 
-ggbox <- 
+ggbox_age <- 
   ggplot(respiratory4, aes(x = age)) +
   stat_boxplot(
     geom = "errorbar",
@@ -21,7 +21,11 @@ ggbox <-
     fatten    = 1.4              
   ) +
   coord_flip() +
-  scale_x_continuous(breaks = seq(0, 70, 10), limits = c(0,70)) +
+  scale_x_continuous(
+    breaks = seq(0, 70, 10),
+    limits = c(0, 75),
+    expand = c(0, 0)
+  ) +
   theme_minimal() +
   theme(
     axis.ticks.x = element_blank(),
@@ -38,7 +42,86 @@ ggbox <-
   xlab("Idade") +
   ylim(-0.5,0.5) 
 
-ggbox
+ggbox_age
+
+
+
+# Boxplot Age x outcome ---------------------------------------------------
+df_boxplot_age_outcome <- 
+  respiratory4 %>% 
+  select(outcome, age) %>% 
+  mutate(
+    outcome = ifelse(outcome == 0, "Ruim", "Bom"),
+    outcome = factor(
+      outcome,
+      levels = c("Bom", "Ruim")
+    )
+  )
+
+ggbox_age_outcome <- 
+  ggplot(
+    df_boxplot_age_outcome,
+    aes(
+      x = outcome, 
+      y = age,
+      fill = outcome
+    )
+  ) +
+  stat_boxplot(
+    geom = "errorbar",
+    width = 0.5,       
+    linewidth = 0.7
+  ) +
+  geom_boxplot(
+    color = "black",        
+    width = 0.6,
+    outlier.shape = NA,         
+    fatten = 1.4              
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Bom" = "#27AE60",
+      "Ruim" = "#C0392B"
+    )
+  ) +
+  coord_flip() +
+  scale_y_continuous(
+    breaks = seq(0, 70, 10),
+    limits = c(0, 75),
+    expand = c(0, 0)
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.major.x = element_line(
+      color = "grey20", 
+      linetype = "dotted", 
+      linewidth = 0.05
+    ),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    panel.border = element_rect(
+      color = "grey70",
+      fill = NA,
+      linewidth = 0.5
+    ),
+    axis.text.y = element_text(
+      color = "grey20",
+      size = 7
+    ),
+    axis.title.y = element_text(
+      color = "grey20",
+      face = "bold"
+    ),
+    legend.position = "none"
+  ) +
+  labs(
+    x = "Desfecho",
+    y = "Idade"
+  )
+
+ggbox_age_outcome
+
 
 # gráfico percentual ------------------------------------------------------
 
@@ -54,7 +137,7 @@ df1 <-
   mutate(pct = round((n / sum(n)), 2) ) %>% 
   mutate(
     outcome = ifelse(outcome == 0, "Ruim", "Bom"),
-    center = ifelse(center == 1, "Centro 1", "Centro 2")
+    center = ifelse(center == 1, "1", "2")
   ) %>% 
   mutate(outcome = as.factor(outcome))
 
@@ -86,17 +169,34 @@ df3 <-
   ) %>% 
   mutate(outcome = as.factor(outcome))
 
+#### desfecho x sexo -------
+df4 <- 
+  respiratory4 %>% 
+  group_by(outcome, sex) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  group_by(sex) %>% 
+  mutate(pct = round((n / sum(n)), 2) ) %>% 
+  mutate(
+    outcome = ifelse(outcome == 0, "Ruim", "Bom"),
+    sex = ifelse(sex == 'M', "Masculino", "Feminino")
+  ) %>% 
+  mutate(outcome = as.factor(outcome))
+
 #### valores finais -------
 df1 <- df1 %>% rename(categoria = center)
 df2 <- df2 %>% rename(categoria = treat)
 df3 <- df3 %>% rename(categoria = baseline)
+df4 <- df4 %>% rename(categoria = sex)
+
 
 df1$covariavel <- "Centro" 
 df2$covariavel <- "Tratamento"
 df3$covariavel <- "Estado inicial"
+df4$covariavel <- "Sexo"
 
 df <- 
-  rbind(df1, df2, df3) %>% 
+  rbind(df3, df1, df4, df2) %>% 
   mutate(
     nomes = paste0(covariavel, ": ", categoria) 
   ) %>% 
@@ -106,82 +206,177 @@ df <-
         nomes,
         levels = 
           c(
-            "Centro: Centro 1",
-            "Centro: Centro 2",
+            "Centro: 1",
+            "Centro: 2",
             "Tratamento: Ativo",
             "Tratamento: Placebo",
             "Estado inicial: Bom",
-            "Estado inicial: Ruim"
+            "Estado inicial: Ruim",
+            "Sexo: Masculino",
+            "Sexo: Feminino"
           )
         ),
     texto = 
       paste0(n, "(", round(pct*100,2),"%)")
     ) 
 
+df$nomes <- factor(
+  df$nomes,
+  levels = c(
+    "Estado inicial: Bom",
+    "Estado inicial: Ruim",
+    "Centro: 1",
+    "Centro: 2",
+    "Tratamento: Placebo",
+    "Tratamento: Ativo",
+    "Sexo: Feminino",
+    "Sexo: Masculino"
+  )
+)
+
+
 df
 
 
-# gráfico percentual ----------------------------------------------------------
 
-gg_cov_desf <-
-  ggplot(df, aes(
-    y = forcats::fct_rev(nomes),
-    x = pct,
-    fill = outcome
-  )) +
-    geom_col(position = "fill") +
-    geom_text(
-      aes(label = texto),
-      position = position_fill(vjust = 0.5),
-      size = 2.5,
-      color = "white"
-    ) +
-    scale_x_continuous(labels = scales::percent) +
-    labs(
-      x = "Percentual",
-      y = "Categoria das covariáveis",
-      fill = "Desfecho"
-    ) +
-    theme_minimal() +
-    scale_fill_manual(
-      values = c("#1F77B4", "#D62728")
-    ) +
+# Representatividade ------------------------------------------------------
+
+gg_covariables_outcome <-
+  ggplot(
+    df,
+    aes(
+      y = forcats::fct_rev(categoria),
+      x = pct,
+      fill = outcome
+    )
+  ) +
+  geom_col(
+    position = "fill",
+    width = 0.67,
+    color = "grey20",
+    linewidth = 0.2
+  ) +
+  shadowtext::geom_shadowtext(
+    aes(label = texto),
+    position = position_fill(vjust = 0.5),
+    size = 1.2,
+    size.unit = "pt",
+    color = "white",      # Cor de dentro do texto
+    bg.color = "grey20",  # Cor da "borda" (contorno)
+    bg.r = 0.1            # Espessura do contorno (ajuste se precisar)
+  ) +
+  scale_x_continuous(
+    labels = scales::percent
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Bom" = "#27AE60",
+      "Ruim" = "#C0392B"
+    )
+  ) +
+  facet_grid(
+    covariavel ~ .,
+    scales = "free_y",
+    space = "free_y",
+    switch = "y"
+  ) +
+  labs(
+    x = "Percentual",
+    y = NULL,
+    fill = "Desfecho"
+  ) +
+  theme_minimal() +
   theme(
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank(),
+    panel.grid.major.x = element_line(
+      color = "grey95",
+      # linetype = "dotted",
+      linewidth = 0.05
+    ),
+    panel.grid.minor.x = element_line(
+      color = "white",
+      # linetype = "dotted",
+      linewidth = 0.05
+    ),
     panel.grid.major.y = element_blank(),
     panel.grid.minor.y = element_blank(),
-    legend.text   = element_text(color = "grey20"),
-    legend.title  = element_text(color = "grey20",face = "bold"),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold"),
-    axis.title.y  = element_text(color = "grey20",face = "bold")
+    
+    # Covariável à esquerda
+    strip.placement = "outside",
+    strip.background = element_blank(),
+    strip.text.y.left = element_text(
+      color = "grey20",
+      face = "bold",
+      size = 7
+    ),
+    panel.border = element_rect(
+      color = "grey70",
+      fill = NA,
+      linewidth = 0.5
+    ),
+    axis.text.x = element_text(
+      color = "grey20",
+      size = 6
+    ),
+    
+    axis.text.y = element_text(
+      color = "grey20",
+      size = 6
+    ),
+    
+    axis.title.x = element_text(
+      color = "grey20",
+      face = "bold",
+      size = 6
+    ),
+    
+    legend.text = element_text(
+      color = "grey20",
+      size = 5
+    ),
+    
+    legend.title = element_text(
+      color = "grey20",
+      face = "bold",
+      size = 6
+    )
   )
 
-gg_cov_desf
+gg_covariables_outcome
 
-# validando valores
-respiratory4 %>% 
-  group_by(treat, outcome) %>% 
-  summarise(n=n())
+
+## 
+
+ggbox_age
+ggbox_age_outcome
+gg_covariables_outcome
 
 # saídas -----------------------------------------------------------------------
 
 ggsave(
-  "plots/1-descritiva/ggbox.pdf",
-  plot = ggbox,
+  "plots/1-plots-descritiva/ggbox_age.pdf",
+  plot = ggbox_age,
   device = cairo_pdf,
   width = 14,
   height = 12,
   units = "cm"
 )
 
+
 ggsave(
-  "plots/1-descritiva/grafico_covariavel_desfecho.pdf",
-  plot = gg_cov_desf,
+  "plots/1-plots-descritiva/ggbox_age_outcome.pdf",
+  plot = ggbox_age_outcome,
   device = cairo_pdf,
-  width = 14,
-  height = 12,
+  width = 16,
+  height = 10,
+  units = "cm"
+)
+
+
+ggsave(
+  "plots/1-plots-descritiva/grafico_covariavel_desfecho.pdf",
+  plot = gg_covariables_outcome,
+  device = cairo_pdf,
+  width = 13,
+  height = 8,
   units = "cm"
 )

@@ -3,7 +3,7 @@ rm(list = ls())
 # Leitura -----------------------------------------------------------------
 resultados_aplicacao_bayesiana <- 
   readRDS(
-    "saidas/1-saida-ajustes/ajuste_logbin_bayesiano.rds"
+    "saidas/1-saida-aplicacao/ajuste_logbin_bayesiano.rds"
     )
 
 # resultados --------------------------------------------------------------
@@ -60,7 +60,7 @@ resultados_bayesianos <-
     ) %>% 
   select(Mean, SD, `2.5%`, `97.5%`, lower, upper); resultados_bayesianos
 
-# saídas ------------------------------------------------------------------
+# saídas latex --------------------------------------------------------------
 library(knitr)
 library(kableExtra)
 

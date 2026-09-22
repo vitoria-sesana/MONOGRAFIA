@@ -1,36 +1,12 @@
+rm(list = ls())
+source('scripts/0-rotina.R', encoding = 'UTF-8')
 
+# Leitura -----------------------------------------------------------------
 
-require(logbin)
-require(geepack)
-require(dplyr)
-require(sandwich)
+modelo_logbin <- readRDS("saidas/1-saida-aplicacao/ajuste_logbin_frequentista.rds")$modelo_logbin_frequentista
+modelo_poisson_sandwich <- readRDS("saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")
+modelo_poisson_sandwich <- readRDS("saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")
 
-# leitura dados -----------------------------------------------------------
-data(respiratory, package="geepack")
-respiratory$center <- factor(respiratory$center, levels = c("2", "1"))
-respiratory$baseline <- factor(respiratory$baseline, levels = c("1", "0"))
-respiratory4 <- subset(respiratory, visit == 4)
-
-# ajuste logbin -----------------------------------------------------------
-modelo_logbin <- 
-  logbin::logbin(
-    outcome ~ center  + treat + baseline, 
-    data=respiratory4
-  ) 
-
-# ajuste poisson ----------------------------------------------------------
-modelo_poisson <- 
-  glm(
-    outcome ~ center  + treat + baseline,
-    family = poisson(link=log), 
-    data = respiratory4
-  )
-
-modelo_poisson_sandwich <- 
-  lmtest::coeftest(modelo_poisson, vcov = sandwich::sandwich)
-
-modelo_poisson_sandwich %>% confint()
-modelo_poisson_sandwich %>% class()
 
 
 

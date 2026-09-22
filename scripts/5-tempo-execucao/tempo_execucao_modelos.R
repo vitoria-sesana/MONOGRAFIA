@@ -7,7 +7,7 @@ source("scripts/0-rotina.R", encoding = "UTF-8")
 formatar_tempo_S <- function(x) {
   segundos <- as.numeric(x, units = "secs")
   
-  round(segundos, 0)
+  trunc(segundos)
 }
 
 formatar_tempo_HMS <- function(x) {
@@ -88,7 +88,7 @@ C_tempo_logbin_bayes <-
 ## tabela ------------------------------------------------------------------
 
 C_tabela_tempo <- data.frame(
-  cenario = rep("Convergido", 3),
+  cenario = rep("Cenário 1 - Converge", 3),
   modelo = c(
     "Log-binomial frequentista",
     "Poisson robusto",
@@ -133,7 +133,7 @@ NC_tempo_logbin_bayes <-
 ## tabela ------------------------------------------------------------------
 
 NC_tabela_tempo <- data.frame(
-  cenario = rep("Não Convergido", 3),
+  cenario = rep("Cenário 2 - Não converge", 3),
   modelo = c(
     "Log-binomial frequentista",
     "Poisson robusto",
@@ -181,7 +181,7 @@ tabela_execucao <- tabela_execucao %>%
   mutate(
     cenario = factor(
       cenario,
-      levels = c("Geral", "Convergido", "Não Convergido")
+      levels = c("Geral", "Cenário 1 - Converge", "Cenário 2 - Não converge")
     ),
     modelo = factor(
       modelo,

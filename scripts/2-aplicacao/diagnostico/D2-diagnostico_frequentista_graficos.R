@@ -4,24 +4,17 @@
 source("scripts/0-rotina.R", encoding = "UTF-8")
 
 # ajuste logbin -----------------------------------------------------------
-mod_lb <- 
-  logbin::logbin(
-    outcome ~ center  + treat + baseline, 
-    data=respiratory4
-  ) 
+resultado_poisson <- readRDS("saidas/1-saida-aplicacao/ajuste_logbin_frequentista.rds")
 
 sum_logbin <- summary(mod_lb)
 
 
 # ajuste poisson ------------------------------------
 resultado_poisson <- readRDS("saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")
-
 modelo_poisson <- resultado_poisson$modelo_poisson
 
 # ajuste poisson sandwich ------------------------------------
-
 modelo_sandwich <- resultado_poisson$modelo_sandwich
-
 matriz_covariancia_variancia_sandwich <- resultado_poisson$matriz_covariancia_variancia_sandwich
 
 
@@ -55,7 +48,7 @@ n <- nrow(X)
 # Função para criar gráficos separados
 criar_graficos <- function(diag_data, nome_modelo) {
   
-  # 1. Alavancagem vs observações
+  # 1. Alavancagem vs observações ===============
   g1 <- ggplot(diag_data, aes(x = obs, y = leverage)) +
     geom_point(color = "purple") +
     # geom_hline(yintercept = 2*p/n, linetype="dashed", color="red") +
@@ -73,7 +66,7 @@ criar_graficos <- function(diag_data, nome_modelo) {
     scale_y_continuous(limits = c(0, 0.08), breaks = seq(0, 0.08, by = 0.01)) 
   
   
-  # 2. Distância de Cook vs observações
+  # 2. Distância de Cook vs observações  ===============
   g2 <- ggplot(diag_data, aes(x = obs, y = cookd)) +
     geom_point(color="darkgreen") +
     # geom_hline(yintercept = 4/n, linetype="dashed", color="red") +
@@ -92,7 +85,7 @@ criar_graficos <- function(diag_data, nome_modelo) {
     scale_y_continuous(limits = c(-0.1, 1.3), breaks = seq(-0.1, 1.3, by = 0.1)) 
   
   
-  # 3. Resíduos de Pearson vs valores ajustados
+  # 3. Resíduos de Pearson vs valores ajustados  ===============
   g3 <- ggplot(diag_data, aes(x = fitted, y = pearson_resid)) +
     geom_point(color = "orange") +
     geom_hline(yintercept = 0, linetype="dashed") +
@@ -112,11 +105,9 @@ criar_graficos <- function(diag_data, nome_modelo) {
   list(alavancagem = g1, cook = g2, pearson = g3)
 }
 
-# Criar gráficos para cada modelo
+# Criar gráficos para cada modelo =============
 graficos_poisson <- criar_graficos(diag_poisson, "Poisson")
 graficos_logbin <- criar_graficos(diag_logbin, "Log-binomial")
-
-respiratory4[c(81,107),] # outliers detectados
 
 # resíduos sandwich -------------------------------------------------------
 X <- model.matrix(modelo_poisson)
@@ -223,7 +214,7 @@ p5 <- ggplot(df_plot, aes(x=obs, y=cook_sandwich)) +
   scale_x_continuous(limits = c(0, 120), breaks = seq(0, 120, by = 20)) +
   scale_y_continuous(limits = c(-0.1, 1.3), breaks = seq(-0.1, 1.3, by = 0.1)) 
 
-
+##
 graficos_logbin$alavancagem
 graficos_poisson$alavancagem
 
@@ -231,16 +222,18 @@ graficos_logbin$pearson
 graficos_poisson$pearson
 p3
 
-
 graficos_logbin$cook
 graficos_poisson$cook
 p5
+
+respiratory4[c(81,107),] # outliers detectados
+respiratory4[c(20,33,54,62,74,91,102,104),] # outliers detectados apenas no poisson robusto
 
 # saídas ------------------------------------------------------------------
 
 # alavanca
 ggsave(
-  "plots/2-diagnostico/alavanca_logbin.pdf", 
+  "plots/2-plots-aplicacao/alavanca_logbin.pdf", 
   graficos_logbin$alavancagem,
   width = 14,
   height = 12,
@@ -248,7 +241,7 @@ ggsave(
 )
 
 ggsave(
-  "plots/2-diagnostico/alavanca_poisson.pdf", 
+  "plots/2-plots-aplicacao/alavanca_poisson.pdf", 
   graficos_poisson$alavancagem, 
   width = 14,
   height = 12,
@@ -258,7 +251,7 @@ ggsave(
 # resíduo 
 
 ggsave(
-  "plots/2-diagnostico/residuo_logbin.pdf", 
+  "plots/2-plots-aplicacao/residuo_logbin.pdf", 
   graficos_logbin$pearson, 
   width = 14,
   height = 12,
@@ -266,7 +259,7 @@ ggsave(
 )
 
 ggsave(
-  "plots/2-diagnostico/residuo_poisson.pdf", 
+  "plots/2-plots-aplicacao/residuo_poisson.pdf", 
   graficos_poisson$pearson, 
   width = 14,
   height = 12,
@@ -274,7 +267,7 @@ ggsave(
 )
 
 ggsave(
-  "plots/2-diagnostico/residuo_poisson_sandwich.pdf", 
+  "plots/2-plots-aplicacao/residuo_poisson_sandwich.pdf", 
   p3, 
   width = 14,
   height = 12,
@@ -283,7 +276,7 @@ ggsave(
 
 # cook 
 ggsave(
-  "plots/2-diagnostico/distancia_cook_logbin.pdf", 
+  "plots/2-plots-aplicacao/distancia_cook_logbin.pdf", 
   graficos_logbin$cook, 
   width = 14,
   height = 12,
@@ -291,7 +284,7 @@ ggsave(
 )
 
 ggsave(
-  "plots/2-diagnostico/distancia_cook_poisson.pdf", 
+  "plots/2-plots-aplicacao/distancia_cook_poisson.pdf", 
   graficos_poisson$cook, 
   width = 14,
   height = 12,
@@ -299,7 +292,7 @@ ggsave(
 )
 
 ggsave(
-  "plots/2-diagnostico/distancia_cook_poisson_sandwich.pdf", 
+  "plots/2-plots-aplicacao/distancia_cook_poisson_sandwich.pdf", 
   p5, 
   width = 14,
   height = 12,

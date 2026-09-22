@@ -65,7 +65,6 @@ chutes_iniciais <-
     )
 # list(b0 = 0, b1 = 0, b2 = 0, b3 = 0, .RNG.name = "base::Mersenne-Twister", .RNG.seed = 34)
 
-
 # ajuste ------------------------------------------------------------------
 
 ## especificando modelo -----------

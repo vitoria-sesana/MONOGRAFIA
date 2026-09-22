@@ -7,7 +7,7 @@ source("scripts/0-rotina.R", encoding = "UTF-8")
 formatar_tempo_S <- function(x) {
   segundos <- as.numeric(x, units = "secs")
   
-  round(segundos, 0)
+  trunc(segundos)
 }
 
 formatar_tempo_HMS <- function(x) {
@@ -45,8 +45,8 @@ NC_tempo_execucao_dados <-
 tabela_tempo_execucao_dados <- data.frame(
   Bases = c(
     "Geral",
-    "Convergidas",
-    "Não convergidas"
+    "Cenário 1 - Converge",
+    "Cenário 2 - Não converge"
   ),
   valor_HMS = c(
     formatar_tempo_HMS(G_tempo_execucao_dados),
@@ -83,7 +83,7 @@ tabela_tempo_execucao_dados <-
   mutate(
     Bases = factor(
       Bases,
-      levels = c("Geral", "Convergidas", "Não convergidas")
+      levels = c("Geral", "Cenário 1 - Converge", "Cenário 2 - Não converge")
     )
   )
 

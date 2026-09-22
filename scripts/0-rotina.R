@@ -35,6 +35,9 @@ require(ggtext)
 require(patchwork)
 
 
+# intervalo de confiança --------------------------------------------------
+intervalo_confianca = 0.95
+
 # leitura dados -----------------------------------------------------------
 data(respiratory, package="geepack")
 
@@ -47,3 +50,5 @@ respiratory4 <- subset(respiratory, visit == 4)
 
 # removendo base original do ambiente
 rm(respiratory)
+
+

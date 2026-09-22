@@ -30,4 +30,4 @@ matriz_covariancia_variancia_sandwich
 # saídas -------------------------------------------------------------------
 rm(respiratory4)
 resultados_poisson_robusto <- as.list(environment()) 
-saveRDS(resultados_poisson_robusto, "saidas/1-saida-ajustes/ajuste_poisson_robusto.rds")
+saveRDS(resultados_poisson_robusto, "saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")

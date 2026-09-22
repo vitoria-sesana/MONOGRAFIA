@@ -14,7 +14,7 @@ p1 <-
   as.vector()
 
 pt1 <- 
-  stats::prop.test(p1[1], n); pt1
+  stats::prop.test(p1[1], n, conf.level = intervalo_confianca); pt1
 
 # Centro ------------------------------------------------------------------
 p2 <- 
@@ -24,7 +24,7 @@ p2 <-
   as.vector()
 
 pt2 <- 
-  stats::prop.test(p2[1], n); pt2
+  stats::prop.test(p2[1], n, conf.level = intervalo_confianca); pt2
 
 # Desfecho ----------------------------------------------------------------
 p3 <- 
@@ -34,7 +34,7 @@ p3 <-
   as.vector()
 
 pt3 <- 
-  stats::prop.test(p3[1], n); pt3
+  stats::prop.test(p3[1], n, conf.level = intervalo_confianca); pt3
 
 # Sexo --------------------------------------------------------------------
 p4 <- 
@@ -44,7 +44,7 @@ p4 <-
   as.vector()
 
 pt4 <- 
-  stats::prop.test(p4[1], n); pt4
+  stats::prop.test(p4[1], n, conf.level = intervalo_confianca); pt4
 
 # Tratamento --------------------------------------------------------------
 p5 <- 
@@ -54,7 +54,7 @@ p5 <-
   as.vector()
 
 pt5 <- 
-  stats::prop.test(p5[1], n); pt5
+  stats::prop.test(p5[1], n, conf.level = intervalo_confianca); pt5
 
 
 # resultado final ---------------------------------------------------------

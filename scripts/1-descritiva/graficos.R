@@ -80,8 +80,8 @@ ggbox_age_outcome <-
   ) +
   scale_fill_manual(
     values = c(
-      "Bom" = "#27AE60",
-      "Ruim" = "#C0392B"
+      "Bom" = "#82E0AA",
+      "Ruim" = "#F1948A"
     )
   ) +
   coord_flip() +
@@ -256,22 +256,28 @@ gg_covariables_outcome <-
     color = "grey20",
     linewidth = 0.2
   ) +
-  shadowtext::geom_shadowtext(
+  geom_text(
     aes(label = texto),
     position = position_fill(vjust = 0.5),
-    size = 1.2,
-    size.unit = "pt",
-    color = "white",      # Cor de dentro do texto
-    bg.color = "grey20",  # Cor da "borda" (contorno)
-    bg.r = 0.1            # Espessura do contorno (ajuste se precisar)
+    size = 2.1,
+    color = "grey20"
   ) +
+  # shadowtext::geom_shadowtext(
+  #   aes(label = texto),
+  #   position = position_fill(vjust = 0.5),
+  #   size = 1.3,
+  #   # size.unit = "pt",
+  #   # color = "grey20",      # Cor de dentro do texto
+  #   # bg.color = "grey20",  # Cor da "borda" (contorno)
+  #   # bg.r = 0.1            # Espessura do contorno (ajuste se precisar)
+  # ) +
   scale_x_continuous(
     labels = scales::percent
   ) +
   scale_fill_manual(
     values = c(
-      "Bom" = "#27AE60",
-      "Ruim" = "#C0392B"
+      "Bom" = "#82E0AA",
+      "Ruim" = "#F1948A"
     )
   ) +
   facet_grid(

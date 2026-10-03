@@ -54,11 +54,9 @@ min(1 - p)
 # Então o modelo está estimando o RISCO (probabilidade) de um desfecho BOM.
 
 # saídas ------------------------------------------------------------------
-rm(respiratory4)
-resultados_logbin_frequentista <- as.list(environment()) 
-saveRDS(resultados_logbin_frequentista, "saidas/1-saida-aplicacao/ajuste_logbin_frequentista.rds")
-
-
+# rm(respiratory4)
+# resultados_logbin_frequentista <- as.list(environment()) 
+# saveRDS(resultados_logbin_frequentista, "saidas/1-saida-aplicacao/ajuste_logbin_frequentista.rds")
 
 
 # verificando os chutes iniciais ------------------------------------------
@@ -98,4 +96,3 @@ saveRDS(resultados_logbin_frequentista, "saidas/1-saida-aplicacao/ajuste_logbin_
 #   ) 
 # 
 # summary(modelo_logbin_frequentista4)$coefficients
-# 

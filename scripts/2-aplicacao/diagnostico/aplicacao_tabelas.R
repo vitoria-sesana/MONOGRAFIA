@@ -1,37 +1,17 @@
-
-
-require(logbin)
-require(geepack)
-require(dplyr)
-require(sandwich)
-
-# leitura dados -----------------------------------------------------------
-data(respiratory, package="geepack")
-respiratory$center <- factor(respiratory$center, levels = c("2", "1"))
-respiratory$baseline <- factor(respiratory$baseline, levels = c("1", "0"))
-respiratory4 <- subset(respiratory, visit == 4)
+# rotina ------------------------------------------------------------------
+source("scripts/0-rotina.R", encoding = "UTF-8")
 
 # ajuste logbin -----------------------------------------------------------
-modelo_logbin <- 
-  logbin::logbin(
-    outcome ~ center  + treat + baseline, 
-    data=respiratory4
-  ) 
+modelo_logbin_frequentista <-
+  readRDS("saidas/1-saida-aplicacao/ajuste_logbin_frequentista.rds")
+
+modelo_logbin_frequentista <- modelo_logbin_frequentista$modelo_logbin_frequentista 
 
 # ajuste poisson ----------------------------------------------------------
-modelo_poisson <- 
-  glm(
-    outcome ~ center  + treat + baseline,
-    family = poisson(link=log), 
-    data = respiratory4
-  )
-
 modelo_poisson_sandwich <- 
-  lmtest::coeftest(modelo_poisson, vcov = sandwich::sandwich)
+  readRDS("saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")
 
-modelo_poisson_sandwich %>% confint()
-modelo_poisson_sandwich %>% class()
-
+modelo_poisson_sandwich <- modelo_poisson_sandwich$modelo_poisson
 
 # ajuste logbinomial bayesiano -----------------------------------------
 modelo_logbin_bayesiano <- 
@@ -43,29 +23,29 @@ modelo_logbin_bayesiano <- modelo_logbin_bayesiano$resultado_bayesiano
 
 
 # modelos
-modelo_logbin
+modelo_logbin_frequentista
 modelo_poisson_sandwich
 
 # coeficiente
-coef(modelo_logbin)
+coef(modelo_logbin_frequentista)
 coef(modelo_poisson_sandwich)
 
 # intervalo de confiança
-modelo_logbin %>% confint()
+modelo_logbin_frequentista %>% confint()
 modelo_poisson_sandwich %>% confint()
 
 # resumo
-summary(modelo_logbin)
+summary(modelo_logbin_frequentista)
 summary(modelo_poisson_sandwich)
 
 # significancia
-summary(modelo_logbin)
+summary(modelo_logbin_frequentista)
 modelo_poisson_sandwich
 
 # coeficientes ------------------------------------------------------------
 
 coef_logbin <- 
-  modelo_logbin %>% 
+  modelo_logbin_frequentista %>% 
   coef() %>% 
   as.data.frame() %>% 
   mutate(

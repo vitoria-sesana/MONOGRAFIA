@@ -51,4 +51,11 @@ respiratory4 <- subset(respiratory, visit == 4)
 # removendo base original do ambiente
 rm(respiratory)
 
+# redefinindo ids
+respiratory4 <- respiratory4 %>% 
+  mutate(
+    id_centro = id,
+    id = 1:111
+  )
+
 

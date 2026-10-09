@@ -1,0 +1,17 @@
+"Cenario","Coeficiente","Estimativa","Erro-padrão","2.5%","97.5%","z","Valor-p"
+"Com ambas (81 e 107)","(Intercept)",-0.1089,0.0831,-0.2718,0.054,-1.3102,0.1901
+"Com ambas (81 e 107)","center1",-0.3414,0.1822,-0.6985,0.0157,-1.8739,0.0609
+"Com ambas (81 e 107)","treatP",-0.2544,0.1506,-0.5496,0.0408,-1.6893,0.0912
+"Com ambas (81 e 107)","baseline0",-0.5994,0.1942,-0.98,-0.2188,-3.0866,0.002
+"Somente sem 81","(Intercept)",-0.0581,0.0634,-0.1824,0.0662,-0.9163,0.3595
+"Somente sem 81","center1",-0.3702,0.1777,-0.7186,-0.0219,-2.0833,0.0372
+"Somente sem 81","treatP",-0.2942,0.1435,-0.5754,-0.0129,-2.0501,0.0404
+"Somente sem 81","baseline0",-0.616,0.1901,-0.9887,-0.2434,-3.24,0.0012
+"Somente sem 107","(Intercept)",-0.0581,0.0634,-0.1824,0.0662,-0.9163,0.3595
+"Somente sem 107","center1",-0.3702,0.1777,-0.7186,-0.0219,-2.0833,0.0372
+"Somente sem 107","treatP",-0.2942,0.1435,-0.5754,-0.0129,-2.0501,0.0404
+"Somente sem 107","baseline0",-0.616,0.1901,-0.9887,-0.2434,-3.24,0.0012
+"Sem ambas (81 e 107)","(Intercept)",0,NA,NA,NA,NA,NA
+"Sem ambas (81 e 107)","center1",-0.4044,NA,NA,NA,NA,NA
+"Sem ambas (81 e 107)","treatP",-0.3401,NA,NA,NA,NA,NA
+"Sem ambas (81 e 107)","baseline0",-0.6359,NA,NA,NA,NA,NA

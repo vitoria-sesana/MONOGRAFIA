@@ -1,4 +1,5 @@
 # Teste de Proporção Iguais
+# Pearson's chi-squared test statistic.
 
 # rotina ------------------------------------------------------------------
 source("scripts/0-rotina.R", encoding = "UTF-8")

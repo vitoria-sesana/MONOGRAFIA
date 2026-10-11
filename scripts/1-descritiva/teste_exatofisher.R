@@ -66,25 +66,6 @@ resultado_fisher <- data.frame(
 
 resultado_fisher 
 
-
-# idade e outcome ---------------------------------------------------------
-
-teste_idade_outcome <- 
-  wilcox.test(
-    age ~ outcome, 
-    data = respiratory4, 
-    conf.int = intervalo_confianca,
-    alternative = "two.sided"
-    )
-
-teste_idade_outcome$p.value < 0.05
-teste_idade_outcome$p.value
-teste_idade_outcome
-
-teste_idade_outcome$conf.int
-teste_idade_outcome$method
-teste_idade_outcome$alternative
-
 # saídas ------------------------------------------------------------------
 
 kbl(resultado_fisher,

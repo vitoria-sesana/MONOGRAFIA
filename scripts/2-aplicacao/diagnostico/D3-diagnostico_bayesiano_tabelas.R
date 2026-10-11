@@ -1,5 +1,8 @@
 rm(list = ls())
 
+# rotina ------------------------------------------------------------------
+source("scripts/0-rotina.R", encoding = "UTF-8")
+
 # Leitura -----------------------------------------------------------------
 resultados_aplicacao_bayesiana <- 
   readRDS(
@@ -10,7 +13,7 @@ resultados_aplicacao_bayesiana <-
 
 posterior <- resultados_aplicacao_bayesiana$posterior
 
-## Transformar posterior em data frame (caso ainda não seja)
+## transformar posterior em data frame 
 # posterior_df <- as.data.frame(as.matrix(posterior))
 
 posterior
@@ -40,37 +43,55 @@ bayes_quantiles %>% as.data.frame() %>%
 
 # HPD ---------------------------------------------------------------------
 intervalo_HPD <- 
-  coda::HPDinterval(posterior)[[1]] %>% 
+  coda::HPDinterval(posterior, prob = 0.95)[[1]] %>% 
   as.data.frame(); intervalo_HPD
 
 prob_exata_intervalo_HPD <-
   attr(coda::HPDinterval(posterior)[[1]], "Probability"); prob_exata_intervalo_HPD
 
-
-# tratamento --------------------------------------------------------------
+# resultados gerais -------------------------------------------------------
 bayes_statistics 
 bayes_quantiles
 intervalo_HPD
 
-resultados_bayesianos <- 
+resultados_gerais <- 
   cbind(
     bayes_statistics,
     bayes_quantiles,
     intervalo_HPD
     ) %>% 
-  select(Mean, SD, `2.5%`, `97.5%`, lower, upper); resultados_bayesianos
+  select(Mean, SD, `2.5%`, `97.5%`, lower, upper) %>% 
+  round(4)
 
+
+# quantilico x HPD --------------------------------------------------------
+
+resultados_quantilico_hpd <- 
+  resultados_gerais %>% 
+  mutate(
+    quantilico = sprintf("[%.4f, %.4f]", `2.5%`, `97.5%`),
+    hpd = sprintf("[%.4f, %.4f]", lower, upper)
+  ) %>%
+  select(quantilico, hpd)
+
+  
 # saídas latex --------------------------------------------------------------
 library(knitr)
 library(kableExtra)
 
-# tabela quantile ---------------
+## tabela quantis x hpd -------------------
+bayes_statistics
+kbl(bayes_statistics, format = "latex", booktabs = TRUE, align = "lccccc", caption = "XXXXXXXXXXXXXXX") %>%
+  kable_styling(latex_options = c("hold_position", "striped"))
+
+## tabela quantis de credibilidade --------
 bayes_quantiles
 kbl(bayes_quantiles, format = "latex", booktabs = TRUE, align = "lrrrrr", caption = "XXXXXXXXXXXXXXX") %>%
   kable_styling(latex_options = c("hold_position", "striped"))
 
-# tabela stats -----------------
-bayes_statistics
-kbl(bayes_statistics, format = "latex", booktabs = TRUE, align = "lccccc", caption = "XXXXXXXXXXXXXXX") %>%
+## tabela quantis x hpd -------------------
+resultados_quantilico_hpd
+kbl(resultados_quantilico_hpd, format = "latex", booktabs = TRUE, align = "lccccc", caption = "XXXXXXXXXXXXXXX") %>%
   kable_styling(latex_options = c("hold_position", "striped"))
+
 

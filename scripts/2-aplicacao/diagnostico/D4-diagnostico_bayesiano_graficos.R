@@ -235,10 +235,10 @@ ggsave("plots/2-plots-aplicacao/dens_b2.pdf", plot = p_b2, device = cairo_pdf, w
 ggsave("plots/2-plots-aplicacao/dens_b3.pdf", plot = p_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
 
 # --- Traceplots ---
-ggsave("plots/2-plots-aplicacao/trace_b0.pdf", plot = t_b0, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-plots-aplicacao/trace_b1.pdf", plot = t_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-plots-aplicacao/trace_b2.pdf", plot = t_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
-ggsave("plots/2-plots-aplicacao/trace_b3.pdf", plot = t_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
+# ggsave("plots/2-plots-aplicacao/trace_b0.pdf", plot = t_b0, device = cairo_pdf, width = 14, height = 12, units = "cm")
+# ggsave("plots/2-plots-aplicacao/trace_b1.pdf", plot = t_b1, device = cairo_pdf, width = 14, height = 12, units = "cm")
+# ggsave("plots/2-plots-aplicacao/trace_b2.pdf", plot = t_b2, device = cairo_pdf, width = 14, height = 12, units = "cm")
+# ggsave("plots/2-plots-aplicacao/trace_b3.pdf", plot = t_b3, device = cairo_pdf, width = 14, height = 12, units = "cm")
 
 # --- Autocorrelações ---
 ggsave("plots/2-plots-aplicacao/acorr_b0.pdf", plot = a_b0, device = cairo_pdf, width = 14, height = 12, units = "cm")

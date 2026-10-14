@@ -66,14 +66,20 @@ resultados_gerais <-
 
 # quantilico x HPD --------------------------------------------------------
 
-resultados_quantilico_hpd <- 
-  resultados_gerais %>% 
-  mutate(
-    quantilico = sprintf("[%.4f, %.4f]", `2.5%`, `97.5%`),
-    hpd = sprintf("[%.4f, %.4f]", lower, upper)
-  ) %>%
-  select(quantilico, hpd)
 
+resultados_quantilico_hpd <- resultados_gerais %>%
+  mutate(
+    quantilico       = sprintf("[%.4f, %.4f]", `2.5%`, `97.5%`),
+    ampli_quantilico = `97.5%` - `2.5%`,
+    hpd              = sprintf("[%.4f, %.4f]", lower, upper),
+    ampli_hpd        = upper - lower
+  ) %>%
+  select(
+    quantilico, 
+    ampli_quantilico, 
+    hpd,
+    ampli_hpd
+  )
   
 # saídas latex --------------------------------------------------------------
 library(knitr)

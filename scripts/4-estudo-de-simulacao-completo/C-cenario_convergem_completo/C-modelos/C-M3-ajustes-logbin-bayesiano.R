@@ -94,28 +94,84 @@ funcao_jags <- function(model_string, inits_list, dado, nome_dado) {
 
 # ajuste -----------------------------------------------------------
 tempo_inicial_jags <- Sys.time()
-modelos_logbin_jags <- 
-  purrr::imap(
-    dados_gerados,
-    ~ funcao_jags(
-      model_string = modelo,
-      inits_list   = chutes_iniciais,
-      dado         = .x,
-      nome_dado    = .y   
-    )
+
+tempos_jags <- purrr::imap(dados_gerados, function(dado, nome) {
+  
+  tempo_inicio <- Sys.time()
+  
+  resultado <- funcao_jags(
+    model_string = modelo,
+    inits_list   = chutes_iniciais,
+    dado         = dado,
+    nome_dado    = nome
   )
-tempo_final_jags  <- Sys.time()
-tempo_execucao_jags <- tempo_final_jags  - tempo_inicial_jags 
-tempo_execucao_jags 
+  
+  tempo_fim <- Sys.time()
+  
+  list(
+    modelo = resultado,
+    tempo_segundos = as.numeric(
+      difftime(tempo_fim, tempo_inicio, units = "secs")
+    ),
+    nome_dado = nome
+  )
+})
+
+tempo_final_jags <- Sys.time()
+
+tempo_execucao_jags <- difftime(
+  tempo_final_jags,
+  tempo_inicial_jags,
+  units = "secs"
+)
+
+modelos_logbin_jags <- purrr::map(tempos_jags, "modelo")
+
+
+# tempo de execução -------------------------------------------------------
+resumo_tempos_jags_base <- 
+  purrr::imap_dfr(tempos_jags, function(x, nome) {
+    tibble::tibble(
+      nome_dado = nome,
+      tempo_segundos = x$tempo_segundos
+    )
+  })
+
+resumo_tempos_jags <- 
+  resumo_tempos_jags_base %>%
+  dplyr::mutate(
+    amostra = as.integer(stringr::str_extract(nome_dado, "\\d+"))
+  ) %>%
+  dplyr::group_by(amostra) %>%
+  dplyr::summarise(
+    n_replicas = dplyr::n(),
+    tempo_total = sum(tempo_segundos),
+    tempo_medio = mean(tempo_segundos),
+    desvio_padrao = sd(tempo_segundos),
+    mediana = median(tempo_segundos),
+    tempo_maximo = max(tempo_segundos),
+    tempo_minimo = min(tempo_segundos),
+    .groups = "drop"
+  )
+
+##
+# modelos_logbin_jags
+# tempo_execucao_jags
+# resumo_tempos_jags_base
+# resumo_tempos_jags
 
 # saida -------------------------------------------------------------------
 saveRDS(
-  modelos_logbin_jags,
+  modelos_logbin_jags, # modelo logbinomial bayesiano
   file = "saidas/3-saida-simulacao-completo/C-saidas/C-M3-logbin-bayesiano/C-ajustes_logbin_bayesiano.rds"
 )
 
 saveRDS(
-  tempo_execucao_jags,
-  file = "saidas/3-saida-simulacao-completo/C-saidas/C-M3-logbin-bayesiano/C-tempo_execucao_ajustes_logbin_bayesiano.rds"
+  resumo_tempos_jags_base, # tempo de execução modelo logbinomial bayesiano por replica
+  file = "saidas/3-saida-simulacao-completo/C-saidas/C-M3-logbin-bayesiano/C-tempo_execucao_ajustes_logbin_bayesiano_replica.rds"
 )
 
+saveRDS(
+  resumo_tempos_jags, # tempo de execução modelo logbinomial bayesiano por tamanho amostral
+  file = "saidas/3-saida-simulacao-completo/C-saidas/C-M3-logbin-bayesiano/C-tempo_execucao_ajustes_logbin_bayesiano_tamanho_amostral.rds"
+)

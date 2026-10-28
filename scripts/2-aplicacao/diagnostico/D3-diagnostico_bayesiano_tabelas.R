@@ -96,8 +96,11 @@ kbl(bayes_quantiles, format = "latex", booktabs = TRUE, align = "lrrrrr", captio
   kable_styling(latex_options = c("hold_position", "striped"))
 
 ## tabela quantis x hpd -------------------
-resultados_quantilico_hpd
-kbl(resultados_quantilico_hpd, format = "latex", booktabs = TRUE, align = "lccccc", caption = "XXXXXXXXXXXXXXX") %>%
+# Definindo os nomes das 5 colunas na parte inferior
+# A 1ª coluna recebe vazio ("") e as seguintes recebem "Intervalo" e "Amplitude"
+colnames(resultados_quantilico_hpd) <- c("", "Intervalo", "Amplitude", "Intervalo", "Amplitude")
+
+# 2. Criação da tabela LaTeX com o cabeçalho mesclado
+kbl(resultados_quantilico_hpd, format = "latex", booktabs = TRUE, align = "lcccc", caption = "XXXXXXXXXXXXXXX") %>%
+  add_header_above(c(" " = 1, "Quantílico" = 2, "HPD" = 2)) %>%
   kable_styling(latex_options = c("hold_position", "striped"))
-
-

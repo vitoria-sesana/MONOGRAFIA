@@ -7,30 +7,66 @@ dados_gerados <- readRDS("saidas/3-saida-simulacao-completo/NC-dados_nao_converg
 formula_logbin <- as.formula("y ~ center + treat + baseline")
 
 # ajuste logbin frequentista ---------------------------------------------
-tempo_inicial <- Sys.time()
-modelos_logbin <-
-  lapply(
-    dados_gerados,
-    function(bases)
-      logbin::logbin(
-        formula = formula_logbin,
-        data = bases
-      )
-  )
-tempo_final <- Sys.time()
-tempo_execucao <- tempo_final - tempo_inicial
-tempo_execucao
+tempos_logbin <- numeric(length(dados_gerados))
+names(tempos_logbin) <- names(dados_gerados)
 
-lapply(modelos_logbin, coefficients)
-lapply(modelos_logbin, vcov)
+modelos_logbin <- lapply(names(dados_gerados), function(nome) {
+  
+  tempo_inicial <- Sys.time()
+  
+  modelo <- logbin::logbin(
+    formula = formula_logbin,
+    data = dados_gerados[[nome]]
+  )
+  
+  tempo_final <- Sys.time()
+  
+  tempos_logbin[nome] <<- as.numeric(
+    difftime(tempo_final, tempo_inicial, units = "secs")
+  )
+  
+  modelo
+})
+
+names(modelos_logbin) <- names(dados_gerados)
+
+
+# tempo de execução -------------------------------------------------------
+resumo_tempos_logbin_freq <- tibble(
+  base = names(tempos_logbin),
+  tempo_segundos = as.numeric(tempos_logbin)
+) %>%
+  mutate(
+    amostra = as.integer(
+      stringr::str_extract(base, "(?<=amostra_)\\d+")
+    )
+  ) %>%
+  group_by(amostra) %>%
+  summarise(
+    n_replicas = n(),
+    tempo_total = sum(tempo_segundos),
+    tempo_medio = mean(tempo_segundos),
+    desvio_padrao = sd(tempo_segundos),
+    mediana = median(tempo_segundos),
+    tempo_maximo = max(tempo_segundos),
+    tempo_minimo = min(tempo_segundos),
+    .groups = "drop"
+  )
+
+resumo_tempos_logbin_freq
 
 # saida -------------------------------------------------------------------
-# saveRDS(
-#   modelos_logbin,
-#   file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-ajustes_logbin_frequentista.rds"
-#   )
-# 
-# saveRDS(
-#   tempo_execucao,
-#   file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-tempo_execucao_logbin_frequentista.rds"
-# )
+saveRDS(
+  modelos_logbin, # modelo logbinomial frequentista
+  file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-ajustes_logbin_frequentista.rds"
+  )
+
+saveRDS(
+  tempos_logbin, # tempo de execução modelo Poisson robusto por replica
+  file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-tempo_execucao_logbin_frequentista_replica.rds"
+)
+
+saveRDS(
+  resumo_tempos_logbin_freq, # tempo de execução modelo Poisson robusto por tamanho amostral
+  file = "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-tempo_execucao_logbin_frequentista_tamanho_amostral.rds"
+)

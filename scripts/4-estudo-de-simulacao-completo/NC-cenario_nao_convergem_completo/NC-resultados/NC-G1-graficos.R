@@ -7,6 +7,25 @@ coefs <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-
 vies <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-vies_reqm.csv")
 cob_amp <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-pc_am.csv")
 
+# erro monte carlo --------------------------------------------------------
+
+prob_c <- 0.95
+M <- 1000
+
+ep_mc <- sqrt(prob_c * (1 - prob_c) / M)
+
+margem_mc <- 1.96 * ep_mc
+
+limite_inferior_ep_mc <- prob_c - margem_mc
+limite_superior_ep_mc <- prob_c + margem_mc
+
+c(
+  EP_MC = ep_mc,
+  Margem = margem_mc,
+  Inferior = limite_inferior_ep_mc,
+  Superior = limite_superior_ep_mc
+)
+
 # valores reais dos parâmetros --------------------------------------------
 
 modelo_base <- 
@@ -409,7 +428,7 @@ gg_b0_prob <-
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
   geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
-  geom_hline(yintercept = 1, 
+  geom_hline(yintercept = 0.95, 
              linetype = "longdash", 
              color = "#333333", 
              linewidth = 0.9) +
@@ -451,7 +470,17 @@ gg_b0_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1)
+  ylim(0.80, 1) +
+  annotate(
+    "rect",
+    xmin = -Inf,
+    xmax = Inf,
+    ymin = limite_inferior_ep_mc,
+    ymax = limite_superior_ep_mc,
+    fill = "grey60",
+    alpha = 0.25
+  ) 
+
 
 
 ## amplitude ---------
@@ -713,7 +742,7 @@ gg_b1_prob <-
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
   geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
-  geom_hline(yintercept = 1, 
+  geom_hline(yintercept = 0.95, 
              linetype = "longdash", 
              color = "#333333", 
              linewidth = 0.9) +
@@ -755,7 +784,17 @@ gg_b1_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1)
+  ylim(0.80, 1) +
+  annotate(
+    "rect",
+    xmin = -Inf,
+    xmax = Inf,
+    ymin = limite_inferior_ep_mc,
+    ymax = limite_superior_ep_mc,
+    fill = "grey60",
+    alpha = 0.25
+  ) 
+
 
 
 ## amplitude ---------
@@ -1019,7 +1058,7 @@ gg_b2_prob <-
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
   geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
-  geom_hline(yintercept = 1, 
+  geom_hline(yintercept = 0.95, 
              linetype = "longdash", 
              color = "#333333", 
              linewidth = 0.9) +
@@ -1061,7 +1100,17 @@ gg_b2_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1)
+  ylim(0.80, 1) +
+  annotate(
+    "rect",
+    xmin = -Inf,
+    xmax = Inf,
+    ymin = limite_inferior_ep_mc,
+    ymax = limite_superior_ep_mc,
+    fill = "grey60",
+    alpha = 0.25
+  ) 
+
 
 
 
@@ -1319,7 +1368,7 @@ gg_b3_prob <-
   ggplot(aes(x = amostra_categoria, y = prob_c , color = modelo)) +
   geom_line(aes(group = modelo), linewidth = 0.8) +
   geom_point(size = 1.1) +
-  geom_hline(yintercept = 1, 
+  geom_hline(yintercept = 0.95, 
              linetype = "longdash", 
              color = "#333333", 
              linewidth = 0.9) +
@@ -1361,7 +1410,17 @@ gg_b3_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1)
+  ylim(0.80, 1) +
+  annotate(
+    "rect",
+    xmin = -Inf,
+    xmax = Inf,
+    ymin = limite_inferior_ep_mc,
+    ymax = limite_superior_ep_mc,
+    fill = "grey60",
+    alpha = 0.25
+  ) 
+
 
 
 ## amplitude ---------
@@ -1503,7 +1562,7 @@ placa4 <- placa("REQM")
 placa5 <- placa("Probabilidade de cobertura")
 placa6 <- placa("Amplitude média")
 
-painel_final <- 
+painel_1 <-
   placa1 /
   linha1 /
   plot_spacer() /
@@ -1513,9 +1572,18 @@ painel_final <-
   plot_spacer() /
   
   placa3 /
-  linha3 /
-  plot_spacer() /
+  linha3 +
   
+  plot_layout(
+    heights = c(
+      0.25, 1, 0.15,
+      0.25, 1, 0.15,
+      0.25, 1
+    )
+  )
+
+
+painel_2 <-
   placa4 /
   linha4 /
   plot_spacer() /
@@ -1531,19 +1599,24 @@ painel_final <-
     heights = c(
       0.25, 1, 0.15,
       0.25, 1, 0.15,
-      0.25, 1, 0.15,
-      0.25, 1, 0.15,
-      0.25, 1, 0.15,
       0.25, 1
     )
   )
 
-#painel_final
+# painel_1
+# painel_2
 
 ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_3/nc_plot_6.pdf",
-  painel_final,
+  "plots/3-plots-simulacao/plot_simulacao_3/nc_plot_6_01.pdf",
+  painel_1,
   width = 18,
   height = 24
   )
+
+ggsave(
+  "plots/3-plots-simulacao/plot_simulacao_3/nc_plot_6_02.pdf",
+  painel_2,
+  width = 18,
+  height = 24
+)
 

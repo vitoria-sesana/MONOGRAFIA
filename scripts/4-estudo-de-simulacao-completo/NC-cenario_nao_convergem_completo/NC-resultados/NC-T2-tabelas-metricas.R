@@ -3,238 +3,215 @@ source("scripts/0-rotina.R", encoding = "UTF-8")
 
 
 # leitura -----------------------------------------------------------------
-coefs <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-media_sd.csv", )
-vies <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-vies_reqm.csv")
-cob_amp <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-pc_am.csv")
+mean_sd <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-media_sd.csv")
+vies_reqm <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-vies_reqm.csv")
+pc_am <- read.csv("saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-pc_am.csv")
 
 
-# tratamento --------------------------------------------------------------
+# wider -------------------------------------------------------------------
 
-coefs_long <- 
-  coefs %>%
-  pivot_longer(
-    cols = c(
-      # media_lgb,
-      # sd_lgb,
-      media_pois,
-      sd_pois,
-      media_lgb_bayes_media,
-      sd_lgb_bayes_media,
-      media_lgb_bayes_mediana,
-      sd_lgb_bayes_mediana
-    ),
-    names_to = c(".value", "modelo"),
-    names_pattern = "(media|sd)_(.*)"
-  ) %>% 
+mean_sd_wider <- 
+  mean_sd 
+
+vies_reqm_wider <- 
+  vies_reqm 
+
+pc_am_wider <- 
+  pc_am %>% 
   select(-X) %>% 
-  mutate(
-    modelo = case_when(
-      # modelo == "lgb" ~ "Log-binomial frequentista",
-      modelo == "lgb_bayes_media" ~ "Log-binomial Bayesiano (Média)",
-      modelo == "lgb_bayes_mediana" ~ "Log-binomial Bayesiano (Mediana)",
-      modelo == "pois" ~ "Poisson robusto",
-      TRUE ~ modelo
-    ),
-    modelo = factor(
-      modelo,
-      levels = c(
-        # "Log-binomial frequentista",
-        "Poisson robusto",
-        "Log-binomial Bayesiano (Média)",
-        "Log-binomial Bayesiano (Mediana)"
-      )
-    )
-  ) %>% 
-  select(modelo, amostra_categoria, parametro, everything()) %>% 
-  arrange(modelo, amostra_categoria, parametro)
+  mutate(cenario = '2') %>% 
+  select(cenario, parametro, everything()) %>% 
+  arrange(parametro)
 
-
-vies_long <- 
-  vies %>%
-  pivot_longer(
-    cols = c(
-      # vies_lgb,
-      # RMSE_lgb,
-      vies_pois,
-      RMSE_pois,
-      vies_bayes_media,
-      RMSE_bayes_media,
-      vies_bayes_mediana,
-      RMSE_bayes_mediana
-    ),
-    names_to = c(".value", "modelo"),
-    names_pattern = "(vies|RMSE)_(.*)"
-  ) %>% 
-  select(-X) %>% 
-  mutate(
-    modelo = case_when(
-      # modelo == "lgb" ~ "Log-binomial frequentista",
-      modelo == "bayes_media" ~ "Log-binomial Bayesiano (Média)",
-      modelo == "bayes_mediana" ~ "Log-binomial Bayesiano (Mediana)",
-      modelo == "pois" ~ "Poisson robusto",
-      TRUE ~ modelo
-    ),
-    modelo = factor(
-      modelo,
-      levels = c(
-        # "Log-binomial frequentista",
-        "Poisson robusto",
-        "Log-binomial Bayesiano (Média)",
-        "Log-binomial Bayesiano (Mediana)"
-      )
-    )
-  ) %>% 
-  select(modelo, amostra_categoria, parametro, everything()) %>% 
-  arrange(modelo, amostra_categoria, parametro)
-
-cob_amp_long <- 
-  cob_amp %>%
-  rename(
-    # "prob_c_lgb_freq" = prob_c_freq,
-    "prob_c_pois" = prob_c_poiss,
-    "prob_c_bayes_quantilica" = probabilidade_cobertura_quantilica,
-    "prob_c_bayes_HPD" = probabilidade_cobertura_HPD
-  ) %>% 
-  pivot_longer(
-    cols = c(
-      # prob_c_lgb_freq,
-      # amplitude_lgb_freq,
-      prob_c_pois,
-      amplitude_pois,
-      prob_c_bayes_quantilica,
-      amplitude_bayes_quantilica,
-      prob_c_bayes_HPD,
-      amplitude_bayes_HPD
-    ),
-    names_to = c(".value", "modelo"),
-    names_pattern = "(prob_c|amplitude)_(.*)"
-  ) %>%  
-  select(-X) %>% 
-  mutate(
-    modelo = case_when(
-      # modelo == "lgb_freq" ~ "Log-binomial frequentista",
-      modelo == "bayes_quantilica" ~ "Log-binomial Bayesiano (Quantis)",
-      modelo == "bayes_HPD" ~ "Log-binomial Bayesiano (HPD)",
-      modelo == "pois" ~ "Poisson robusto",
-      TRUE ~ modelo
-    ),
-    modelo = factor(
-      modelo,
-      levels = c(
-        # "Log-binomial frequentista",
-        "Poisson robusto",
-        "Log-binomial Bayesiano (Quantis)",
-        "Log-binomial Bayesiano (HPD)"
-      )
-    )
-  ) %>% 
-  select(modelo, amostra_categoria, parametro, everything()) %>% 
-  arrange(modelo, amostra_categoria, parametro)
-
-coefs_vies <- coefs_long %>%
+mean_sd_vies_reqm_wider <-
+  mean_sd_wider %>%
+  select(-X) %>%
   left_join(
-    vies_long,
-    by = c("modelo", "amostra_categoria", "parametro")
+    vies_reqm_wider,
+    by = c("amostra_categoria", "parametro")
+  )  %>%
+  select(
+    amostra_categoria, parametro, 
+    media_pois, vies_pois, sd_pois, RMSE_pois,
+    media_lgb_bayes_media, vies_bayes_media, sd_lgb_bayes_media, RMSE_bayes_media,
+    media_lgb_bayes_mediana, vies_bayes_mediana, sd_lgb_bayes_mediana, RMSE_bayes_mediana
   )
 
 
-# função auxiliar ---------------------------------------------------------
+mean_vies_wider <-
+  mean_sd_vies_reqm_wider %>%
+  select(
+    amostra_categoria, parametro,
+    media_pois, vies_pois, 
+    media_lgb_bayes_media, vies_bayes_media,
+    media_lgb_bayes_mediana, vies_bayes_mediana
+  ) %>% 
+  mutate(cenario = '2') %>% 
+  select(cenario, parametro, everything()) %>% 
+  arrange(parametro)
 
-gerar_tabela_1 <- function(dados, caption, label) {
-  
-  tabela <- dados |>
-    dplyr::mutate(
-      media = sprintf("%.4f", media),
-      sd    = sprintf("%.4f", sd),
-      vies  = sprintf("%.4f", vies),
-      RMSE  = sprintf("%.4f", RMSE)
-    ) |>
-    knitr::kable(
-      format = "latex",
-      booktabs = TRUE,
-      escape = FALSE,
-      caption = caption,
-      label = label,
-      align = "llllrrr",
-      col.names = c(
-        "Modelo",
-        "\\textit{n}",
-        "Parâmetro",
-        "Média",
-        "SD",
-        "Viés",
-        "RMSE"
-      )
-    ) |>
-    kableExtra::kable_styling(
-      latex_options = "hold_position",
-      font_size = 7
-    )
-  
-  tabela <- gsub("\\\\addlinespace", "", tabela)
-  
-  tabela
-}
+sd_reqm_wider <-
+  mean_sd_vies_reqm_wider %>%
+  select(
+    amostra_categoria, parametro, 
+    sd_pois, RMSE_pois,
+     sd_lgb_bayes_media, RMSE_bayes_media,
+     sd_lgb_bayes_mediana, RMSE_bayes_mediana
+  ) %>% 
+  mutate(cenario = '2') %>% 
+  select(cenario, parametro, everything()) %>% 
+  arrange(parametro)
 
 
-gerar_tabela_2 <- function(dados, caption, label) {
-  
-  tabela <- dados |>
-    dplyr::mutate(
-      prob_c = sprintf("%.4f", prob_c),
-      amplitude    = sprintf("%.4f", amplitude)
-    ) |>
-    knitr::kable(
-      format = "latex",
-      booktabs = TRUE,
-      escape = FALSE,
-      caption = caption,
-      label = label,
-      align = "ccccc",
-      col.names = c(
-        "Modelo",
-        "\\textit{n}",
-        "Parâmetro",
-        "Probabilidade de Cobertura",
-        "Amplitude Média"
-      )
-    ) |>
-    kableExtra::kable_styling(
-      latex_options = "hold_position",
-      font_size = 7
-    )
-  
-  tabela <- gsub("\\\\addlinespace", "", tabela)
-  
-  tabela
-}
+# longer ------------------------------------------------------------------
 
-
-
-# saída latex -------------------------------------------------------------
-
-gerar_tabela_1(
-  coefs_vies,
-  "Média, SD, viés e RMSE para o cenário 2.",
-  "tab:apend_1_cenario2"
-)
-
-gerar_tabela_2(
-  cob_amp_long,
-  "Probabilidade de cobertura e amplitude média para o cenário 2.",
-  "tab:apend_2_cenario2"
-)
+# mean_sd_long <-
+#   mean_sd %>%
+#   pivot_longer(
+#     cols = c(
+#       # media_lgb,
+#       # sd_lgb,
+#       media_pois,
+#       sd_pois,
+#       media_lgb_bayes_media,
+#       sd_lgb_bayes_media,
+#       media_lgb_bayes_mediana,
+#       sd_lgb_bayes_mediana
+#     ),
+#     names_to = c(".value", "modelo"),
+#     names_pattern = "(media|sd)_(.*)"
+#   ) %>%
+#   select(-X) %>%
+#   mutate(
+#     modelo = case_when(
+#       # modelo == "lgb" ~ "Log-binomial frequentista",
+#       modelo == "lgb_bayes_media" ~ "Log-binomial Bayesiano (Média)",
+#       modelo == "lgb_bayes_mediana" ~ "Log-binomial Bayesiano (Mediana)",
+#       modelo == "pois" ~ "Poisson robusto",
+#       TRUE ~ modelo
+#     ),
+#     modelo = factor(
+#       modelo,
+#       levels = c(
+#         # "Log-binomial frequentista",
+#         "Poisson robusto",
+#         "Log-binomial Bayesiano (Média)",
+#         "Log-binomial Bayesiano (Mediana)"
+#       )
+#     )
+#   ) %>%
+#   select(modelo, amostra_categoria, parametro, everything()) %>%
+#   arrange(modelo, amostra_categoria, parametro)
+# 
+# vies_reqm_long <-
+#   vies_reqm %>%
+#   pivot_longer(
+#     cols = c(
+#       # vies_reqm_lgb,
+#       # RMSE_lgb,
+#       vies_pois,
+#       RMSE_pois,
+#       vies_bayes_media,
+#       RMSE_bayes_media,
+#       vies_bayes_mediana,
+#       RMSE_bayes_mediana
+#     ),
+#     names_to = c(".value", "modelo"),
+#     names_pattern = "(vies_reqm|RMSE)_(.*)"
+#   ) %>%
+#   select(-X) %>%
+#   mutate(
+#     modelo = case_when(
+#       # modelo == "lgb" ~ "Log-binomial frequentista",
+#       modelo == "bayes_media" ~ "Log-binomial Bayesiano (Média)",
+#       modelo == "bayes_mediana" ~ "Log-binomial Bayesiano (Mediana)",
+#       modelo == "pois" ~ "Poisson robusto",
+#       TRUE ~ modelo
+#     ),
+#     modelo = factor(
+#       modelo,
+#       levels = c(
+#         # "Log-binomial frequentista",
+#         "Poisson robusto",
+#         "Log-binomial Bayesiano (Média)",
+#         "Log-binomial Bayesiano (Mediana)"
+#       )
+#     )
+#   ) %>%
+#   select(modelo, amostra_categoria, parametro, everything()) %>%
+#   arrange(modelo, amostra_categoria, parametro)
+# 
+# pc_am_long <-
+#   pc_am %>%
+#   rename(
+#     # "prob_c_lgb_freq" = prob_c_freq,
+#     "prob_c_pois" = prob_c_poiss,
+#     "prob_c_bayes_quantilica" = probabilidade_cobertura_quantilica,
+#     "prob_c_bayes_HPD" = probabilidade_cobertura_HPD
+#   ) %>%
+#   pivot_longer(
+#     cols = c(
+#       # prob_c_lgb_freq,
+#       # amlitude_lgb_freq,
+#       prob_c_pois,
+#       amplitude_pois,
+#       prob_c_bayes_quantilica,
+#       amplitude_bayes_quantilica,
+#       prob_c_bayes_HPD,
+#       amplitude_bayes_HPD
+#     ),
+#     names_to = c(".value", "modelo"),
+#     names_pattern = "(prob_c|amlitude)_(.*)"
+#   ) %>%
+#   select(-X) %>%
+#   mutate(
+#     modelo = case_when(
+#       # modelo == "lgb_freq" ~ "Log-binomial frequentista",
+#       modelo == "bayes_quantilica" ~ "Log-binomial Bayesiano (Quantis)",
+#       modelo == "bayes_HPD" ~ "Log-binomial Bayesiano (HPD)",
+#       modelo == "pois" ~ "Poisson robusto",
+#       TRUE ~ modelo
+#     ),
+#     modelo = factor(
+#       modelo,
+#       levels = c(
+#         # "Log-binomial frequentista",
+#         "Poisson robusto",
+#         "Log-binomial Bayesiano (Quantis)",
+#         "Log-binomial Bayesiano (HPD)"
+#       )
+#     )
+#   ) %>%
+#   select(modelo, amostra_categoria, parametro, everything()) %>%
+#   arrange(modelo, amostra_categoria, parametro)
+# 
+# mutate(
+#   parametro = recode(
+#     parametro,
+#     "b0" = "Intercepto",
+#     "b1" = "Centro 1",
+#     "b2" = "Tratamento P",
+#     "b3" = "Estado inicial 0"
+#   )
+# )
 
 
 # saida tabela ------------------------------------------------------------
 
 write.csv(
-  coefs_vies,
-  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-T1-tabela_apendice_4metricas.csv"
+  mean_vies_wider,
+  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-T1_apendice_mean_vies.csv"
 )
 
 
 write.csv(
-  cob_amp_long,
-  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-T2-tabela_apendice_2metricas.csv"
+  sd_reqm_wider,
+  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-T2_apendice_sd_reqm.csv"
 )
+
+
+write.csv(
+  pc_am_wider,
+  "saidas/3-saida-simulacao-completo/NC-saidas/NC-resultados/NC-T3_apendice_pc_am.csv"
+)
+

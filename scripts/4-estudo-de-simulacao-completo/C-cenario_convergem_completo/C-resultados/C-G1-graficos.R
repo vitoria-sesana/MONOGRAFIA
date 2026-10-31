@@ -237,7 +237,7 @@ gg_b0_media <-
       size = 3
     ) +
     labs(
-      title = TeX("$\\beta_{0}$: Intercepto"),
+      #title = TeX("$\\beta_{0}$: Intercepto"),
       x = "Tamanho amostral (n)",
       y = "Valor",
       color = "Modelos"
@@ -292,7 +292,7 @@ gg_b0_vies <-
     #   size = 3
     # ) +
     labs(
-      title = TeX("$\\beta_{0}$: Intercepto"),
+      #title = TeX("$\\beta_{0}$: Intercepto"),
       x = "Tamanho amostral (n)",
       y = "Valor",
       color = "Modelos"
@@ -321,7 +321,8 @@ gg_b0_vies <-
     ) +
   scale_y_continuous(
     limits = c(-0.3, 0.1),
-    breaks = seq(-0.3, 0.1, by = 0.1)
+    breaks = seq(-0.3, 0.1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
   )
 
 ## sd -----
@@ -346,7 +347,7 @@ gg_b0_sd <-
     #   size = 3
     # ) +
     labs(
-      title = TeX("$\\beta_{0}$: Intercepto"),
+      #title = TeX("$\\beta_{0}$: Intercepto"),
       x = "Tamanho amostral (n)",
       y = "Valor",
       color = "Modelos"
@@ -373,7 +374,11 @@ gg_b0_sd <-
     scale_x_discrete(
       expand = expansion(mult = c(0.02, 0.02))
     ) +
-  ylim(0, 0.35)
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 ## reqm -----
@@ -398,7 +403,7 @@ gg_b0_reqm <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{0}$: Intercepto"),
+    #title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -425,7 +430,11 @@ gg_b0_reqm <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0, 0.35)
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 
@@ -451,7 +460,7 @@ gg_b0_prob <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{0}$: Intercepto"),
+    #title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -478,16 +487,20 @@ gg_b0_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1) +
-  annotate(
-    "rect",
-    xmin = -Inf,
-    xmax = Inf,
-    ymin = limite_inferior_ep_mc,
-    ymax = limite_superior_ep_mc,
-    fill = "grey60",
-    alpha = 0.25
-  ) 
+  scale_y_continuous(
+    limits = c(0.80, 1),
+    breaks = seq(0.80, 1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
+  # annotate(
+  #   "rect",
+  #   xmin = -Inf,
+  #   xmax = Inf,
+  #   ymin = limite_inferior_ep_mc,
+  #   ymax = limite_superior_ep_mc,
+  #   fill = "grey60",
+  #   alpha = 0.25
+  # ) 
 
 
 
@@ -500,7 +513,7 @@ gg_b0_ampli <-
   geom_line(aes(group = modelo), linewidth = 0.65) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{0}$: Intercepto"),
+    #title = TeX("$\\beta_{0}$: Intercepto"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -527,7 +540,11 @@ gg_b0_ampli <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(-0.1, 1.25)
+  scale_y_continuous(
+    limits = c(0, 1.25),
+    breaks = seq(0, 1.25, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 # gg_b0_media
 # gg_b0_sd
@@ -535,7 +552,6 @@ gg_b0_ampli <-
 # gg_b0_reqm
 # gg_b0_prob
 # gg_b0_ampli
-
 
 
 # B1 ----------------------------------------------------------------------
@@ -562,7 +578,7 @@ gg_b1_media <-
     size = 3
   ) +
   labs(
-    title = TeX("$\\beta_{1}$: Centro"),
+    #title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -589,7 +605,11 @@ gg_b1_media <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) + 
-   ylim(-0.7, 0)
+  scale_y_continuous(
+    limits = c(-0.7, 0),
+    breaks = seq(-0.7, 0, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 ## vies -----
 gg_b1_vies <-
@@ -613,7 +633,7 @@ gg_b1_vies <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{1}$: Centro"),
+    #title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -640,7 +660,11 @@ gg_b1_vies <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(-0.3, 0.1)
+  scale_y_continuous(
+    limits = c(-0.3, 0.1),
+    breaks = seq(-0.3, 0.1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 ## sd -----
 gg_b1_sd <-
@@ -664,7 +688,7 @@ gg_b1_sd <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{1}$: Centro"),
+    #title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -691,7 +715,11 @@ gg_b1_sd <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0, 0.35)
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 ## reqm -----
@@ -716,7 +744,7 @@ gg_b1_reqm <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{1}$: Centro"),
+    #title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -743,8 +771,11 @@ gg_b1_reqm <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0, 0.35)
-
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 ## prob -----
 gg_b1_prob <-
@@ -768,7 +799,7 @@ gg_b1_prob <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{1}$: Centro"),
+    #title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -795,16 +826,20 @@ gg_b1_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1) +
-  annotate(
-    "rect",
-    xmin = -Inf,
-    xmax = Inf,
-    ymin = limite_inferior_ep_mc,
-    ymax = limite_superior_ep_mc,
-    fill = "grey60",
-    alpha = 0.25
-  ) 
+  scale_y_continuous(
+    limits = c(0.80, 1),
+    breaks = seq(0.80, 1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
+  # annotate(
+  #   "rect",
+  #   xmin = -Inf,
+  #   xmax = Inf,
+  #   ymin = limite_inferior_ep_mc,
+  #   ymax = limite_superior_ep_mc,
+  #   fill = "grey60",
+  #   alpha = 0.25
+  # ) 
 
 
 
@@ -817,7 +852,7 @@ gg_b1_ampli <-
   geom_line(aes(group = modelo), linewidth = 0.65) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{1}$: Centro"),
+    #title = TeX("$\\beta_{1}$: Centro"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -844,7 +879,11 @@ gg_b1_ampli <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(-0.1, 1.25)
+  scale_y_continuous(
+    limits = c(0, 1.25),
+    breaks = seq(0, 1.25, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 # gg_b1_media
@@ -879,7 +918,7 @@ gg_b2_media <-
     size = 3
   ) +
   labs(
-    title = TeX("$\\beta_{2}$: Tratamento"),
+    #title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -906,7 +945,11 @@ gg_b2_media <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) + 
-   ylim(-0.7, 0)
+  scale_y_continuous(
+    limits = c(-0.7, 0),
+    breaks = seq(-0.7, 0, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 ## vies -----
 gg_b2_vies <-
@@ -930,7 +973,7 @@ gg_b2_vies <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{2}$: Tratamento"),
+    #title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -957,7 +1000,12 @@ gg_b2_vies <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(-0.3, 0.1)
+  scale_y_continuous(
+    limits = c(-0.3, 0.1),
+    breaks = seq(-0.3, 0.1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
+
 
 ## sd -----
 gg_b2_sd <-
@@ -981,7 +1029,7 @@ gg_b2_sd <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{2}$: Tratamento"),
+    #title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1008,7 +1056,11 @@ gg_b2_sd <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0, 0.35)
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 ## reqm -----
@@ -1033,7 +1085,7 @@ gg_b2_reqm <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{2}$: Tratamento"),
+    #title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1060,7 +1112,11 @@ gg_b2_reqm <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0, 0.35)
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 ## prob -----
@@ -1085,7 +1141,7 @@ gg_b2_prob <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{2}$: Tratamento"),
+    #title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1112,16 +1168,20 @@ gg_b2_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1) +
-  annotate(
-    "rect",
-    xmin = -Inf,
-    xmax = Inf,
-    ymin = limite_inferior_ep_mc,
-    ymax = limite_superior_ep_mc,
-    fill = "grey60",
-    alpha = 0.25
-  ) 
+  scale_y_continuous(
+    limits = c(0.80, 1),
+    breaks = seq(0.80, 1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
+  # annotate(
+  #   "rect",
+  #   xmin = -Inf,
+  #   xmax = Inf,
+  #   ymin = limite_inferior_ep_mc,
+  #   ymax = limite_superior_ep_mc,
+  #   fill = "grey60",
+  #   alpha = 0.25
+  # ) 
 
 
 
@@ -1133,7 +1193,7 @@ gg_b2_ampli <-
   geom_line(aes(group = modelo), linewidth = 0.65) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{2}$: Tratamento"),
+    #title = TeX("$\\beta_{2}$: Tratamento"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1160,7 +1220,11 @@ gg_b2_ampli <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(-0.1, 1.25)
+  scale_y_continuous(
+    limits = c(0, 1.25),
+    breaks = seq(0, 1.25, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 
@@ -1188,7 +1252,7 @@ gg_b3_media <-
     size = 3
   ) +
   labs(
-    title = TeX("$\\beta_{3}$: Estado inicial"),
+    #title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1215,7 +1279,11 @@ gg_b3_media <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   )  + 
-   ylim(-0.7, 0)
+  scale_y_continuous(
+    limits = c(-0.7, 0),
+    breaks = seq(-0.7, 0, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 ## vies -----
 gg_b3_vies <-
@@ -1239,7 +1307,7 @@ gg_b3_vies <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{3}$: Estado inicial"),
+    #title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1266,7 +1334,12 @@ gg_b3_vies <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(-0.3, 0.1)
+  scale_y_continuous(
+    limits = c(-0.3, 0.1),
+    breaks = seq(-0.3, 0.1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
+
 
 ## sd -----
 gg_b3_sd <-
@@ -1290,7 +1363,7 @@ gg_b3_sd <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{3}$: Estado inicial"),
+    #title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1317,7 +1390,11 @@ gg_b3_sd <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0, 0.35)
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 ## reqm -----
@@ -1342,7 +1419,7 @@ gg_b3_reqm <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{3}$: Estado inicial"),
+    #title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1369,7 +1446,11 @@ gg_b3_reqm <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0, 0.35)
+  scale_y_continuous(
+    limits = c(0, 0.4),
+    breaks = seq(0, 0.4, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 
 
@@ -1396,7 +1477,7 @@ gg_b3_prob <-
   #   size = 3
   # ) +
   labs(
-    title = TeX("$\\beta_{3}$: Estado inicial"),
+    #title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1423,16 +1504,20 @@ gg_b3_prob <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(0.80, 1) +
-  annotate(
-    "rect",
-    xmin = -Inf,
-    xmax = Inf,
-    ymin = limite_inferior_ep_mc,
-    ymax = limite_superior_ep_mc,
-    fill = "grey60",
-    alpha = 0.25
-  ) 
+  scale_y_continuous(
+    limits = c(0.80, 1),
+    breaks = seq(0.80, 1, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
+  # annotate(
+  #   "rect",
+  #   xmin = -Inf,
+  #   xmax = Inf,
+  #   ymin = limite_inferior_ep_mc,
+  #   ymax = limite_superior_ep_mc,
+  #   fill = "grey60",
+  #   alpha = 0.25
+  # ) 
 
 
 
@@ -1445,7 +1530,7 @@ gg_b3_ampli <-
   geom_line(aes(group = modelo), linewidth = 0.65) +
   geom_point(size = 1.1) +
   labs(
-    title = TeX("$\\beta_{3}$: Estado inicial"),
+    #title = TeX("$\\beta_{3}$: Estado inicial"),
     x = "Tamanho amostral (n)",
     y = "Valor",
     color = "Modelos"
@@ -1472,7 +1557,11 @@ gg_b3_ampli <-
   scale_x_discrete(
     expand = expansion(mult = c(0.02, 0.02))
   ) +
-  ylim(-0.1, 1.25)
+  scale_y_continuous(
+    limits = c(0, 1.25),
+    breaks = seq(0, 1.25, by = 0.1),
+    labels = scales::label_number(accuracy = 0.1)
+  )
 
 # gg_b3_media
 # gg_b3_sd
@@ -1482,229 +1571,182 @@ gg_b3_ampli <-
 # gg_b3_ampli
 
 
-# saidas ------------------------------------------------------------------
+# Gráficos finais ---------------------------------------------------------
 
-linha1 <- 
-  wrap_plots(
-    gg_b0_media, 
-    gg_b1_media, 
-    gg_b2_media, 
-    gg_b3_media,
-    nrow = 1,
-    guides = "collect"
-  )
+library(ggplot2)
+library(patchwork)
+library(latex2exp)
 
-linha2 <- wrap_plots(
-  gg_b0_vies,
-  gg_b1_vies,
-  gg_b2_vies,
-  gg_b3_vies,
-  nrow = 1,
-  guides = "collect"
-)
-
-linha3 <-
-  wrap_plots(
-    gg_b0_sd,
-    gg_b1_sd,
-    gg_b2_sd,
-    gg_b3_sd,
-    nrow = 1,
-    guides = "collect"
-  )
-
-
-linha4 <- wrap_plots(
-  gg_b0_reqm,
-  gg_b1_reqm,
-  gg_b2_reqm,
-  gg_b3_reqm,
-  nrow = 1,
-  guides = "collect"
-)
-
-linha5 <- wrap_plots(
-  gg_b0_prob,
-  gg_b1_prob,
-  gg_b2_prob,
-  gg_b3_prob,
-  nrow = 1,
-  guides = "collect"
-)
-
-linha6 <- wrap_plots(
-  gg_b0_ampli,
-  gg_b1_ampli,
-  gg_b2_ampli,
-  gg_b3_ampli,
-  nrow = 1,
-  guides = "collect"
-)
-
-placa <- function(texto) {
+placa_coluna <- function(texto) {
   ggplot() +
     annotate(
       "rect",
-      xmin = -0.05, xmax = 1.05, # <-- Estica o retângulo para além de 0 e 1
+      xmin = -0.05, xmax = 1.05,
       ymin = 0, ymax = 1,
-      fill = "grey30",
-      color = "grey20",
+      fill = "#e8e8e8",
+      color = "grey80",
       linewidth = 0.5
     ) +
     annotate(
       "text",
       x = 0.5, y = 0.5,
       label = texto,
-      color = "white",
+      color = "grey20",
       fontface = "bold",
-      size = 6
+      size = 5
     ) +
-    # coord_cartesian com clip = "off" permite que o gráfico vase os limites dos eixos
     coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
     theme_void() +
-    # Adicionamos uma margem lateral (esquerda e direita) para garantir 
-    # que o retângulo expandido não seja cortado na borda do PDF
-    theme(plot.margin = margin(t = 0, r = 15, b = 0, l = 15, unit = "pt"))
+    theme(plot.margin = margin(t = 0, r = 10, b = 0, l = 10, unit = "pt"))
 }
 
-placa1 <- placa("Média")
-placa2 <- placa("Viés")
-placa3 <- placa("Desvio-padrão")
-placa4 <- placa("REQM")
-placa5 <- placa("Probabilidade de cobertura")
-placa6 <- placa("Amplitude média")
+placa_linha <- function(texto) {
+  ggplot() +
+    annotate(
+      "rect",
+      xmin = 0, xmax = 1,
+      ymin = -0.05, ymax = 1.05,
+      fill = "#e8e8e8",
+      color = "grey80",
+      linewidth = 0.5
+    ) +
+    annotate(
+      "text",
+      x = 0.5, y = 0.5,
+      label = texto,
+      color = "grey20",
+      fontface = "plain",
+      size = 4.5,
+      angle = -90
+    ) +
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
+    theme_void() +
+    theme(plot.margin = margin(t = 10, r = 2, b = 10, l = 2, unit = "pt"))
+}
 
+placa_coluna_tex <- function(texto) {
+  ggplot() +
+    annotate(
+      "rect",
+      xmin = -0.05, xmax = 1.05,
+      ymin = 0, ymax = 1,
+      fill = "#e8e8e8",
+      color = "grey80",
+      linewidth = 0.5
+    ) +
+    annotate(
+      "text",
+      x = 0.5, y = 0.5,
+      label = TeX(texto, output = "character"),
+      parse = TRUE,
+      color = "grey20",
+      size = 5
+    ) +
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1), clip = "off") +
+    theme_void() +
+    theme(plot.margin = margin(t = 0, r = 10, b = 0, l = 10, unit = "pt"))
+}
 
-painel_1 <-
-  placa1 /
-  linha1 /
-  plot_spacer() /
-  
-  placa2 /
-  linha2 /
-  plot_spacer() /
-  
-  placa3 /
-  linha3 +
-  
+tam_fonte <- 11
+
+criar_rodape <- function() {
+  ggplot() +
+    annotate(
+      "text",
+      x = 0.5, y = 0.5,
+      label = "Tamanho~amostral~(italic(n))",
+      parse = TRUE,
+      size = tam_fonte / .pt
+    ) +
+    coord_cartesian(xlim = c(0, 1), ylim = c(0, 1)) +
+    theme_void()
+}
+
+col_b0 <- placa_coluna_tex("$\\beta_{0}$: Intercepto")
+col_b1 <- placa_coluna_tex("$\\beta_{1}$: Centro")
+col_b2 <- placa_coluna_tex("$\\beta_{2}$: Tratamento")
+col_b3 <- placa_coluna_tex("$\\beta_{3}$: Estado inicial")
+
+rodape <- criar_rodape()
+
+## Plot 1: média, viés, desvio-padrão e REQM ----
+row_media <- placa_linha("Média")
+row_vies  <- placa_linha("Viés")
+row_sd    <- placa_linha("Desvio-padrão")
+row_reqm  <- placa_linha("REQM")
+
+plots_1 <- list(
+  col_b0,      col_b1,      col_b2,      col_b3,      plot_spacer(),
+  gg_b0_media, gg_b1_media, gg_b2_media, gg_b3_media, row_media,
+  gg_b0_vies,  gg_b1_vies,  gg_b2_vies,  gg_b3_vies,  row_vies,
+  gg_b0_sd,    gg_b1_sd,    gg_b2_sd,    gg_b3_sd,    row_sd,
+  gg_b0_reqm,  gg_b1_reqm,  gg_b2_reqm,  gg_b3_reqm,  row_reqm
+)
+
+matriz_1 <- wrap_plots(
+  plots_1,
+  ncol    = 5,
+  nrow    = 5,
+  widths  = c(1, 1, 1, 1, 0.10),
+  heights = c(0.10, 1, 1, 1, 1)
+) &
+  labs(x = NULL, y = NULL)
+
+final_1 <- (matriz_1 / rodape) +
   plot_layout(
-    heights = c(
-      0.25, 1, 0.15,
-      0.25, 1, 0.15,
-      0.25, 1
-    )
+    heights = c(1, 0.02),
+    guides  = "collect"
+  ) &
+  theme(
+    legend.position = "bottom",
+    legend.box = "horizontal"
+  )
+
+## Plot 2: probabilidade de cobertura e amplitude média --------
+
+row_probabilidade <- placa_linha("Probabilidade de cobertura")
+row_amplitude     <- placa_linha("Amplitude média")
+
+plots_2 <- list(
+  col_b0,      col_b1,      col_b2,      col_b3,      plot_spacer(),
+  gg_b0_prob,  gg_b1_prob,  gg_b2_prob,  gg_b3_prob,  row_probabilidade,
+  gg_b0_ampli, gg_b1_ampli, gg_b2_ampli, gg_b3_ampli, row_amplitude
+)
+
+matriz_2 <- wrap_plots(
+  plots_2,
+  ncol    = 5,
+  nrow    = 3,
+  widths  = c(1, 1, 1, 1, 0.10),
+  heights = c(0.10, 1, 1)
+) &
+  labs(x = NULL, y = NULL)
+
+final_2 <- (matriz_2 / rodape) +
+  plot_layout(
+    heights = c(1, 0.04),
+    guides  = "collect"
+  ) &
+  theme(
+    legend.position = "bottom",
+    legend.box = "horizontal"
   )
 
 
-painel_2 <-
-  placa4 /
-  linha4 /
-  plot_spacer() /
-  
-  placa5 /
-  linha5 /
-  plot_spacer() /
-  
-  placa6 /
-  linha6 +
-  
-  plot_layout(
-    heights = c(
-      0.25, 1, 0.15,
-      0.25, 1, 0.15,
-      0.25, 1
-    )
-  )
 
-# painel_1
-# painel_2
+# saída -------------------------------------------------------------------
 
 ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_2/c_plot_6_01.pdf",
-  painel_1,
-  width = 18,
-  height = 24
-  )
-
-
-
-ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_2/c_plot_6_02.pdf",
-  painel_2,
-  width = 18,
+  "plots/3-plots-simulacao/plot_simulacao_2/c_mvdr.pdf",
+  final_1,
+  width = 20,
   height = 24
 )
 
-# ================================
-painel_1 <-
-  placa1 /
-  linha1 /
-  plot_spacer() /
-  
-  placa2 /
-  linha2 +
-  
-  plot_layout(
-    heights = c(
-      0.25, 1, 0.15,
-      0.25, 1
-    )
-  )
-
-# --- PAINEL 2 ---
-painel_2 <-
-  placa3 /
-  linha3 /
-  plot_spacer() /
-  
-  placa4 /
-  linha4 +
-  
-  plot_layout(
-    heights = c(
-      0.25, 1, 0.15,
-      0.25, 1
-    )
-  )
-
-# --- PAINEL 3 ---
-painel_3 <-
-  placa5 /
-  linha5 /
-  plot_spacer() /
-  
-  placa6 /
-  linha6 +
-  
-  plot_layout(
-    heights = c(
-      0.25, 1, 0.15,
-      0.25, 1
-    )
-  )
-
-# painel_1
-# painel_2
 
 ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_2/c_plot_6_x.pdf",
-  painel_1,
-  width = 18,
-  height = 24
-)
-
-
-
-ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_2/c_plot_6_y.pdf",
-  painel_2,
-  width = 18,
-  height = 24
-)
-
-ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_2/c_plot_6_z.pdf",
-  painel_3,
-  width = 18,
-  height = 24
+  "plots/3-plots-simulacao/plot_simulacao_2/c_pa.pdf",
+  final_2,
+  width  = 18,
+  height = 12.5
 )

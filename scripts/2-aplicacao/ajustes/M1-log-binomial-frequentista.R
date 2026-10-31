@@ -7,19 +7,27 @@ source("scripts/0-rotina.R", encoding = "UTF-8")
 modelo_logbin_frequentista <- 
   logbin::logbin(
     outcome ~ center  + treat + baseline, 
-    data=respiratory4
+    data=respiratory4,
+    start = list(b0 = -0.1,  b1 = -0.5,  b2 = -0.5,  b3 = -0.5)
   ) 
 
-summary(modelo_logbin_frequentista)
+
+# resultados --------------------------------------------------------------
+sum_modelo_logbin_frequentista <- 
+  summary(modelo_logbin_frequentista)
+
+sum_modelo_logbin_frequentista$coefficients
+
 respiratory4 %>% lapply(class)
 model.matrix(modelo_logbin_frequentista) 
+
+
+# convergência ------------------------------------------------------------
 
 modelo_logbin_frequentista$method
 modelo_logbin_frequentista$boundary
 modelo_logbin_frequentista$converged
 
-
-# convergência ------------------------------------------------------------
 
 beta <- coef(modelo_logbin_frequentista)
 

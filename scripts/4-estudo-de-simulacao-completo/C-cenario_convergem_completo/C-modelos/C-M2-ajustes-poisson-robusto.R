@@ -20,7 +20,8 @@ modelos_poisson_classico <- purrr::map(
     modelo <- glm(
       y ~ center + treat + baseline,
       family = poisson(link = "log"),
-      data = dados_gerados[[i]]
+      data = dados_gerados[[i]],
+      start =  c(-1, -0.5, -0.5, -0.5)
     )
     
     tempo_glm <- as.numeric(

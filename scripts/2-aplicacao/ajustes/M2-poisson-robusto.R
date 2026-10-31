@@ -6,9 +6,10 @@ source("scripts/0-rotina.R", encoding = "UTF-8")
 # ajuste poisson com variância robusta ------------------------------------
 modelo_poisson <- 
   glm(
-    outcome ~ center  + treat + baseline,
-    family = poisson(link=log), 
-    data = respiratory4
+    outcome ~ center + treat + baseline,
+    family = poisson(link = "log"),
+    data = respiratory4,
+    start = c(-0.1, -0.5, -0.5, -0.5)
   )
 
 modelo_sandwich <- 

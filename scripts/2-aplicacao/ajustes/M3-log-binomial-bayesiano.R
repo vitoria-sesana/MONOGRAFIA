@@ -63,7 +63,6 @@ chutes_iniciais <-
     .RNG.name = "base::Mersenne-Twister", # gerador de semente
     .RNG.seed = 34 # semente pra manter os mesmos resultados
     )
-# list(b0 = 0, b1 = 0, b2 = 0, b3 = 0, .RNG.name = "base::Mersenne-Twister", .RNG.seed = 34)
 
 # ajuste ------------------------------------------------------------------
 
@@ -92,7 +91,7 @@ posterior <-
 
 # resultados --------------------------------------------------------------
 posterior
-resultado_bayesiano <- summary(posterior)
+resultado_bayesiano <- summary(posterior); resultado_bayesiano
 
 HPDinterval(posterior) %>% as.data.frame()
 # saídas -------------------------------------------------------------------

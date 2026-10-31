@@ -264,7 +264,11 @@ gg_b0_media <-
     scale_x_discrete(
       expand = expansion(mult = c(0.02, 0.02))
     ) + 
-   ylim(-0.7, 0)
+    scale_y_continuous(
+      limits = c(-0.7, 0),
+      breaks = seq(-0.7, 0, by = 0.1),
+      labels = scales::label_number(accuracy = 0.1)
+    )
 
 ## vies -----
 gg_b0_vies <-
@@ -315,7 +319,10 @@ gg_b0_vies <-
     scale_x_discrete(
       expand = expansion(mult = c(0.02, 0.02))
     ) +
-  ylim(-0.3, 0.1)
+  scale_y_continuous(
+    limits = c(-0.3, 0.1),
+    breaks = seq(-0.3, 0.1, by = 0.1)
+  )
 
 ## sd -----
 gg_b0_sd <-

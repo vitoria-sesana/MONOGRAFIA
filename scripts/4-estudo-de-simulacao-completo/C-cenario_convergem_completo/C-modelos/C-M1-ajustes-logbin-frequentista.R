@@ -16,7 +16,8 @@ modelos_logbin <- lapply(names(dados_gerados), function(nome) {
   
   modelo <- logbin::logbin(
     formula = formula_logbin,
-    data = dados_gerados[[nome]]
+    data = dados_gerados[[nome]],
+    start =  c(-1, -0.5, -0.5, -0.5)
   )
   
   tempo_final <- Sys.time()

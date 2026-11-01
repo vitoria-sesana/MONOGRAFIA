@@ -139,15 +139,15 @@ grafico_tempo_bases_convergidas <-
     aes(
       label = paste0(valor_HMS, " (", valor_S, "s)"),
       vjust = case_when(
-        bases == "Total" ~ -0.9,
-        bases == "Falha" ~ -2,
-        bases == "Sucesso" ~ -0.9,
+        status == "Total" ~ -2.5,
+        status == "Falha" ~ -0.8,
+        status == "Sucesso" ~ +1.5,
         TRUE ~ -0.9
       ),
       hjust = case_when(
-        bases == "Total" ~ -0.9,
-        bases == "Falha" ~ -2,
-        bases == "Sucesso" ~ -0.9,
+        status == "Total" ~ 0,
+        status == "Falha" ~ -0.4,
+        status == "Sucesso" ~ +1.2,
         TRUE ~ -0.3
       )
     ),
@@ -181,7 +181,7 @@ grafico_tempo_bases_convergidas <-
   ) +
   
   scale_y_continuous(
-    limits = c(0, 6000),
+    limits = c(0, 1700),
     breaks = scales::pretty_breaks(n = 16),
     expand = expansion(mult = c(0, 0.15))
   ) +
@@ -194,6 +194,7 @@ grafico_tempo_bases_convergidas <-
     )
   )
 
+grafico_tempo_bases_convergidas
 
 ## não convergidas -----
 grafico_tempo_bases_nao_convergidas <-
@@ -214,15 +215,15 @@ grafico_tempo_bases_nao_convergidas <-
     aes(
       label = paste0(valor_HMS, " (", valor_S, "s)"),
       vjust = case_when(
-        bases == "Total" ~ -0.9,
-        bases == "Falha" ~ -2,
-        bases == "Sucesso" ~ -0.9,
+        status == "Total" ~ -2.5,
+        status == "Falha" ~ -1.2,
+        status == "Sucesso" ~ -1.5,
         TRUE ~ -0.9
       ),
       hjust = case_when(
-        bases == "Total" ~ -0.9,
-        bases == "Falha" ~ -2,
-        bases == "Sucesso" ~ -0.9,
+        status == "Total" ~ +0.5,
+        status == "Falha" ~ +0.9,
+        status == "Sucesso" ~ +0.4,
         TRUE ~ -0.3
       )
     ),
@@ -256,7 +257,7 @@ grafico_tempo_bases_nao_convergidas <-
   ) +
   
   scale_y_continuous(
-    limits = c(0, 6000),
+    limits = c(0, 1700),
     breaks = scales::pretty_breaks(n = 16),
     expand = expansion(mult = c(0, 0.15))
   ) +
@@ -269,8 +270,9 @@ grafico_tempo_bases_nao_convergidas <-
     )
   )
 
-grafico_tempo_bases_convergidas
+grafico_tempo_bases_nao_convergidas
 
+#grafico_tempo_bases_convergidas
 
 # Tabela quantidade -------------------------------------------------------
 
@@ -349,7 +351,16 @@ tabela_final <- bind_rows(tabela_com_subtotais_ordenada, total_geral) %>%
 
 tabela_final
 
-## exportação gráfico ------------------------
+# saída latex -------------------------------------------------------------
+kbl(
+  tabela_final,
+  format = "latex",
+  booktabs = TRUE,
+  align = "ccccccccccccccccccccccccc",
+  caption = "Resumo dos tempo de execução por modelo, cenário e tamanho amostral."
+) 
+
+# saída gráfico -----------------------------------------------------------
 
 ggsave(
   filename = "plots/3-plots-simulacao/tempos/C-tempo_geracao_dados.pdf",
@@ -371,14 +382,7 @@ ggsave(
 )
 
 
-# saída latex -------------------------------------------------------------
-kbl(
-  tabela_final,
-  format = "latex",
-  booktabs = TRUE,
-  align = "ccccccccccccccccccccccccc",
-  caption = "Resumo dos tempo de execução por modelo, cenário e tamanho amostral."
-) 
+
 
 
 

@@ -246,13 +246,13 @@ gg_b0_media <-
     theme(
       panel.background =  element_rect(color = "grey70"),
       panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-      axis.text.x   = element_text(color = "grey20",size = 7),
-      axis.text.y   = element_text(color = "grey20",size = 7),
-      axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-      axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+      axis.text.x   = element_text(color = "grey20",size = 11),
+      axis.text.y   = element_text(color = "grey20",size = 11),
+      axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+      axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
       title =  element_text(color = "grey10",face = "bold", size = 14),
-      legend.title = element_text(size = 8),
-      legend.text = element_text(color = "grey20", size = 7),
+      legend.title = element_text(size = 13),
+      legend.text = element_text(color = "grey20", size = 11),
       panel.grid.minor.x = element_blank()
     ) +
     scale_color_manual(values = c(
@@ -301,13 +301,13 @@ gg_b0_vies <-
     theme(
       panel.background =  element_rect(color = "grey70"),
       panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-      axis.text.x   = element_text(color = "grey20",size = 7),
-      axis.text.y   = element_text(color = "grey20",size = 7),
-      axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-      axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+      axis.text.x   = element_text(color = "grey20",size = 11),
+      axis.text.y   = element_text(color = "grey20",size = 11),
+      axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+      axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
       title =  element_text(color = "grey10",face = "bold", size = 14),
-      legend.title = element_text(size = 8),
-      legend.text = element_text(color = "grey20", size = 7),
+      legend.title = element_text(size = 13),
+      legend.text = element_text(color = "grey20", size = 11),
       panel.grid.minor.x = element_blank()
     ) +
     scale_color_manual(values = c(
@@ -356,13 +356,13 @@ gg_b0_sd <-
     theme(
       panel.background =  element_rect(color = "grey70"),
       panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-      axis.text.x   = element_text(color = "grey20",size = 7),
-      axis.text.y   = element_text(color = "grey20",size = 7),
-      axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-      axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+      axis.text.x   = element_text(color = "grey20",size = 11),
+      axis.text.y   = element_text(color = "grey20",size = 11),
+      axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+      axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
       title =  element_text(color = "grey10",face = "bold", size = 14),
-      legend.title = element_text(size = 8),
-      legend.text = element_text(color = "grey20", size = 7),
+      legend.title = element_text(size = 13),
+      legend.text = element_text(color = "grey20", size = 11),
       panel.grid.minor.x = element_blank()
     ) +
     scale_color_manual(values = c(
@@ -412,13 +412,13 @@ gg_b0_reqm <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -469,13 +469,13 @@ gg_b0_prob <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -522,13 +522,13 @@ gg_b0_ampli <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -587,13 +587,13 @@ gg_b1_media <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -642,13 +642,13 @@ gg_b1_vies <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -697,13 +697,13 @@ gg_b1_sd <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -753,13 +753,13 @@ gg_b1_reqm <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -808,13 +808,13 @@ gg_b1_prob <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -861,13 +861,13 @@ gg_b1_ampli <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -927,13 +927,13 @@ gg_b2_media <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -982,13 +982,13 @@ gg_b2_vies <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1038,13 +1038,13 @@ gg_b2_sd <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1094,13 +1094,13 @@ gg_b2_reqm <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1150,13 +1150,13 @@ gg_b2_prob <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1202,13 +1202,13 @@ gg_b2_ampli <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1261,13 +1261,13 @@ gg_b3_media <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1316,13 +1316,13 @@ gg_b3_vies <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1372,13 +1372,13 @@ gg_b3_sd <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1428,13 +1428,13 @@ gg_b3_reqm <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1486,13 +1486,13 @@ gg_b3_prob <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1539,13 +1539,13 @@ gg_b3_ampli <-
   theme(
     panel.background =  element_rect(color = "grey70"),
     panel.border = element_rect(color = "grey70", fill = NA, size = 0.5),
-    axis.text.x   = element_text(color = "grey20",size = 7),
-    axis.text.y   = element_text(color = "grey20",size = 7),
-    axis.title.x  = element_text(color = "grey20",face = "bold", size = 8),
-    axis.title.y  = element_text(color = "grey20",face = "bold", size = 8),
+    axis.text.x   = element_text(color = "grey20",size = 11),
+    axis.text.y   = element_text(color = "grey20",size = 11),
+    axis.title.x  = element_text(color = "grey20",face = "bold", size = 13),
+    axis.title.y  = element_text(color = "grey20",face = "bold", size = 13),
     title =  element_text(color = "grey10",face = "bold", size = 14),
-    legend.title = element_text(size = 8),
-    legend.text = element_text(color = "grey20", size = 7),
+    legend.title = element_text(size = 13),
+    legend.text = element_text(color = "grey20", size = 11),
     panel.grid.minor.x = element_blank()
   ) +
   scale_color_manual(values = c(
@@ -1647,7 +1647,7 @@ placa_coluna_tex <- function(texto) {
     theme(plot.margin = margin(t = 0, r = 10, b = 0, l = 10, unit = "pt"))
 }
 
-tam_fonte <- 11
+tam_fonte <- 13
 
 criar_rodape <- function() {
   ggplot() +
@@ -1737,16 +1737,15 @@ final_2 <- (matriz_2 / rodape) +
 # saída -------------------------------------------------------------------
 
 ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_2/c_mvdr.pdf",
+  "plots/3-plots-simulacao/plot_cenario_1/c_mvdr.pdf",
   final_1,
-  width = 20,
-  height = 24
+  width  = 20,
+  height = 14.5
 )
 
-
 ggsave(
-  "plots/3-plots-simulacao/plot_simulacao_2/c_pa.pdf",
+  "plots/3-plots-simulacao/plot_cenario_1/c_pa.pdf",
   final_2,
-  width  = 18,
-  height = 12.5
+  width  = 20,
+  height = 8.5
 )

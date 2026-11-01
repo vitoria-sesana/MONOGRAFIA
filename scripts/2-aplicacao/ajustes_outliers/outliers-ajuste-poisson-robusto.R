@@ -8,11 +8,12 @@ outliers <- c(81, 107)
 
 # definição das combinações -----------------------------------------------
 
+
 dados_cenarios <- list(
   "Dados completos" = respiratory4,
-  "Somente sem 81" = respiratory4 %>%
+  "Sem 81" = respiratory4 %>%
     filter(id != 81),
-  "Somente sem 107" = respiratory4 %>%
+  "Sem 107" = respiratory4 %>%
     filter(id != 107),
   "Sem 81 e 107" = respiratory4 %>%
     filter(!id %in% c(81, 107))

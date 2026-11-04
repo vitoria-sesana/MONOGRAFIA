@@ -449,14 +449,3 @@ ggsave(
   height = 10
 )
 
-
-
-# k -----------------------------------------------------------------------
-
-
-outliers_logbin_bayes_posterior <- 
-  "saidas/1-saida-aplicacao/outliers_log_binomial_bayesiano_posterior.rds" %>% 
-  readRDS()
-
-
-outliers_logbin_bayes_posterior

@@ -81,16 +81,16 @@ C_tabela_tempo
 # Cenário NC --------------------------------------------------------------
 
 ## leitura -----------------------------------------------------------------
-NC_tempo_logbin_freq <- 
-  "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-tempo_execucao_logbin_frequentista_replica.rds" %>% 
-  readRDS() %>% 
-  tibble::enframe(name = "base", value = "tempo") %>%
-  mutate(
-    amostra = as.integer(stringr::str_extract(base, "(?<=amostra_)\\d+")),
-    replica = as.integer(stringr::str_extract(base, "(?<=replica_)\\d+")),
-    modelo = "Log-binomial frequentista"
-  ) %>% 
-  select(modelo, base, amostra, replica, tempo) 
+# NC_tempo_logbin_freq <- 
+#   "saidas/3-saida-simulacao-completo/NC-saidas/NC-M1-logbin-frequentista/NC-tempo_execucao_logbin_frequentista_replica.rds" %>% 
+#   readRDS() %>% 
+#   tibble::enframe(name = "base", value = "tempo") %>%
+#   mutate(
+#     amostra = as.integer(stringr::str_extract(base, "(?<=amostra_)\\d+")),
+#     replica = as.integer(stringr::str_extract(base, "(?<=replica_)\\d+")),
+#     modelo = "Log-binomial frequentista"
+#   ) %>% 
+#   select(modelo, base, amostra, replica, tempo) 
 
 
 
@@ -125,7 +125,7 @@ NC_tempo_logbin_bayes <-
 
 NC_tabela_tempo <- 
   rbind(
-    NC_tempo_logbin_freq,
+    # NC_tempo_logbin_freq,
     NC_tempo_poisson_robusto,
     NC_tempo_logbin_bayes
   ) %>% 

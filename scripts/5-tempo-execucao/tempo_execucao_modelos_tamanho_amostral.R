@@ -179,7 +179,11 @@ tabela_execucao <-
         "Log-binomial bayesiano"
       )
     )
-  )
+  ) %>% 
+  select(
+    cenario, modelo, everything()
+  ) %>% 
+  arrange(cenario, modelo, amostra)
 
 tabela_execucao
 
@@ -247,7 +251,7 @@ grafico_tempo_execucao_1 <-
   ) +
   
   scale_y_continuous(
-    limits = c(0, 6000),
+    limits = c(-200, 6000),
     breaks = scales::pretty_breaks(n = 16),
     expand = expansion(mult = c(0, 0.15))
   ) +
@@ -325,7 +329,7 @@ grafico_tempo_execucao_2 <-
   ) +
   
   scale_y_continuous(
-    limits = c(0, 6000),
+    limits = c(-200, 6000),
     breaks = scales::pretty_breaks(n = 16),
     expand = expansion(mult = c(0, 0.15))
   ) +
@@ -343,8 +347,8 @@ grafico_tempo_execucao_2
 
 # saída latex -------------------------------------------------------------
 
+tabela_execucao %>% 
 kbl(
-  tabela_execucao,
   format = "latex",
   booktabs = TRUE,
   align = "rrll",

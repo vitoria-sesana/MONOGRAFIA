@@ -29,7 +29,7 @@ C_replicas <-
     amostra = as.integer(stringr::str_extract(base, "(?<=amostra_)\\d+")),
     replica = as.integer(stringr::str_extract(base, "(?<=replica_)\\d+")),
     bases = "Bases convergidas",
-    status = ifelse(convergiu == "TRUE", "Sucesso", "Falha")
+    status = ifelse(convergiu == "TRUE", "Válidas", "Descartadas")
   ) 
 
 NC_replicas <- 
@@ -39,7 +39,7 @@ NC_replicas <-
     amostra = as.integer(stringr::str_extract(base, "(?<=amostra_)\\d+")),
     replica = as.integer(stringr::str_extract(base, "(?<=replica_)\\d+")),
     bases = "Bases não convergidas",
-    status = ifelse(convergiu == "TRUE", "Falha", "Sucesso")
+    status = ifelse(convergiu == "TRUE", "Descartadas", "Válidas")
   ) 
 
 ## tabela ------------------------------------------------------------------
@@ -100,12 +100,13 @@ tabela_grafico <-
     status = factor(
       status,
       levels = c(
-        "Sucesso",
-        "Falha",
+        "Válidas",
+        "Descartadas",
         "Total"
       )
     )
-  )  
+  )  %>% 
+  arrange(bases, status, amostra)
 
 
 # saída latex -------------------------------------------------------------
@@ -140,14 +141,14 @@ grafico_tempo_bases_convergidas <-
       label = paste0(valor_HMS, " (", valor_S, "s)"),
       vjust = case_when(
         status == "Total" ~ -2.5,
-        status == "Falha" ~ -0.8,
-        status == "Sucesso" ~ +1.5,
+        status == "Descartadas" ~ -0.8,
+        status == "Válidas" ~ +1.5,
         TRUE ~ -0.9
       ),
       hjust = case_when(
         status == "Total" ~ 0,
-        status == "Falha" ~ -0.4,
-        status == "Sucesso" ~ +1.2,
+        status == "Descartadas" ~ -0.4,
+        status == "Válidas" ~ +1.2,
         TRUE ~ -0.3
       )
     ),
@@ -189,8 +190,8 @@ grafico_tempo_bases_convergidas <-
   scale_color_manual(
     values = c(
       "Total"   = "#333333",  # Cinza bem escuro (quase preto)
-      "Falha"   = "#D95F02",  # Laranja queimado
-      "Sucesso" = "#1B9E77"   # Verde-azulado (Teal)
+      "Descartadas"   = "#D95F02",  # Laranja queimado
+      "Válidas" = "#1B9E77"   # Verde-azulado (Teal)
     )
   )
 
@@ -216,14 +217,14 @@ grafico_tempo_bases_nao_convergidas <-
       label = paste0(valor_HMS, " (", valor_S, "s)"),
       vjust = case_when(
         status == "Total" ~ -2.5,
-        status == "Falha" ~ -1.2,
-        status == "Sucesso" ~ -1.5,
+        status == "Descartadas" ~ -1.2,
+        status == "Válidas" ~ -1.5,
         TRUE ~ -0.9
       ),
       hjust = case_when(
         status == "Total" ~ +0.5,
-        status == "Falha" ~ +0.9,
-        status == "Sucesso" ~ +0.4,
+        status == "Descartadas" ~ +0.9,
+        status == "Válidas" ~ +0.4,
         TRUE ~ -0.3
       )
     ),
@@ -265,8 +266,8 @@ grafico_tempo_bases_nao_convergidas <-
   scale_color_manual(
     values = c(
       "Total"   = "#333333",  # Cinza bem escuro (quase preto)
-      "Falha"   = "#D95F02",  # Laranja queimado
-      "Sucesso" = "#1B9E77"   # Verde-azulado (Teal)
+      "Descartadas"   = "#D95F02",  # Laranja queimado
+      "Válidas" = "#1B9E77"   # Verde-azulado (Teal)
     )
   )
 
@@ -290,8 +291,8 @@ contagens_brutas <- tabela_tempo %>%
   )
 
 
-if(!("Falha" %in% names(contagens_brutas))) contagens_brutas$Falha <- 0
-if(!("Sucesso" %in% names(contagens_brutas))) contagens_brutas$Sucesso <- 0
+if(!("Descartadas" %in% names(contagens_brutas))) contagens_brutas$Descartadas <- 0
+if(!("Válidas" %in% names(contagens_brutas))) contagens_brutas$Válidas <- 0
 
 
 
@@ -301,9 +302,9 @@ dados_base <- contagens_brutas %>%
 
 tabela_com_totais <- dados_base %>%
   mutate(
-    Total = Falha + Sucesso,
-    Falha_pct = (Falha / Total) * 100,
-    Sucesso_pct = (Sucesso / Total) * 100
+    Total = Descartadas + Válidas,
+    Descartadas_pct = (Descartadas / Total) * 100,
+    Válidas_pct = (Válidas / Total) * 100
   )
 
 
@@ -311,11 +312,11 @@ subtotais_bases <- tabela_com_totais %>%
   group_by(bases) %>%
   summarise(
     amostra = "Subtotal",
-    Falha = sum(Falha),
-    Sucesso = sum(Sucesso),
+    Descartadas = sum(Descartadas),
+    Válidas = sum(Válidas),
     Total = sum(Total),
-    Falha_pct = (Falha / Total) * 100,
-    Sucesso_pct = (Sucesso / Total) * 100,
+    Descartadas_pct = (Descartadas / Total) * 100,
+    Válidas_pct = (Válidas / Total) * 100,
     .groups = "drop"
   )
 
@@ -324,11 +325,11 @@ total_geral <- tabela_com_totais %>%
   summarise(
     bases = "Total Geral",
     amostra = "Todos",
-    Falha = sum(Falha),
-    Sucesso = sum(Sucesso),
+    Descartadas = sum(Descartadas),
+    Válidas = sum(Válidas),
     Total = sum(Total),
-    Falha_pct = (Falha / Total) * 100,
-    Sucesso_pct = (Sucesso / Total) * 100
+    Descartadas_pct = (Descartadas / Total) * 100,
+    Válidas_pct = (Válidas / Total) * 100
   )
 
 lista_bases <- unique(tabela_com_totais$bases)
@@ -343,11 +344,11 @@ tabela_com_subtotais_ordenada <- bind_rows(
 
 tabela_final <- bind_rows(tabela_com_subtotais_ordenada, total_geral) %>%
   mutate(
-    Falha   = paste0(Falha, " (", sprintf("%.1f", Falha_pct), "%)"),
-    Sucesso = paste0(Sucesso, " (", sprintf("%.1f", Sucesso_pct), "%)"),
+    Descartadas   = paste0(Descartadas, " (", sprintf("%.1f", Descartadas_pct), "%)"),
+    Válidas = paste0(Válidas, " (", sprintf("%.1f", Válidas_pct), "%)"),
     Total   = as.character(Total)
   ) %>%
-  select(bases, amostra, Falha, Sucesso, Total)
+  select(bases, amostra, Descartadas, Válidas, Total)
 
 tabela_final
 

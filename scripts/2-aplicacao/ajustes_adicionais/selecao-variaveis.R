@@ -1,4 +1,4 @@
-# Quais variáveis considerar?
+# Quais variáveis considerar nos ajustes e estudos de simulações
 
 # rotina ------------------------------------------------------------------
 source("scripts/0-rotina.R", encoding = "UTF-8")
@@ -117,17 +117,76 @@ tabela_boundary <-
 
 print(tabela_boundary, n = Inf)
 
-
+modelos[[20]]
 
 # modelo  -----------------------------------------------------------------
-summary(modelos[[16]]) 
-summary(modelos[[17]]) 
-summary(modelos[[18]])
 summary(modelos[[19]])
-summary(modelos[[20]]) ## sem convergência
-summary(modelos[[21]])
-summary(modelos[[22]]) ## sem convergência
-summary(modelos[[23]])
-summary(modelos[[24]]) 
-summary(modelos[[25]]) ## sem convergência
+summary(modelos[[20]])
 
+
+
+# tabela convergencia -----------------------------------------------------
+
+
+
+tabela_convergencia <- data.frame(
+  Modelo = integer(),
+  Tem_NA = logical(),
+  Status = character(),
+  stringsAsFactors = FALSE
+)
+
+for (i in seq_along(modelos)) {
+  
+  sum_model <- tryCatch({
+    summary(modelos[[i]])
+  }, error = function(e) {
+    NULL
+  })
+  
+  if (is.null(sum_model) || is.null(sum_model$coefficients)) {
+    status <- "Não convergiu"
+    tem_na <- NA
+  } else {
+    coefs <- sum_model$coefficients
+    
+    if (any(is.na(coefs))) {
+      tem_na <- TRUE
+      status <- "Não convergiu" 
+    } else {
+      tem_na <- FALSE
+      status <- "Convergiu"
+    }
+  }
+  
+  tabela_convergencia <- rbind(tabela_convergencia, data.frame(
+    Modelo = i,
+    Tem_NA = tem_na,
+    Status = status
+  ))
+}
+
+print(tabela_convergencia)
+
+
+
+# tabela final ------------------------------------------------------------
+
+tabela_final <- 
+  cbind(
+    tabela_boundary,
+    tabela_convergencia
+  ) %>% 
+  select(combinacao, Status)
+
+
+
+# saídas ------------------------------------------------------------------
+
+tabela_final %>% 
+  kbl(
+    format = "latex",
+    booktabs = TRUE, 
+    align = "ll", 
+    caption = "XXXXXXXXXXXXXXX"
+  ) 

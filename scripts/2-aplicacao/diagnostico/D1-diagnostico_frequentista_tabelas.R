@@ -5,8 +5,10 @@ source('scripts/0-rotina.R', encoding = 'UTF-8')
 
 modelo_logbin <- readRDS("saidas/1-saida-aplicacao/ajuste_logbin_frequentista.rds")$modelo_logbin_frequentista
 modelo_poisson_sandwich <- readRDS("saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")
-modelo_poisson_sandwich <- readRDS("saidas/1-saida-aplicacao/ajuste_poisson_robusto.rds")
 
+
+modelo_poisson_sandwich$modelo_sandwich
+modelo_poisson_sandwich$matriz_covariancia_variancia_sandwich
 
 
 
@@ -27,32 +29,15 @@ resultado_logbin_freq <-
   mutate(across(where(is.numeric), ~ round(., 4))) %>% 
   mutate(modelo = "Log-binomial frequentista")
 
-
-# poisson clássico
-coef_pois_classico <- 
-  summary(modelo_poisson)$coefficients; coef_pois_classico
-
-ic_pois_classico <- 
-  confint(modelo_poisson); ic_pois_classico
-
-resultado_pois_classico <- 
-  merge(
-    as.data.frame(coef_pois_classico),
-    as.data.frame(ic_pois_classico),
-    by = "row.names") %>%
-  mutate(across(where(is.numeric), ~ round(., 4))) %>% 
-  mutate(modelo = "Poisson clássico")
-
 # poisson robusto
 modelo_poisson_sandwich
-modelo_poisson_sandwich %>% as.data.frame.array()
-confint(modelo_poisson_sandwich)
+confint(modelo_poisson_sandwich$modelo_sandwich)
 
 coef_pois_robusto <- 
-  as.data.frame.array(modelo_poisson_sandwich); coef_pois_robusto
+  as.data.frame.array(modelo_poisson_sandwich$modelo_sandwich); coef_pois_robusto
 
 ic_pois_robusto <- 
-  confint(modelo_poisson_sandwich); ic_pois_robusto
+  confint(modelo_poisson_sandwich$modelo_sandwich); ic_pois_robusto
 
 resultado_pois_robusto <- 
   merge(
@@ -64,13 +49,11 @@ resultado_pois_robusto <-
 
 # completo
 resultado_logbin_freq
-resultado_pois_classico
 resultado_pois_robusto
 
 tabela_estimativas_aplicacao <- 
   rbind(
   resultado_logbin_freq,
-  resultado_pois_classico,
   resultado_pois_robusto
   ) %>% 
   janitor::clean_names() %>% 

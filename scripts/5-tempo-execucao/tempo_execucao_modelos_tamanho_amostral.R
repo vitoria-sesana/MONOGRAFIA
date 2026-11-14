@@ -251,7 +251,7 @@ grafico_tempo_execucao_1 <-
   ) +
   
   scale_y_continuous(
-    limits = c(-200, 6000),
+    limits = c(-200, 22000),
     breaks = scales::pretty_breaks(n = 16),
     expand = expansion(mult = c(0, 0.15))
   ) +
@@ -329,7 +329,7 @@ grafico_tempo_execucao_2 <-
   ) +
   
   scale_y_continuous(
-    limits = c(-200, 6000),
+    limits = c(-200, 22000),
     breaks = scales::pretty_breaks(n = 16),
     expand = expansion(mult = c(0, 0.15))
   ) +

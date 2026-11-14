@@ -26,3 +26,5 @@ modelo_logbin_bayesiano <- modelo_logbin_bayesiano$resultado_bayesiano
 modelo_logbin_frequentista
 modelo_poisson_sandwich
 modelo_logbin_bayesiano
+
+model.matrix(modelo_logbin_frequentista)

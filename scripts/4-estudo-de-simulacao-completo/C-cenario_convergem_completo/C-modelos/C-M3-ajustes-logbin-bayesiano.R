@@ -5,6 +5,7 @@ dados_gerados <- readRDS("saidas/3-saida-simulacao-completo/C-dados_convergidos_
 
 # ajuste logbin bayesiano -----------------------------------------------
 require(rjags)
+require(dplyr)
 
 # modelo ------------------------------------------------------------------
 modelo <- "
@@ -74,7 +75,7 @@ funcao_jags <- function(model_string, inits_list, dado, nome_dado) {
       data = dataList,
       inits = inits_list,
       n.chains = 1,
-      n.adapt = 0
+      n.adapt = 1000
     )
   
   # atualização
@@ -85,8 +86,8 @@ funcao_jags <- function(model_string, inits_list, dado, nome_dado) {
     rjags::coda.samples(
       model,
       variable.names = c("b0", "b1", "b2", "b3"),
-      n.iter = 10000,
-      thin = 40
+      n.iter = 40000,
+      thin = 10
     )
   
   return(posterior)

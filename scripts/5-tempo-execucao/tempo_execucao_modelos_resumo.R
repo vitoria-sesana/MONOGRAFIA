@@ -201,7 +201,8 @@ tabela_resumo <-
     across(where(is.numeric) & !matches("n_bases"), ~ round(., 4)),
     total_HMS = formatar_tempo_HMS(total_seg)
   ) %>%
-  dplyr::arrange(modelo, cenario, amostra)
+  dplyr::arrange(cenario, modelo, amostra) %>% 
+  select(cenario, everything())
 
 tabela_resumo
 
@@ -216,4 +217,7 @@ kbl(
   caption = "Resumo dos tempo de execução por modelo, cenário e tamanho amostral."
 ) 
 
+
+tabela_resumo %>% 
+  select(cenario, modelo, amostra, total_seg, total_HMS)
 

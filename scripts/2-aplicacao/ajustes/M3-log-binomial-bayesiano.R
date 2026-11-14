@@ -3,13 +3,43 @@
 # rotina ------------------------------------------------------------------
 source("scripts/0-rotina.R", encoding = "UTF-8")
 
-# ajuste log-binomial bayesiano -------------------------------------------
+
+# tratamento --------------------------------------------------------------
+
+respiratory4 <- 
+  respiratory4 %>% 
+  mutate(
+    as.numeric(baseline),
+    center = as.numeric(ifelse(center == 1, 1, 0)),
+    treat = as.numeric(ifelse(treat == "P", 1, 0)),
+    baseline = as.numeric(ifelse(baseline == 0, 1, 0))
+  )
+
 attach(respiratory4)
 
+# ajuste log-binomial bayesiano -------------------------------------------
+
+# Y <- c(0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1)
+# X1 <- c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) 
+# X2 <- c(1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0)
+# X3 = c(1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0)
+#
+# dataList <- 
+#   list(
+#     N = length(Y), 
+#     Y = Y,
+#     X1 = X1,
+#     X2 = X2,
+#     X3 = X3
+#   ) 
+
+
 ## dados -----------
-dataList <- 
+
+
+dataList <-
   list(
-    N = length(outcome), 
+    N = length(outcome),
     Y = outcome,
     X1 = center,
     X2 = treat,
@@ -73,7 +103,7 @@ model <-
     data = dataList,
     inits = chutes_iniciais,
     n.chains = 1, # quantas cadeias
-    n.adapt = 0 # sem adaptação
+    n.adapt = 1000 # COm adaptação
   )
 
 ## atualizando/update -----------
@@ -84,8 +114,8 @@ posterior <-
   rjags::coda.samples(
     model,
     variable.names = c("b0", "b1", "b2", "b3"),
-    n.iter = 10000,
-    thin = 75
+    n.iter = 40000,
+    thin = 10
   )
 
 
@@ -93,12 +123,15 @@ posterior <-
 posterior
 resultado_bayesiano <- summary(posterior); resultado_bayesiano
 
+# plot(posterior) ## #
+
 HPDinterval(posterior) %>% as.data.frame()
 # saídas -------------------------------------------------------------------
 rm(respiratory4)
+
+
 resultados_logbin_bayesiano <- as.list(environment()) 
 saveRDS(resultados_logbin_bayesiano, "saidas/1-saida-aplicacao/ajuste_logbin_bayesiano.rds")
-
 
 # # coda: analises de diagnostico -------------------------------------------
 # require(coda)
@@ -116,7 +149,7 @@ saveRDS(resultados_logbin_bayesiano, "saidas/1-saida-aplicacao/ajuste_logbin_bay
 # posterior
 # mcmc_posterior <- as.mcmc(posterior)
 # codamenu()
-
-resultado_bayesiano 
-resultado_bayesiano$statistics 
-resultado_bayesiano$quantiles
+# 
+# resultado_bayesiano 
+# resultado_bayesiano$statistics 
+# resultado_bayesiano$quantiles

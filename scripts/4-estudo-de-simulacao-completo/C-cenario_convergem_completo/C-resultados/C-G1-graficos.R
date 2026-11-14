@@ -541,7 +541,7 @@ gg_b0_ampli <-
     expand = expansion(mult = c(0.02, 0.02))
   ) +
   scale_y_continuous(
-    limits = c(0, 1.25),
+    limits = c(0, 1.3),
     breaks = seq(0, 1.25, by = 0.1),
     labels = scales::label_number(accuracy = 0.1)
   )
@@ -880,7 +880,7 @@ gg_b1_ampli <-
     expand = expansion(mult = c(0.02, 0.02))
   ) +
   scale_y_continuous(
-    limits = c(0, 1.25),
+    limits = c(0, 1.3),
     breaks = seq(0, 1.25, by = 0.1),
     labels = scales::label_number(accuracy = 0.1)
   )
@@ -1221,7 +1221,7 @@ gg_b2_ampli <-
     expand = expansion(mult = c(0.02, 0.02))
   ) +
   scale_y_continuous(
-    limits = c(0, 1.25),
+    limits = c(0, 1.3),
     breaks = seq(0, 1.25, by = 0.1),
     labels = scales::label_number(accuracy = 0.1)
   )
@@ -1558,7 +1558,7 @@ gg_b3_ampli <-
     expand = expansion(mult = c(0.02, 0.02))
   ) +
   scale_y_continuous(
-    limits = c(0, 1.25),
+    limits = c(0, 1.3),
     breaks = seq(0, 1.25, by = 0.1),
     labels = scales::label_number(accuracy = 0.1)
   )
@@ -1732,6 +1732,31 @@ final_2 <- (matriz_2 / rodape) +
     legend.box = "horizontal"
   )
 
+
+# gg_b0_media
+# gg_b1_media
+# gg_b2_media
+# gg_b3_media
+# gg_b0_vies
+# gg_b1_vies
+# gg_b2_vies
+# gg_b3_vies
+# gg_b0_sd
+# gg_b1_sd
+# gg_b2_sd
+# gg_b3_sd
+# gg_b0_reqm
+# gg_b1_reqm
+# gg_b2_reqm
+# gg_b3_reqm
+# gg_b0_prob
+# gg_b1_prob
+# gg_b2_prob
+# gg_b3_prob
+# gg_b0_ampli
+# gg_b1_ampli
+# gg_b2_ampli
+# gg_b3_ampli
 
 
 # saída -------------------------------------------------------------------

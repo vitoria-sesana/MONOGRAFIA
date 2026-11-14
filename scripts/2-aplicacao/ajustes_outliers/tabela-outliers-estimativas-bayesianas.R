@@ -72,7 +72,7 @@ hpd_quanti_1 <-
 cenario = "Sem 81"
 
 posterior_2 <-
-  outliers_logbin_bayes_posterior[[1]]
+  outliers_logbin_bayes_posterior[[2]]
 
 resumo_2 <-
   posterior_2 %>% 
@@ -129,7 +129,7 @@ hpd_quanti_2 <-
 cenario = "Sem 107"
 
 posterior_3 <-
-  outliers_logbin_bayes_posterior[[1]]
+  outliers_logbin_bayes_posterior[[3]]
 
 resumo_3 <-
   posterior_3 %>% 
@@ -185,7 +185,7 @@ hpd_quanti_3 <-
 cenario = "Sem 81 e 107"
 
 posterior_4 <-
-  outliers_logbin_bayes_posterior[[1]]
+  outliers_logbin_bayes_posterior[[4]]
 
 resumo_4 <-
   posterior_4 %>% 
@@ -248,7 +248,9 @@ bayes_statistics <-
     bayes_statistics_3,
     bayes_statistics_4
   ) %>% 
-  select(cenario, everything()) %>% 
+  tibble::rownames_to_column(var = "coeficiente") %>% 
+  mutate(coeficiente = stringr::str_sub(coeficiente, start = 1, end = 2)) %>% 
+  select(cenario, coeficiente, everything()) %>% 
   mutate(across(where(is.numeric), ~ round(.x, 4)))
 
 ## estatística quantílica -----
@@ -260,7 +262,9 @@ bayes_quantiles <-
     bayes_quantiles_3,
     bayes_quantiles_4
   ) %>% 
-  select(cenario, everything()) %>% 
+  tibble::rownames_to_column(var = "coeficiente") %>% 
+  mutate(coeficiente = stringr::str_sub(coeficiente, start = 1, end = 2)) %>% 
+  select(cenario, coeficiente, everything()) %>% 
   mutate(across(where(is.numeric), ~ round(.x, 4)))
 
 ## intervalo hpd -----
@@ -342,6 +346,16 @@ intervalo_HPD %>%
 
 
 
+## quantilico e hpd ----
+
+hpd_quanti %>% 
+  kbl(
+    format = "latex",
+    booktabs = TRUE, 
+    align = "lccccc", 
+    caption = "XXXXXXXXXXXXXXX"
+    ) 
+
 ## prob exata -----
 
 prob_exata_intervalo_HPD %>% 
@@ -352,12 +366,3 @@ prob_exata_intervalo_HPD %>%
     caption = "XXXXXXXXXXXXXXX"
   ) 
 
-## quantilico e hpd ----
-
-hpd_quanti %>% 
-  kbl(
-    format = "latex",
-    booktabs = TRUE, 
-    align = "lccccc", 
-    caption = "XXXXXXXXXXXXXXX"
-    ) 

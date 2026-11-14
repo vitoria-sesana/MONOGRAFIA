@@ -148,8 +148,8 @@ kbl(coefs_final, format = "latex", booktabs = TRUE, align = "lcccccccc", caption
                      " " = 1, " " = 1,
                      " " = 1, " " = 1,
                      " " = 1, " " = 1,
-                     " " = 1, " " = 1)) %>%
-  kable_styling(latex_options = c("hold_position", "striped"))
+                     " " = 1, " " = 1)) #%>%
+  # kable_styling(latex_options = c("hold_position", "striped"))
 
 
 

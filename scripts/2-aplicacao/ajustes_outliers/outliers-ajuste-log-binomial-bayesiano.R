@@ -3,6 +3,15 @@
 # rotina ------------------------------------------------------------------
 source("scripts/0-rotina.R", encoding = "UTF-8")
 
+respiratory4 <- 
+  respiratory4 %>% 
+  mutate(
+    as.numeric(baseline),
+    center = as.numeric(ifelse(center == 1, 1, 0)),
+    treat = as.numeric(ifelse(treat == "P", 1, 0)),
+    baseline = as.numeric(ifelse(baseline == 0, 1, 0))
+  )
+
 # outliers ----------------------------------------------------------------
 outliers <- c(81, 107)
 
@@ -69,10 +78,10 @@ chutes_iniciais <-
 
 
 
-# Ajustes -----------------------------------------------------------------
+# ajustes -----------------------------------------------------------------
 
 
-# Ajuste completo 
+# ajuste completo 
 dataList1 <- 
   list(
     N = length(dados_cenarios$`Dados completos`$outcome), 
@@ -88,7 +97,7 @@ model1 <-
     data = dataList1,
     inits = chutes_iniciais,
     n.chains = 1, # quantas cadeias
-    n.adapt = 0 # sem adaptação
+    n.adapt = 1000 # sem adaptação
   )
 
 update(model1, n.iter = 1000)
@@ -98,8 +107,8 @@ posterior1 <-
   rjags::coda.samples(
     model1,
     variable.names = c("b0", "b1", "b2", "b3"),
-    n.iter = 10000,
-    thin = 75
+    n.iter = 40000,
+    thin = 10
   )
 
 posterior1 %>% summary()
@@ -121,7 +130,7 @@ model2 <-
     data = dataList2,
     inits = chutes_iniciais,
     n.chains = 1,
-    n.adapt = 0
+    n.adapt = 1000
   )
 
 update(model2, n.iter = 1000)
@@ -130,8 +139,8 @@ posterior2 <-
   rjags::coda.samples(
     model2,
     variable.names = c("b0", "b1", "b2", "b3"),
-    n.iter = 10000,
-    thin = 75
+    n.iter = 40000,
+    thin = 10
   )
 
 
@@ -151,7 +160,7 @@ model3 <-
     data = dataList3,
     inits = chutes_iniciais,
     n.chains = 1,
-    n.adapt = 0
+    n.adapt = 1000
   )
 
 update(model3, n.iter = 1000)
@@ -160,8 +169,8 @@ posterior3 <-
   rjags::coda.samples(
     model3,
     variable.names = c("b0", "b1", "b2", "b3"),
-    n.iter = 10000,
-    thin = 75
+    n.iter = 40000,
+    thin = 10
   )
 
 
@@ -181,7 +190,7 @@ model4 <-
     data = dataList4,
     inits = chutes_iniciais,
     n.chains = 1,
-    n.adapt = 0
+    n.adapt = 1000
   )
 
 update(model4, n.iter = 1000)
@@ -190,11 +199,11 @@ posterior4 <-
   rjags::coda.samples(
     model4,
     variable.names = c("b0", "b1", "b2", "b3"),
-    n.iter = 10000,
-    thin = 75
+    n.iter = 40000,
+    thin = 10
   )
 
-# Posterior ---------------------------------------------------------------
+# posterior ---------------------------------------------------------------
 
 posterior_todos <- coda::mcmc.list(
   posterior1[[1]],
@@ -204,7 +213,7 @@ posterior_todos <- coda::mcmc.list(
 )
 
 
-# Estimativas média e mediana ---------------------------------------------
+# estimativas média e mediana ---------------------------------------------
 nomes_cenarios <- c("Dados completos", "Sem 81", "Sem 107", "Sem 81 e 107")
 
 tabela_resultados_estimativas <- bind_rows(
@@ -243,7 +252,7 @@ tabela_resultados_estimativas <- bind_rows(
   ) 
 
 
-# saída -------------------------------------------------------------------
+# saídas ------------------------------------------------------------------
 
 print(tabela_resultados_estimativas)
 

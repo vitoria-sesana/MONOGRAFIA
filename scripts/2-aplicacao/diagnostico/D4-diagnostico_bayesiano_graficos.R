@@ -16,7 +16,7 @@ posterior_df <- as.data.frame(as.matrix(posterior))
 # b0
 p_b0 <- ggplot(posterior_df, aes(x = b0)) +
   geom_density(fill = "blue", alpha = 0.5) +
-  ylim(0, 2.5) +
+  ylim(0, 5) +
   labs(x = "Densidade", y = "") +
   theme_minimal() +
   theme(
@@ -30,7 +30,7 @@ p_b0 <- ggplot(posterior_df, aes(x = b0)) +
 # b1
 p_b1 <- ggplot(posterior_df, aes(x = b1)) +
   geom_density(fill = "blue", alpha = 0.5) +
-  ylim(0, 2.5) +
+  ylim(0, 5) +
   labs(x = "Densidade", y = "") +
   theme_minimal() +
   theme(
@@ -44,7 +44,7 @@ p_b1 <- ggplot(posterior_df, aes(x = b1)) +
 # b2
 p_b2 <- ggplot(posterior_df, aes(x = b2)) +
   geom_density(fill = "blue", alpha = 0.5) +
-  ylim(0, 2.5) +
+  ylim(0, 5) +
   labs(x = "Densidade", y = "") +
   theme_minimal() +
   theme(
@@ -59,7 +59,7 @@ p_b2 <- ggplot(posterior_df, aes(x = b2)) +
 # b3
 p_b3 <- ggplot(posterior_df, aes(x = b3)) +
   geom_density(fill = "blue", alpha = 0.5) +
-  ylim(0, 2.5) +
+  ylim(0, 5) +
   labs(x = "Densidade", y = "") +
   theme_minimal() +
   theme(

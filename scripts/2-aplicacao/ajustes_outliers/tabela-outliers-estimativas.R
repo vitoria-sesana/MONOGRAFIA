@@ -207,7 +207,7 @@ gg_intercepto <-
     "Log-binomial bayesiano (mediana)" = "#009E73"
   ))+ 
   scale_y_continuous(
-    limits = c(-0.2, 1.4),
+    limits = c(-0.2, 0.4),
     breaks = seq(-0.2, 1.4, by = 0.1),
     labels = scales::label_number(accuracy = 0.1)
   ) 
@@ -216,7 +216,7 @@ gg_intercepto <-
 
 
 
-## intercepto 
+ 
 gg_centro <- 
   tabela_consolidada_outliers_long %>% 
   filter(parametro == "b1") %>%
@@ -264,7 +264,6 @@ gg_centro <-
 
 
 
-## intercepto 
 gg_tratamento <- 
   tabela_consolidada_outliers_long %>% 
   filter(parametro == "b2") %>%

@@ -146,6 +146,83 @@ effectiveSize(amostras)    # tamanho amostral efetivo
 gelman.plot(amostras)      # evolução do R-hat ao longo das iterações
 
 
+gelman.plot(amostras["b0"])      # evolução do R-hat ao longo das iterações
+gelman.plot(amostras[[2]]) # VERIFICAR SE OS CHUTES INCIIAIS INTERVEREM NO VALOR DA CONVERGENCIA OU NÃO
+
+gelman.plot(amostras[, "b0", drop = FALSE])
+
+
+
+library(coda)
+library(ggplot2)
+library(dplyr)
+library(purrr)
+library(latex2exp)
+library(patchwork)
+
+parametros <- c("b0", "b1", "b2", "b3")
+
+# extrai os dados do gelman.plot sem desenhar
+extrai_gelman <- function(p) {
+  g <- gelman.plot(amostras[, p, drop = FALSE], autoburnin = FALSE)
+  tibble(
+    parametro = p,
+    iteracao  = g$last.iter,
+    mediana   = g$shrink[, 1, "median"],
+    limite    = g$shrink[, 1, "97.5%"]
+  )
+}
+
+dados_g <- map_dfr(parametros, extrai_gelman) |>
+  tidyr::pivot_longer(c(mediana, limite),
+                      names_to = "tipo", values_to = "valor") |>
+  mutate(tipo = recode(tipo,
+                       mediana = "Mediana",
+                       limite  = "97,5%"))
+
+grafico_gelman <- function(p, titulo) {
+  dados_g |>
+    filter(parametro == p) |>
+    ggplot(aes(x = iteracao, y = valor, color = tipo, linetype = tipo)) +
+    geom_hline(yintercept = 1, color = "grey70") +
+    geom_line(linewidth = 0.65) +
+    labs(title = titulo, x = "Última iteração na cadeia",
+         y = bquote(bold("Fator de redução" ~ hat(R))), color = "", linetype = "") +
+    theme_minimal() +
+    theme(
+      panel.border = element_rect(color = "grey70", fill = NA, linewidth = 0.5),
+      axis.text.x = element_text(color = "grey20", size = 11),
+      axis.text.y = element_text(color = "grey20", size = 11),
+      axis.title.x = element_text(color = "grey20", face = "bold", size = 13),
+      axis.title.y = element_text(color = "grey20", face = "bold", size = 13),
+      legend.text = element_text(color = "grey20", size = 11)
+      # panel.grid.minor.x = element_blank(),
+      # panel.grid.major.x = element_blank()
+    ) +
+    scale_color_manual(values = c("Mediana" = "#009E73", "97,5%" = "#D55E00")) +
+    scale_linetype_manual(values = c("Mediana" = "solid", "97,5%" = "dashed")) +
+    scale_y_continuous(
+      labels = function(x) sprintf("%.2f", trunc(x * 100) / 100)
+    ) +
+    scale_x_continuous(
+      breaks = seq(0, max(dados_g$iteracao), by = 5000),
+      labels = scales::label_number(big.mark = "")
+    ) 
+}
+
+g0 <- grafico_gelman("b0", TeX("$\\beta_{0}$"))
+g1 <- grafico_gelman("b1", TeX("$\\beta_{1}$"))
+g2 <- grafico_gelman("b2", TeX("$\\beta_{2}$"))
+g3 <- grafico_gelman("b3", TeX("$\\beta_{3}$"))
+
+(g0 + g1) / (g2 + g3) + plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
+
+
+# estatisticas ------------------------------------------------------------
+
+
+
 res <- summary(amostras)
 
 res$statistics   # Mean, SD, Naive SE, Time-series SE (cadeias combinadas)
@@ -187,8 +264,8 @@ tabela <- data.frame(
 )
 
 print(round(tabela, 4))
-
-plot(samples[[2]]) ### 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# plot(samples[[2]]) ### 
 
 # Para levar ao Word/LaTeX
 write.csv2(round(tabela, 4), "resumo_bayesiano.csv")   # separador ; e vírgula decimal

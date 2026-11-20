@@ -8,305 +8,74 @@ outliers_logbin_bayes_posterior <-
   "saidas/1-saida-aplicacao/outliers_log_binomial_bayesiano_posterior.rds" %>% 
   readRDS()
 
- 
-# Dados completos ---------------------------------------------------------
+amostras <- outliers_logbin_bayes_posterior
 
-cenario = "Dados completos"
+# resumo ------------------------------------------------------------------
+library(coda)
+library(dplyr)
 
-posterior_1 <-
-  outliers_logbin_bayes_posterior[[1]]
+nomes_cenarios <- c("Dados completos", "Sem 81", "Sem 107", "Sem 81 e 107")
 
-resumo_1 <-
-  posterior_1 %>% 
-  summary()
-
-bayes_statistics_1 <- 
-  resumo_1$statistics %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-bayes_quantiles_1 <-  
-  resumo_1$quantiles %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-
-intervalo_HPD_1 <- 
-  coda::HPDinterval(as.mcmc.list(posterior_1), prob = 0.95)[[1]] %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-prob_exata_intervalo_HPD_1 <-
-  attr(coda::HPDinterval(as.mcmc.list(posterior_1))[[1]], "Probability") %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-hpd_quanti_1 <- 
-  cbind(
-    bayes_statistics_1,
-    bayes_quantiles_1,
-    intervalo_HPD_1
-  ) %>% 
-  select(Mean, SD, `2.5%`, `97.5%`, lower, upper) %>% 
+tabela_resumo <- lapply(seq_along(amostras), function(n) {
+  
+  amostra_n <- amostras[[n]]
+  
+  todas <- as.matrix(amostra_n)
+  
+  hpd <- HPDinterval(as.mcmc(todas), prob = 0.95)
+  
+  res <- summary(amostra_n)
+  effes <- effectiveSize(amostra_n) 
+  
+  data.frame(
+    cenario      = nomes_cenarios[n],
+    parametro    = rownames(res$statistics),
+    # tabela 1
+    media        = res$statistics[, "Mean"],
+    RP           = exp(res$statistics[, "Mean"]),
+    dp           = res$statistics[, "SD"],
+    erro_MC      = res$statistics[, "Naive SE"],
+    erro_ts      = res$statistics[, "Time-series SE"],
+    ESS          = effes[rownames(res$statistics)],
+    
+    # tabela 2 
+    q2.5         = res$quantiles[, "2.5%"],
+    q25          = res$quantiles[, "25%"],
+    mediana      = res$quantiles[, "50%"],
+    q75          = res$quantiles[, "75%"],
+    q97.5        = res$quantiles[, "97.5%"],
+    amp_quant    = res$quantiles[, "97.5%"] - res$quantiles[, "2.5%"],
+    HPD_inf      = hpd[, "lower"],
+    HPD_sup      = hpd[, "upper"],
+    amp_HPD      = hpd[, "upper"] - hpd[, "lower"],
+    row.names = NULL
+  )
+  
+}) %>%
+  bind_rows() %>%
   mutate(
-    quantilico       = sprintf("[%.4f, %.4f]", `2.5%`, `97.5%`),
-    ampli_quantilico = `97.5%` - `2.5%`,
-    hpd              = sprintf("[%.4f, %.4f]", lower, upper),
-    ampli_hpd        = upper - lower
-  ) %>%
+    across(where(is.numeric), ~ round(.x, 4))
+  )
+
+
+tabela_resumo
+
+tabela_resumo_1 <- tabela_resumo %>%
   select(
-    quantilico, 
-    ampli_quantilico, 
-    hpd,
-    ampli_hpd
-  ) %>% 
-  mutate(cenario = cenario)
+    cenario, parametro,
+    media, RP, dp, erro_MC, erro_ts, ESS
+  )
 
-
-
-
-# Sem 81 ------------------------------------------------------------------
-
-cenario = "Sem 81"
-
-posterior_2 <-
-  outliers_logbin_bayes_posterior[[2]]
-
-resumo_2 <-
-  posterior_2 %>% 
-  summary()
-
-bayes_statistics_2 <- 
-  resumo_2$statistics %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-bayes_quantiles_2 <-  
-  resumo_2$quantiles %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-
-intervalo_HPD_2 <- 
-  coda::HPDinterval(as.mcmc.list(posterior_2), prob = 0.95)[[1]] %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-prob_exata_intervalo_HPD_2 <-
-  attr(coda::HPDinterval(as.mcmc.list(posterior_2))[[1]], "Probability") %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-
-hpd_quanti_2 <- 
-  cbind(
-    bayes_statistics_2,
-    bayes_quantiles_2,
-    intervalo_HPD_2
-  ) %>% 
-  select(Mean, SD, `2.5%`, `97.5%`, lower, upper) %>% 
-  mutate(
-    quantilico       = sprintf("[%.4f, %.4f]", `2.5%`, `97.5%`),
-    ampli_quantilico = `97.5%` - `2.5%`,
-    hpd              = sprintf("[%.4f, %.4f]", lower, upper),
-    ampli_hpd        = upper - lower
-  ) %>%
+tabela_resumo_2 <- tabela_resumo %>%
   select(
-    quantilico, 
-    ampli_quantilico, 
-    hpd,
-    ampli_hpd
-  ) %>% 
-  mutate(cenario = cenario)
-
-
-# Sem 107 -----------------------------------------------------------------
-
-cenario = "Sem 107"
-
-posterior_3 <-
-  outliers_logbin_bayes_posterior[[3]]
-
-resumo_3 <-
-  posterior_3 %>% 
-  summary()
-
-bayes_statistics_3 <- 
-  resumo_3$statistics %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-bayes_quantiles_3 <-  
-  resumo_3$quantiles %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-
-intervalo_HPD_3 <- 
-  coda::HPDinterval(as.mcmc.list(posterior_3), prob = 0.95)[[1]] %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-prob_exata_intervalo_HPD_3 <-
-  attr(coda::HPDinterval(as.mcmc.list(posterior_3))[[1]], "Probability") %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-hpd_quanti_3 <- 
-  cbind(
-    bayes_statistics_3,
-    bayes_quantiles_3,
-    intervalo_HPD_3
-  ) %>% 
-  select(Mean, SD, `2.5%`, `97.5%`, lower, upper) %>% 
-  mutate(
-    quantilico       = sprintf("[%.4f, %.4f]", `2.5%`, `97.5%`),
-    ampli_quantilico = `97.5%` - `2.5%`,
-    hpd              = sprintf("[%.4f, %.4f]", lower, upper),
-    ampli_hpd        = upper - lower
-  ) %>%
-  select(
-    quantilico, 
-    ampli_quantilico, 
-    hpd,
-    ampli_hpd
-  ) %>% 
-  mutate(cenario = cenario)
-
-
-# Sem 81 e 107 ------------------------------------------------------------
-
-cenario = "Sem 81 e 107"
-
-posterior_4 <-
-  outliers_logbin_bayes_posterior[[4]]
-
-resumo_4 <-
-  posterior_4 %>% 
-  summary()
-
-bayes_statistics_4 <- 
-  resumo_4$statistics %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-bayes_quantiles_4 <-  
-  resumo_4$quantiles %>% 
-  round(4) %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-
-intervalo_HPD_4 <- 
-  coda::HPDinterval(as.mcmc.list(posterior_4), prob = 0.95)[[1]] %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-prob_exata_intervalo_HPD_4 <-
-  attr(coda::HPDinterval(as.mcmc.list(posterior_4))[[1]], "Probability") %>% 
-  as.data.frame() %>% 
-  mutate(cenario = cenario)
-
-hpd_quanti_4 <- 
-  cbind(
-    bayes_statistics_4,
-    bayes_quantiles_4,
-    intervalo_HPD_4
-  ) %>% 
-  select(Mean, SD, `2.5%`, `97.5%`, lower, upper) %>% 
-  mutate(
-    quantilico       = sprintf("[%.4f, %.4f]", `2.5%`, `97.5%`),
-    ampli_quantilico = `97.5%` - `2.5%`,
-    hpd              = sprintf("[%.4f, %.4f]", lower, upper),
-    ampli_hpd        = upper - lower
-  ) %>%
-  select(
-    quantilico, 
-    ampli_quantilico, 
-    hpd,
-    ampli_hpd
-  ) %>% 
-  mutate(cenario = cenario)
-
-# Tabelas finais ----------------------------------------------------------
+    cenario, parametro,
+    q2.5, q25, mediana, q75, q97.5,
+    amp_quant, HPD_inf, HPD_sup, amp_HPD
+  )
 
 
 
-## estatística bayesiana -----
 
-bayes_statistics <- 
-  bind_rows(
-    bayes_statistics_1,
-    bayes_statistics_2,
-    bayes_statistics_3,
-    bayes_statistics_4
-  ) %>% 
-  tibble::rownames_to_column(var = "coeficiente") %>% 
-  mutate(coeficiente = stringr::str_sub(coeficiente, start = 1, end = 2)) %>% 
-  select(cenario, coeficiente, everything()) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 4)))
-
-## estatística quantílica -----
-
-bayes_quantiles <- 
-  bind_rows(
-    bayes_quantiles_1,
-    bayes_quantiles_2,
-    bayes_quantiles_3,
-    bayes_quantiles_4
-  ) %>% 
-  tibble::rownames_to_column(var = "coeficiente") %>% 
-  mutate(coeficiente = stringr::str_sub(coeficiente, start = 1, end = 2)) %>% 
-  select(cenario, coeficiente, everything()) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 4)))
-
-## intervalo hpd -----
-
-intervalo_HPD <- 
-  bind_rows(
-    intervalo_HPD_1,
-    intervalo_HPD_2,
-    intervalo_HPD_3,
-    intervalo_HPD_4
-  ) %>% 
-  select(cenario, everything()) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 4)))
-
-
-
-## prob exata -----
-
-prob_exata_intervalo_HPD <- 
-  bind_rows(
-    prob_exata_intervalo_HPD_1,
-    prob_exata_intervalo_HPD_2,
-    prob_exata_intervalo_HPD_3,
-    prob_exata_intervalo_HPD_4
-  ) %>% 
-  select(cenario, everything()) %>% 
-  rename(probabilidade_exata = ".") %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 4)))
-
-## quantilico e hpd ----
-
-hpd_quanti <- 
-  bind_rows(
-    hpd_quanti_1,
-    hpd_quanti_2,
-    hpd_quanti_3,
-    hpd_quanti_4
-  ) %>% 
-  tibble::rownames_to_column(var = "coeficiente") %>% 
-  mutate(coeficiente = sub("\\.\\.\\.[0-9]+$", "", coeficiente)) %>% 
-  select(cenario, coeficiente, everything()) %>% 
-  mutate(across(where(is.numeric), ~ round(.x, 4)))
 
 
 # saída latex -------------------------------------------------------------
@@ -314,55 +83,25 @@ hpd_quanti <-
 library(knitr)
 library(kableExtra)
 
-## estatística bayesiana -----
+## resumo
 
-bayes_statistics %>% 
-  kbl(
-    format = "latex",
-    booktabs = TRUE, 
-    align = "lccccc", 
-    caption = "XXXXXXXXXXXXXXX"
-  ) 
+kbl(
+  tabela_resumo_1,
+  format = "latex",
+  booktabs = TRUE,
+  caption = "Tabela de resultados",
+  label = "tab:resultados",
+  align = "lcccccccc",
+  linesep = ""
+)
 
-## estatística quantílica -----
-
-bayes_quantiles %>% 
-  kbl(
-    format = "latex",
-    booktabs = TRUE, 
-    align = "lccccc", 
-    caption = "XXXXXXXXXXXXXXX"
-  ) 
-
-## intervalo hpd -----
-
-intervalo_HPD %>% 
-  kbl(
-    format = "latex",
-    booktabs = TRUE, 
-    align = "lccccc", 
-    caption = "XXXXXXXXXXXXXXX"
-  ) 
-
-
-
-## quantilico e hpd ----
-
-hpd_quanti %>% 
-  kbl(
-    format = "latex",
-    booktabs = TRUE, 
-    align = "lccccc", 
-    caption = "XXXXXXXXXXXXXXX"
-    ) 
-
-## prob exata -----
-
-prob_exata_intervalo_HPD %>% 
-  kbl(
-    format = "latex",
-    booktabs = TRUE, 
-    align = "lccccc", 
-    caption = "XXXXXXXXXXXXXXX"
-  ) 
+kbl(
+  tabela_resumo_2,
+  format = "latex",
+  booktabs = TRUE,
+  caption = "Tabela de resultados",
+  label = "tab:resultados",
+  align = "lcccccccc",
+  linesep = ""
+)
 
